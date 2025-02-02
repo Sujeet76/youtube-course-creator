@@ -1,5 +1,7 @@
 import { FlatCompat } from "@eslint/eslintrc";
+import typescriptParser from "@typescript-eslint/parser";
 import checkFile from "eslint-plugin-check-file";
+import drizzle from "eslint-plugin-drizzle";
 import n from "eslint-plugin-n";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -16,11 +18,16 @@ const eslintConfig = [
     "next/core-web-vitals",
     "next/typescript",
     "prettier",
+    "plugin:drizzle/recommended"
   ),
   {
+    languageOptions: {
+      parser: typescriptParser,
+    },
     plugins: {
       "check-file": checkFile,
       n,
+      drizzle,
     },
     rules: {
       "prefer-arrow-callback": "error",
@@ -28,6 +35,8 @@ const eslintConfig = [
       semi: "error",
       quotes: ["error", "double"],
       "n/no-process-env": "off",
+      "drizzle/enforce-delete-with-where": "error",
+      "drizzle/enforce-update-with-where": "error",
       "check-file/filename-naming-convention": [
         "error",
         {

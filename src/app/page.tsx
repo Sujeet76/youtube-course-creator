@@ -1,13 +1,8 @@
-import React from "react";
+import { getPlayListDetails } from "@/action/video";
 
-import { Button } from "@/components/ui/button";
-
-const Page = () => {
-  return (
-    <div>
-      <Button>Hello</Button>
-    </div>
-  );
+const Page = async () => {
+  const res = await getPlayListDetails();
+  return <div>{JSON.stringify(res)}</div>;
 };
 
 export default Page;
