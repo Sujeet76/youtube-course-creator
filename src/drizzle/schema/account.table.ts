@@ -1,7 +1,7 @@
 import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 import { createdAt, id, updatedAt } from "../schema.helper";
-import { user } from "./user.table";
+import { users } from "./user.table";
 
 export const account = pgTable("account", {
   id,
@@ -9,7 +9,7 @@ export const account = pgTable("account", {
   providerId: text("provider_id").notNull(),
   userId: uuid("user_id")
     .notNull()
-    .references(() => user.id),
+    .references(() => users.id),
   accessToken: text("access_token"),
   refreshToken: text("refresh_token"),
   idToken: text("id_token"),

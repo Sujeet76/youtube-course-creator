@@ -1,8 +1,15 @@
+import { relations } from "drizzle-orm";
 import { boolean, pgTable, text } from "drizzle-orm/pg-core";
 
 import { createdAt, id, updatedAt } from "../schema.helper";
+import { comments } from "./comments.table";
+import { courseReviews } from "./course-reviews.table";
+import { courses } from "./courses.table";
+import { enrollments } from "./enrollments.table";
+import { notes } from "./notes.table";
+import { videoProgress } from "./video-progress";
 
-export const user = pgTable("user", {
+export const users = pgTable("user", {
   id,
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
@@ -11,3 +18,14 @@ export const user = pgTable("user", {
   createdAt,
   updatedAt,
 });
+
+export const userRelation = relations(users, ({ many }) => ({
+  enrollments: many(enrollments),
+  authoredCourses: many(courses, {
+    relationName: "creator",
+  }),
+  videoProgress: many(videoProgress),
+  notes: many(notes),
+  comments: many(comments),
+  courseReviews: many(courseReviews),
+}));
