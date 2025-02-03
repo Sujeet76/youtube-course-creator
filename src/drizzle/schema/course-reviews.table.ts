@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   index,
   integer,
@@ -34,3 +35,14 @@ export const courseReviews = pgTable(
     index("rating_idx").on(table.rating),
   ]
 );
+
+export const courseReviewRelations = relations(courseReviews, ({ one }) => ({
+  course: one(courses, {
+    fields: [courseReviews.courseId],
+    references: [courses.id],
+  }),
+  user: one(users, {
+    fields: [courseReviews.userId],
+    references: [users.id],
+  }),
+}));

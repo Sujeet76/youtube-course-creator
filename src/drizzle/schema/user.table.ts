@@ -21,9 +21,7 @@ export const users = pgTable("user", {
 
 export const userRelation = relations(users, ({ many }) => ({
   enrollments: many(enrollments),
-  authoredCourses: many(courses, {
-    relationName: "creator",
-  }),
+  creator: many(courses),
   videoProgress: many(videoProgress),
   notes: many(notes),
   comments: many(comments),
