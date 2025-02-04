@@ -54,7 +54,7 @@ CREATE TABLE "courses" (
 	"title" text NOT NULL,
 	"description" text,
 	"youtube_playlist_id" text NOT NULL,
-	"avg_ratings" integer DEFAULT 0 NOT NULL,
+	"avg_ratings" integer,
 	"thumbnail" text,
 	"author_id" uuid NOT NULL,
 	"creator" uuid NOT NULL,

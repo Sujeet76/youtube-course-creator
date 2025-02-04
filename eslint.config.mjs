@@ -1,4 +1,5 @@
 import { FlatCompat } from "@eslint/eslintrc";
+import pluginQuery from "@tanstack/eslint-plugin-query";
 import typescriptParser from "@typescript-eslint/parser";
 import checkFile from "eslint-plugin-check-file";
 import drizzle from "eslint-plugin-drizzle";
@@ -20,6 +21,7 @@ const eslintConfig = [
     "prettier",
     "plugin:drizzle/recommended"
   ),
+  ...pluginQuery.configs["flat/recommended"],
   {
     languageOptions: {
       parser: typescriptParser,
@@ -58,6 +60,13 @@ const eslintConfig = [
           allowShortCircuit: true,
           allowTernary: true,
           allowTaggedTemplates: true,
+        },
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          varsIgnorePattern: "^_",
+          argsIgnorePattern: "^_",
         },
       ],
     },

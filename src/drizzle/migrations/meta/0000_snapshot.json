@@ -1,5 +1,5 @@
 {
-  "id": "be1c3c4a-fda7-442d-8201-692bca81669a",
+  "id": "51ac46f4-c223-4b70-90fb-147a0b68d174",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -520,8 +520,7 @@
           "name": "avg_ratings",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "default": 0
+          "notNull": false
         },
         "thumbnail": {
           "name": "thumbnail",

@@ -10,5 +10,9 @@
     "*.css": "tailwindcss"
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["nextjs"]
+  "cSpell.words": [
+    "nextjs",
+    "Nuqs",
+    "sonner"
+  ]
 }

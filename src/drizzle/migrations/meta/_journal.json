@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1738565155559,
-      "tag": "0000_clear_serpent_society",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1738582161634,
-      "tag": "0001_lethal_rhodey",
+      "when": 1738593708905,
+      "tag": "0000_charming_the_initiative",
       "breakpoints": true
     }
   ]
