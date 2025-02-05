@@ -25,7 +25,7 @@ import {
 import { profileMenuLinks } from "@/constants";
 import { auth } from "@/lib/auth";
 
-import LoginDialogTrigger from "../login-dialog";
+import LoginButton from "../login-button";
 import LogoutButton from "./logout-button";
 
 const ProfileMenu: React.FC = async () => {
@@ -34,7 +34,7 @@ const ProfileMenu: React.FC = async () => {
   });
 
   if (!session?.user) {
-    return <LoginDialogTrigger />;
+    return <LoginButton />;
   }
 
   return (

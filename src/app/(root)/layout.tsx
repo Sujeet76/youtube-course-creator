@@ -7,8 +7,8 @@ const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <Header />
-      <SignInDialog />
       {children}
+      <SignInDialog />
     </>
   );
 };

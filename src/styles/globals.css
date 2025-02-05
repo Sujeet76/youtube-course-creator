@@ -5,6 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  --breakpoint-2xl: 1400px;
+
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -39,13 +41,32 @@
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
 
+  --color-1: hsl(var(--color-1));
+  --color-2: hsl(var(--color-2));
+  --color-3: hsl(var(--color-3));
+  --color-4: hsl(var(--color-4));
+  --color-5: hsl(var(--color-5));
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --font-geist: "Geist", "Geist Fallback";
-  --font-geist-mono: "Geist Mono", "Geist Mono Fallback";
-  --font-rubik-gemstone: "Rubik Gemstone", sans-serif;
+  --font-geist: var(--font-geist);
+  --font-geist-mono: var(--font-geist-mono);
+  --font-rubik-gemstone: var(--font-rubik-gemstone);
+  --font-sour-gummy: var(--font-sour-gummy);
+
+  /*  animation */
+  --animation-rainbow: rainbow var(--speed, 2) linear infinite;
+
+  @keyframes rainbow {
+    0% {
+      background-position: 0%;
+    }
+    100%: {
+      background-position: 200%;
+    }
+  }
 }
 
 /*
@@ -72,26 +93,32 @@ color utility to any element that depends on these defaults.
   }
 }
 
+@utility container {
+  padding-inline: 1rem;
+  margin-inline: auto;
+  max-width: 1440px;
+}
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
+    --background: 229 57% 100%;
+    --foreground: 229 63% 4%;
+    --muted: 229 12% 86%;
+    --muted-foreground: 229 10% 37%;
+    --popover: 0 0% 99%;
+    --popover-foreground: 229 63% 3%;
+    --card: 0 0% 99%;
+    --card-foreground: 229 63% 3%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --primary: 229 100% 62%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 229 20% 90%;
+    --secondary-foreground: 229 20% 30%;
+    --accent: 229 28% 85%;
+    --accent-foreground: 229 28% 25%;
+    --destructive: 3 100% 50%;
+    --destructive-foreground: 3 0% 100%;
     --ring: 0 0% 3.9%;
     --radius: 0.75rem;
     --chart-1: 12 76% 61%;
@@ -99,34 +126,38 @@ color utility to any element that depends on these defaults.
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --header: 3.5rem;
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
   }
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --background: 229 41% 4%;
+    --foreground: 229 23% 99%;
+    --muted: 229 12% 14%;
+    --muted-foreground: 229 10% 63%;
+    --popover: 229 41% 5%;
+    --popover-foreground: 0 0% 100%;
+    --card: 229 41% 5%;
+    --card-foreground: 0 0% 100%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --primary: 229 100% 62%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 229 14% 8%;
+    --secondary-foreground: 229 14% 68%;
+    --accent: 229 23% 17%;
+    --accent-foreground: 229 23% 77%;
+    --destructive: 3 89% 54%;
+    --destructive-foreground: 0 0% 100%;
+    --ring: 229 100% 62%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --font-geist: "Geist", "Geist Fallback";
-    --font-geist-mono: "Geist Mono", "Geist Mono Fallback";
   }
 }
 

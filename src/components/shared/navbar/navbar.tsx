@@ -3,9 +3,12 @@ import ProfileMenu from "./profile-menu";
 
 const Header = () => {
   return (
-    <header className="flex h-14 items-center justify-center border-b bg-transparent backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-50 flex h-(--header) items-center justify-center border-b bg-transparent backdrop-blur-md">
       <nav className="flex w-full items-center justify-between px-6">
-        <span aria-label="logo" className="font-rubik-gemstone text-2xl">
+        <span
+          aria-label="logo"
+          className="font-rubik-gemstone text-2xl font-thin tracking-widest"
+        >
           Playlists<span className="text-primary">Genius</span>
         </span>
 
@@ -13,7 +16,7 @@ const Header = () => {
           <li>Header</li>
         </ul>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2">
           <DynamicThemeToggler />
           <ProfileMenu />
         </div>
