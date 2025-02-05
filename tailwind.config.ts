@@ -11,6 +11,13 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "1rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
         background: "hsl(var(--background))",
@@ -53,28 +60,40 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-
       fontFamily: {
         "geist-sana": ["var(--font-geist-sans)", ...fontFamily.sans],
         "geist-mono": ["var(--font-geist-mono)", ...fontFamily.mono],
         "rubik-gemstone": ["var(--font-rubik-gemstone)", ...fontFamily.sans],
         "sour-gummy": ["var(--font-sour-gummy)", ...fontFamily.sans],
       },
-
       animation: {
         rainbow: "rainbow var(--speed, 2s) infinite linear",
         spotlight: "spotlight 2s ease .75s 1 forwards",
       },
       keyframes: {
         rainbow: {
-          "0%": { "background-position": "0%" },
-          "100%": { "background-position": "200%" },
+          "0%": {
+            "background-position": "0%",
+          },
+          "100%": {
+            "background-position": "200%",
+          },
         },
         spotlight: {
           "0%": {

@@ -23,7 +23,7 @@
     --destructive: 3 100% 50%;
     --destructive-foreground: 3 0% 100%;
     --ring: 0 0% 3.9%;
-    --radius: 0.75rem;
+    --radius: 0.5rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -35,6 +35,14 @@
     --color-3: 210 100% 63%;
     --color-4: 195 100% 63%;
     --color-5: 90 100% 63%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
     --background: 229 41% 4%;
@@ -61,6 +69,14 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 @layer base {
@@ -68,6 +84,88 @@
     @apply border-border;
   }
   body {
-    @apply font-geist-sana bg-background text-foreground;
+    @apply bg-background font-geist-sana text-foreground;
+  }
+
+  /* Chrome, Edge and Safari */
+  *::-webkit-scrollbar {
+    @apply h-1 w-0 md:h-2 md:w-1;
+  }
+  *::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  *::-webkit-scrollbar-track:hover {
+    @apply bg-background/80;
+  }
+
+  *::-webkit-scrollbar-track:active {
+    @apply bg-background/80;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply h-2 rounded-full bg-border;
+  }
+}
+
+@property --a {
+  /* must register --a to animate it */
+  syntax: "<angle>";
+  initial-value: 0deg;
+  /* used only on pseudo, nowhere to be inherited, 
+	 * better perf if set false, see 
+	 * https://www.bram.us/2024/10/03/benchmarking-the-performance-of-css-property/ */
+  inherits: false;
+}
+
+@layer utilities {
+  .rotating-border::before {
+    /* grid doesn't work for stacking when a stacked item is text node */
+    position: absolute;
+    /* place behind card content, so card text is selectable, etc */
+    z-index: -1;
+    /* best if inset is at least half the border-width with minus */
+    inset: -1em;
+    /* reserve space for border */
+    border: solid 1.25em;
+    border-radius: 50%;
+    border-image: 
+		/* adjust gradient as needed, I just used a random palette */ conic-gradient(
+        from var(--a),
+        #669900,
+        #99cc33,
+        #ccee66,
+        #006699,
+        #3399cc,
+        #990066,
+        #cc3399,
+        #ff6600,
+        #ff9900,
+        #ffcc00,
+        #669900
+      )
+      1;
+    /* blur this pseudo */
+    filter: blur(3em);
+    /* tweak animation duration as necessary */
+    animation: a 4s linear infinite;
+    /* needed so pseudo is displayed */
+    content: "";
+  }
+
+  /* animate --a from its initial-value 0deg to 1turn */
+  @keyframes a {
+    to {
+      --a: 1turn;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
