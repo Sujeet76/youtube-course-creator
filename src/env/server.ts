@@ -7,6 +7,7 @@ export const env = createEnv({
     BETTER_AUTH_SECRET: z.string(),
     GITHUB_CLIENT_ID: z.string(),
     GITHUB_CLIENT_SECRET: z.string(),
+    YOUTUBE_API_KEY: z.string(),
   },
   experimental__runtimeEnv: process.env,
 });

@@ -18,11 +18,12 @@ export const videos = pgTable(
       .references(() => courses.id, {
         onDelete: "cascade",
       }),
-    youtube_video_id: text("youtube_video_id").notNull().unique(),
+    youtube_video_id: text("youtube_video_id").notNull(),
     sequenceNumber: integer("sequence_number").notNull(),
-    duration: integer("duration").notNull(), // in seconds
+    duration: integer("duration"), // in seconds
     thumbnail: text("thumbnail"),
     resource: text("resource").array(),
+    publishedAt: text("published_at").notNull(),
     createdAt,
     updatedAt,
   },
@@ -41,3 +42,5 @@ export const videosRelations = relations(videos, ({ one, many }) => ({
   notes: many(notes),
   comments: many(comments),
 }));
+
+export type VideoInsertType = typeof videos.$inferInsert;

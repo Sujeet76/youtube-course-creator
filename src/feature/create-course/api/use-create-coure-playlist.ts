@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 import { useMutation } from "@tanstack/react-query";
@@ -8,6 +9,7 @@ import { ImportPlaylistSchemaType } from "../schema";
 
 export default function useCreateCoursePlaylist() {
   const toastId = useRef<string | number | undefined>(undefined);
+  const router = useRouter();
 
   return useMutation({
     mutationFn: async (data: ImportPlaylistSchemaType) => {
@@ -24,6 +26,7 @@ export default function useCreateCoursePlaylist() {
       });
     },
     onSuccess: () => {
+      router.push("/dashboard");
       toast.success("Course created successfully", {
         id: toastId.current,
       });

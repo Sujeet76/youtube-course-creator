@@ -1,4 +1,11 @@
-export type ErrorType = "FATAL" | "AUTH" | "VALIDATION" | "NETWORK" | "UNKNOWN";
+export type ErrorType =
+  | "FATAL"
+  | "AUTH"
+  | "VALIDATION"
+  | "NETWORK"
+  | "UNKNOWN"
+  | "API_ERROR"
+  | "NOT_FOUND";
 
 export type SuccessResponse<T> = {
   success: true;

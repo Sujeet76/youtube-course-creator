@@ -63,7 +63,7 @@ const CreateCourseForm: React.FC = () => {
 
   return (
     <div className="container">
-      <Dialog defaultOpen>
+      <Dialog>
         <DialogTrigger asChild>
           <Button variant="outline">Checkout</Button>
         </DialogTrigger>
@@ -121,7 +121,6 @@ const CreateCourseForm: React.FC = () => {
                     )}
                   />
                   <AlertMessage message={courseMutation.error?.message} />
-
                   <div className="mt-4 flex gap-4">
                     <DialogClose asChild>
                       <Button
