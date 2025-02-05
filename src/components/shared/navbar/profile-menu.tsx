@@ -48,7 +48,7 @@ const ProfileMenu: React.FC = async () => {
             >
               <Button
                 size={"icon"}
-                className="border-primary overflow-clip rounded-full border-2"
+                className="text-clip rounded-full border-2 border-primary"
                 variant={"ghost"}
               >
                 <Avatar className="m-2 rounded-full">
@@ -75,10 +75,10 @@ const ProfileMenu: React.FC = async () => {
         <DropdownMenuGroup>
           <DropdownMenuLabel>
             <div className="flex flex-col space-y-1">
-              <p className="text-sm leading-none font-medium">
+              <p className="text-sm font-medium leading-none">
                 {session.user.name}
               </p>
-              <p className="text-muted-foreground text-xs leading-none">
+              <p className="text-xs leading-none text-muted-foreground">
                 {session.user.email}
               </p>
             </div>

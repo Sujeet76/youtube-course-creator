@@ -3,7 +3,7 @@ import ProfileMenu from "./profile-menu";
 
 const Header = () => {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex h-(--header) items-center justify-center border-b bg-transparent backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-50 flex h-[var(--header)] items-center justify-center border-b bg-transparent backdrop-blur-md">
       <nav className="flex w-full items-center justify-between px-6">
         <span
           aria-label="logo"
