@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, Suspense } from "react";
+import React, { Suspense } from "react";
 
 import AppSidebar from "@/components/layout/sidebar/app-sidebar";
 import BreadCrumbHeader, {
@@ -11,7 +11,11 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-const DashboardLayout: React.FC<PropsWithChildren> = ({ children }) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+const DashboardLayout: React.FC<Props> = ({ children }) => {
   return (
     <SidebarProvider
       style={

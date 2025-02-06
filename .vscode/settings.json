@@ -9,9 +9,6 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "tailwindCSS.includeLanguages": {
-    "typescriptreact": "html"
-  },
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
     "nextjs",

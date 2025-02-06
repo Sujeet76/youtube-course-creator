@@ -5,7 +5,8 @@ export type ErrorType =
   | "NETWORK"
   | "UNKNOWN"
   | "API_ERROR"
-  | "NOT_FOUND";
+  | "NOT_FOUND"
+  | "UNAUTHORIZED";
 
 export type SuccessResponse<T> = {
   success: true;

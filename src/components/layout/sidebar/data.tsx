@@ -53,7 +53,7 @@ export const sidebarData: Array<NavGroup> = [
     items: [
       {
         title: "Courses",
-        url: "/courses",
+        url: "/dashboard/courses",
         icon: <BookMarkedIcon size={16} />,
       },
     ],
@@ -63,7 +63,7 @@ export const sidebarData: Array<NavGroup> = [
     items: [
       {
         title: "Account",
-        url: "/account",
+        url: "/dashboard/account",
         icon: <SettingsIcon />,
       },
     ],
