@@ -26,7 +26,7 @@ export default function useCreateCoursePlaylist() {
       });
     },
     onSuccess: () => {
-      router.push("/dashboard");
+      router.push("/dashboard/courses");
       toast.success("Course created successfully", {
         id: toastId.current,
       });

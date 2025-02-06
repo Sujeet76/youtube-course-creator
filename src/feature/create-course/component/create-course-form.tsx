@@ -62,7 +62,7 @@ const CreateCourseForm: React.FC = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div>
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="outline">Checkout</Button>
