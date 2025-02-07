@@ -19,6 +19,7 @@ export const getEnrolledCourses = async (userId: string) => {
       },
     },
   });
+
   return res.map((item) => ({
     ...item,
     course: {

@@ -17,7 +17,10 @@ export default async function Page() {
       <ul className="grid grid-cols-3 gap-4">
         {res.data.map((item) => (
           <li key={item.id}>
-            <EnrolledCourseCard course={item.course} />
+            <EnrolledCourseCard
+              lastAccessedVideo={item.lastAccessedVideoId ?? ""}
+              course={item.course}
+            />
           </li>
         ))}
       </ul>

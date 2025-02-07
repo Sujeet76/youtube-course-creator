@@ -85,6 +85,8 @@ export default {
       animation: {
         rainbow: "rainbow var(--speed, 2s) infinite linear",
         spotlight: "spotlight 2s ease .75s 1 forwards",
+        "loading-wave":
+          "loading-wave var(--wave-speed, 1s) infinite ease-in-out",
       },
       keyframes: {
         rainbow: {
@@ -103,6 +105,17 @@ export default {
           "100%": {
             opacity: "1",
             transform: "translate(-50%,-40%) scale(1)",
+          },
+        },
+        "loading-wave": {
+          "0%, 100%": {
+            height: "10%",
+          },
+          "50%": {
+            height: "40",
+          },
+          "100%": {
+            transform: "80%",
           },
         },
       },

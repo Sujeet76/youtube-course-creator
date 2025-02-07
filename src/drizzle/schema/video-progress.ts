@@ -27,8 +27,9 @@ export const videoProgress = pgTable(
         onDelete: "cascade",
       }),
     watchedDuration: integer("watched_duration").default(0), // in seconds
-    isCompleted: boolean("is_completed").default(false),
+    isCompleted: boolean("is_completed").default(false).notNull(),
     lastWatchedAt: timestamp("last_watched_at").defaultNow(),
+    isRewatching: boolean("is_rewatching").default(false).notNull(),
     createdAt,
     updatedAt,
   },

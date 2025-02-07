@@ -20,9 +20,10 @@ import { getEnrolledCourses } from "../db";
 
 interface Props {
   course: Awaited<ReturnType<typeof getEnrolledCourses>>[0]["course"];
+  lastAccessedVideo: string;
 }
 
-const EnrolledCourseCard: React.FC<Props> = ({ course }) => {
+const EnrolledCourseCard: React.FC<Props> = ({ course, lastAccessedVideo }) => {
   return (
     <Card className="overflow-hidden">
       <div>
@@ -62,7 +63,12 @@ const EnrolledCourseCard: React.FC<Props> = ({ course }) => {
       </div>
       <CardFooter className="w-full">
         <Button className="w-full" asChild>
-          <Link href={`/dashboard/courses/${course.id}`}>
+          <Link
+            href={{
+              pathname: `/dashboard/courses/${course.id}`,
+              query: { v: lastAccessedVideo },
+            }}
+          >
             Start learning
             <GraduationCapIcon />
           </Link>

@@ -63,6 +63,33 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --ease-spring-3: linear(
+      0,
+      0.009,
+      0.035 2.1%,
+      0.141 4.4%,
+      0.723 12.9%,
+      0.938 16.7%,
+      1.017,
+      1.077,
+      1.121,
+      1.149 24.3%,
+      1.159,
+      1.163,
+      1.161,
+      1.154 29.9%,
+      1.129 32.8%,
+      1.051 39.6%,
+      1.017 43.1%,
+      0.991,
+      0.977 51%,
+      0.974 53.8%,
+      0.975 57.1%,
+      0.997 69.8%,
+      1.003 76.9%,
+      1
+    );
+    --ease-3: cubic-bezier(0.25, 0, 0.3, 1);
   }
   .dark {
     /* --background: 229 41% 4%;
@@ -196,6 +223,23 @@
   @keyframes a {
     to {
       --a: 1turn;
+    }
+  }
+
+  .hover-animation {
+    @media (hover) and (prefers-reduced-motion: no-preference) {
+      & > li {
+        transform-origin: center center;
+        transition:
+          transform 1s var(--ease-spring-3),
+          opacity 0.3s var(--ease-3);
+      }
+
+      &:has(> li:hover) > li:not(:hover),
+      &:has(> li:focus-within) > li:not(:focus-within) {
+        opacity: 0.5;
+        transform: scale(0.9);
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Pacifico, Rubik_Gemstones } from "next/font/google";
 
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { Toaster } from "@/components/ui/sonner";
@@ -56,6 +57,7 @@ export default function MainLayout({
               {children}
             </ThemeProvider>
           </NuqsAdapter>
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
         <Toaster
           richColors

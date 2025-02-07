@@ -92,9 +92,28 @@ export const enrollUserToCourse = async (courseId: string, userId: string) => {
   if (enrolled)
     throw new ApiError("VALIDATION", "User already enrolled to this course");
 
+  const [firstVideo] = await db
+    .select({
+      id: videos.id,
+    })
+    .from(videos)
+    .where(eq(videos.courseId, courseId))
+    .orderBy(videos.sequenceNumber)
+    .limit(1)
+    .execute();
+
+  if (!firstVideo) {
+    throw new ApiError("FATAL", "No video found for this course");
+  }
+
   const [enrolledCourse] = await db
     .insert(enrollments)
-    .values({ courseId, userId })
+    .values({
+      courseId,
+      userId,
+      lastAccessedVideoId: firstVideo.id,
+      lastAccessedAt: new Date(),
+    })
     .returning();
 
   if (!enrolledCourse) {

@@ -2,7 +2,7 @@ import CreateCourseForm from "@/feature/create-course/component/create-course-fo
 
 export default async function Page() {
   return (
-    <div>
+    <div className="container">
       <CreateCourseForm />
     </div>
   );

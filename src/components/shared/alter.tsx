@@ -1,14 +1,22 @@
 import React from "react";
 
+import { cn } from "@/lib/utils";
+
 interface Props {
   message?: string;
+  className?: string;
 }
 
-const AlertMessage: React.FC<Props> = ({ message }) => {
+const AlertMessage: React.FC<Props> = ({ message, className }) => {
   if (!message) return null;
 
   return (
-    <div className="flex w-full grow flex-row items-start gap-x-1 rounded-md bg-red-100 px-4 py-2 text-red-600 dark:bg-[#18030c] dark:text-[#f54180]">
+    <div
+      className={cn(
+        "flex w-full grow flex-row items-start gap-x-1 rounded-md bg-red-100 px-4 py-2 text-red-600 dark:bg-[#18030c] dark:text-[#f54180]",
+        className
+      )}
+    >
       <div className="relative grid size-9 flex-none place-items-center rounded-full border border-[#610726] bg-red-100 shadow-sm dark:bg-[#610726]">
         <svg
           fill="none"

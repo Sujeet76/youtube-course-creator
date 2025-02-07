@@ -168,11 +168,7 @@ export const createCourseFromPlayList = asyncHandler(
       formattedPlaylistItems.push(...subList);
     }
 
-    const insertedVideo = await insetVideos(formattedPlaylistItems);
-
-    if (!insertedVideo) {
-      throw new ApiError("API_ERROR", "Could not save the videos");
-    }
+    await insetVideos(formattedPlaylistItems);
 
     await enrollUserToCourse(newCourse.id, user.user.id);
 
