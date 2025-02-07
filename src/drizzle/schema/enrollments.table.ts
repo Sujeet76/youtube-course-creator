@@ -11,6 +11,7 @@ import {
 import { createdAt, id, updatedAt } from "../schema.helper";
 import { courses } from "./courses.table";
 import { users } from "./user.table";
+import { videos } from "./videos.table";
 
 export const enrollments = pgTable(
   "enrollments",
@@ -27,6 +28,9 @@ export const enrollments = pgTable(
         onDelete: "cascade",
       }),
     lastAccessedAt: timestamp("last_accessed_at"),
+    lastAccessedVideoId: uuid("last_accessed_video_id")
+      .references(() => videos.id)
+      .notNull(),
     progress: integer("progress").default(0), // overall progress in
     completedAt: timestamp("completed_at"),
     enrolledAt: timestamp("enrolled_at").notNull().defaultNow(),
@@ -36,6 +40,7 @@ export const enrollments = pgTable(
   (table) => [
     index("completed_at_index").on(table.completedAt),
     uniqueIndex("user_course_idx").on(table.userId, table.courseId),
+    index("last_accessed_at_index").on(table.lastAccessedAt),
   ]
 );
 
@@ -47,5 +52,9 @@ export const enrollmentsRelations = relations(enrollments, ({ one }) => ({
   course: one(courses, {
     fields: [enrollments.courseId],
     references: [courses.id],
+  }),
+  lastAccessedVideo: one(videos, {
+    fields: [enrollments.lastAccessedVideoId],
+    references: [videos.id],
   }),
 }));
