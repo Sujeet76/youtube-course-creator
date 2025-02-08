@@ -106,14 +106,14 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
       onPlay={updateHistory}
       onPause={updateHistory}
       onEnd={handleOnEnd}
-      className="h-[450px] w-full overflow-hidden rounded-lg"
+      className="aspect-video size-full min-h-[450px] overflow-hidden rounded-lg"
       opts={{
         width: "100%",
         height: "100%",
         playerVars: {
           showinfo: 1,
           iv_load_policy: 3,
-          autoplay: 0,
+          autoplay: 1,
           start: videoData.watchHistory?.isRewatching
             ? 0
             : videoData.watchHistory?.watchedDuration || 0,

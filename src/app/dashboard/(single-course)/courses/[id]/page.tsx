@@ -30,36 +30,59 @@ const EnrolledCourse: React.FC<Props> = async ({ searchParams }) => {
     <VideoPlayerStoreProvider>
       <div className="container pb-6">
         <div>
-          <Suspense
-            key={v}
-            fallback={<Skeleton className="h-[450px] w-full" />}
-          >
-            <QueryClientErrorBoundary>
-              <HydrationBoundary state={dehydrate(queryClient)}>
+          <Suspense key={v} fallback={<EnrolledCourseSkeleton />}>
+            <HydrationBoundary state={dehydrate(queryClient)}>
+              <QueryClientErrorBoundary>
                 <VideoPlayer videoId={v} />
-                <div className="mt-2">
-                  <Tabs defaultValue="description">
-                    <TabsList>
-                      <TabsTrigger value="description">Description</TabsTrigger>
-                      <TabsTrigger value="notes">Notes</TabsTrigger>
-                    </TabsList>
-                    <TabsContent
-                      className="h-full rounded-lg bg-primary-80 p-3"
-                      value="description"
-                    >
-                      <VideoDescription videoId={v} />
-                    </TabsContent>
-                    <TabsContent value="notes">
-                      Change your password here.
-                    </TabsContent>
-                  </Tabs>
-                </div>
-              </HydrationBoundary>
-            </QueryClientErrorBoundary>
+              </QueryClientErrorBoundary>
+              <div className="mt-2">
+                <Tabs defaultValue="description">
+                  <TabsList>
+                    <TabsTrigger value="description">Description</TabsTrigger>
+                    <TabsTrigger value="notes">Notes</TabsTrigger>
+                  </TabsList>
+                  <TabsContent
+                    className="h-full rounded-lg bg-primary-80 p-5"
+                    value="description"
+                  >
+                    <VideoDescription videoId={v} />
+                  </TabsContent>
+                  <TabsContent value="notes">
+                    Change your password here.
+                  </TabsContent>
+                </Tabs>
+              </div>
+            </HydrationBoundary>
           </Suspense>
         </div>
       </div>
     </VideoPlayerStoreProvider>
+  );
+};
+
+const EnrolledCourseSkeleton: React.FC = () => {
+  return (
+    <div>
+      <Skeleton className="aspect-video min-h-[450px] w-full rounded-lg" />
+
+      <div className="mt-2">
+        <div className="flex gap-2 border-b pb-2">
+          <Skeleton className="h-10 w-24" />
+          <Skeleton className="h-10 w-24" />
+        </div>
+
+        <div className="mt-2 rounded-lg bg-primary-80 p-5">
+          <Skeleton className="mb-4 h-8 w-3/4" />
+
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+            <Skeleton className="h-4 w-4/6" />
+            <Skeleton className="h-4 w-3/4" />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -24,8 +24,10 @@ const VideoDescription: React.FC<VideoDescriptionProps> = ({ videoId }) => {
   }
   return (
     <div>
-      <h2 className="text-xl font-semibold">{videoDetails.videoExist.title}</h2>
-      <Separator className="bg-primary-20" />
+      <h2 className="text-lg font-semibold md:text-2xl">
+        {videoDetails.videoExist.title}
+      </h2>
+      <Separator className="my-2 bg-foreground/10" />
       <div className="mt-2">
         <YouTubeDescription description={videoDetails.videoExist.description} />
       </div>
