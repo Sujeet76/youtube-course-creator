@@ -152,6 +152,8 @@ export const updatedWatchHistory = async (
   nextVideoIdx?: number,
   courseId?: string
 ) => {
+  console.table([shouldMarkAsComplete, watchDuration, nextVideoIdx, courseId]);
+
   const [updatedHistory] = await db
     .update(videoProgress)
     .set({

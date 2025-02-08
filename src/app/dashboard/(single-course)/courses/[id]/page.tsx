@@ -28,21 +28,21 @@ const EnrolledCourse: React.FC<Props> = async ({ searchParams }) => {
 
   return (
     <VideoPlayerStoreProvider>
-      <div className="container pb-6">
+      <div className="pb-6 md:container">
         <div>
           <Suspense key={v} fallback={<EnrolledCourseSkeleton />}>
             <HydrationBoundary state={dehydrate(queryClient)}>
               <QueryClientErrorBoundary>
                 <VideoPlayer videoId={v} />
               </QueryClientErrorBoundary>
-              <div className="mt-2">
+              <div className="relative mt-2 px-4 md:px-0">
                 <Tabs defaultValue="description">
                   <TabsList>
                     <TabsTrigger value="description">Description</TabsTrigger>
                     <TabsTrigger value="notes">Notes</TabsTrigger>
                   </TabsList>
                   <TabsContent
-                    className="h-full rounded-lg bg-primary-80 p-5"
+                    className="h-full rounded-lg bg-primary-80 p-3 md:p-5"
                     value="description"
                   >
                     <VideoDescription videoId={v} />

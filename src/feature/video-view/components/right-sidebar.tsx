@@ -7,7 +7,6 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -54,9 +53,14 @@ const RightSidebar: React.FC<Props> = async ({ paramsPromise, ...props }) => {
         className="sticky top-0 hidden h-svh lg:flex"
         variant="floating"
         {...props}
+        style={
+          {
+            "--sidebar-width": "20rem",
+          } as React.CSSProperties
+        }
       >
-        <SidebarHeader className="h-16 border-b border-sidebar-border"></SidebarHeader>
-        <SidebarContent>
+        {/* <SidebarHeader className="h-16 border-b border-sidebar-border"></SidebarHeader> */}
+        <SidebarContent className="pt-9">
           <Suspense fallback={<ListLoadingSkeleton />}>
             <HydrationBoundary state={dehydrate(queryClient)}>
               <PlayList courseId={id} />

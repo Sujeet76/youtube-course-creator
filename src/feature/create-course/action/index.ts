@@ -139,7 +139,6 @@ export const createCourseFromPlayList = asyncHandler(
 
     let nextToken: string | null | undefined = playlistItems.nextPageToken;
     while (nextToken) {
-      console.log("RRR");
       const playlistItemsNext: PlaylistItemsResponseType = await fetch(
         `https://www.googleapis.com/youtube/v3/playlistItems?key=${env.YOUTUBE_API_KEY}&part=snippet&fields=items(snippet(title,publishedAt,description,thumbnails,resourceId(videoId))),nextPageToken&playlistId=${playlistId}&maxResults=50&pageToken=${nextToken}`,
         {

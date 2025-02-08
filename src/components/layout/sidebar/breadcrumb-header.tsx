@@ -36,6 +36,24 @@ const BreadCrumbHeader: React.FC = () => {
 
           const crumbItem = linkMapping[crumb as keyof typeof linkMapping];
 
+          const isUUID =
+            /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+              crumb
+            );
+
+          if (isUUID && index !== crumbsLength - 1) {
+            return (
+              <Fragment key={crumb}>
+                <BreadcrumbItem className="hidden md:block" key={crumb}>
+                  <BreadcrumbLink href={`/${link}`}>
+                    Video Playing
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+              </Fragment>
+            );
+          }
+
           if (crumbItem && index !== crumbsLength - 1) {
             return (
               <Fragment key={crumb}>
@@ -45,10 +63,19 @@ const BreadCrumbHeader: React.FC = () => {
                 <BreadcrumbSeparator className="hidden md:block" />
               </Fragment>
             );
-          } else if (crumbItem && index === crumbsLength - 1) {
+          }
+
+          if (crumbItem && index === crumbsLength - 1) {
             return (
               <BreadcrumbItem key={crumb}>
                 <BreadcrumbPage>{crumbItem}</BreadcrumbPage>
+              </BreadcrumbItem>
+            );
+          }
+          if (isUUID && index === crumbsLength - 1) {
+            return (
+              <BreadcrumbItem key={crumb}>
+                <BreadcrumbPage>Video Playing</BreadcrumbPage>
               </BreadcrumbItem>
             );
           }

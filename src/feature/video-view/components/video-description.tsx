@@ -19,17 +19,17 @@ const VideoDescription: React.FC<VideoDescriptionProps> = ({ videoId }) => {
     queryKeys.viewVideo,
     videoId,
   ]);
-  if (!videoDetails?.videoExist) {
-    return <div>Loading video description...</div>;
-  }
+
   return (
     <div>
       <h2 className="text-lg font-semibold md:text-2xl">
-        {videoDetails.videoExist.title}
+        {videoDetails?.videoExist?.title}
       </h2>
       <Separator className="my-2 bg-foreground/10" />
       <div className="mt-2">
-        <YouTubeDescription description={videoDetails.videoExist.description} />
+        <YouTubeDescription
+          description={videoDetails?.videoExist?.description ?? ""}
+        />
       </div>
     </div>
   );

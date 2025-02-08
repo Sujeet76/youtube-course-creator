@@ -13,7 +13,7 @@ const PlayList: React.FC<Props> = ({ courseId }) => {
   const infiniteQuery = useInfinitePlaylistItem(courseId);
 
   return (
-    <ul className="hover-animation group space-y-2 px-1">
+    <ul className="hover-animation space-y-2 px-1">
       {infiniteQuery.data.pages.map((page) =>
         page.playlist.map((video) => (
           <PlayListItems key={video.id} video={video} />

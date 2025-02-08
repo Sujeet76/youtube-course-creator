@@ -1,15 +1,18 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import React, { memo, useCallback, useEffect, useRef, useState } from "react";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import YouTube, { YouTubePlayer, YouTubeProps } from "react-youtube";
 import { toast } from "sonner";
+
+import { queryKeys } from "@/lib/query-keys";
 
 import { updatedLastWatchVideo } from "../action";
 import { useVideoDetailsById } from "../api/use-video-details-by-id";
 import { useVideoPlayer } from "../provider/video-player.provider";
+import { GetVideoHistoryById } from "../types";
 
 interface Props {
   videoId: string;
@@ -18,10 +21,11 @@ interface Props {
 const VideoPlayer: React.FC<Props> = ({ videoId }) => {
   const playerRef = useRef<YouTubePlayer | undefined>(undefined);
   const setPlayer = useVideoPlayer((state) => state.setPlayer);
+  const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
-  const [isComponentMounting, setIsComponentMounting] = useState(true);
-  const [isVideoCompleted, setIsVideoCompleted] = useState(false);
+  const isComponentMounting = useRef<boolean>(true);
+  const isVideoCompleted = useRef<boolean>(false);
 
   // get the video details
   const { data: videoData } = useVideoDetailsById(videoId);
@@ -47,6 +51,16 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
         }
 
         toast.success("Video completed, redirecting to next video");
+        // update the watch history in cache
+        queryClient.setQueryData(
+          [queryKeys.getWatchHistoryById, videoId],
+          (oldData: GetVideoHistoryById) => ({
+            ...oldData,
+            isCompleted: true,
+            watchedDuration:
+              playerRef.current?.getCurrentTime() ?? oldData.watchedDuration,
+          })
+        );
         router.push(`${pathname}?v=${res.data.nextVideo}`);
       }
     },
@@ -54,15 +68,16 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
 
   // Track component mounting state
   useEffect(() => {
-    setIsComponentMounting(false);
+    isComponentMounting.current = false;
     return () => {
-      setIsComponentMounting(true);
+      isComponentMounting.current = true;
     };
   }, [videoId]);
 
   const onReady = useCallback(
     (event: { target: YouTubeProps["onReady"] }) => {
       playerRef.current = event.target;
+
       setPlayer(event.target);
     },
     [setPlayer]
@@ -75,12 +90,12 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
         videoProgress: Math.floor(playerRef.current?.getCurrentTime() || 0),
       });
     }
-  }, [updateWatchHistory, videoId]);
+  }, [videoId]);
 
   // Update history on unmount, but only if not mounting and watched for min duration
   useEffect(() => {
     return () => {
-      if (!isComponentMounting && !isVideoCompleted) {
+      if (!isComponentMounting.current && !isVideoCompleted.current) {
         updateHistory();
       }
     };
@@ -88,14 +103,14 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
 
   const handleOnEnd = useCallback(() => {
     if (playerRef.current) {
-      setIsVideoCompleted(true);
+      isVideoCompleted.current = true;
       updateWatchHistory({
         videoId,
         videoProgress: Math.floor(playerRef.current?.getCurrentTime() || 0),
         shouldMarkAsComplete: true,
       });
     }
-  }, [updateWatchHistory, videoId]);
+  }, [videoId]);
 
   return (
     <YouTube
@@ -103,17 +118,18 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
       id="video-player"
       onReady={onReady}
       loading="lazy"
-      onPlay={updateHistory}
       onPause={updateHistory}
       onEnd={handleOnEnd}
-      className="aspect-video size-full min-h-[450px] overflow-hidden rounded-lg"
+      className="sticky top-[var(--header)] z-40 aspect-video size-full overflow-hidden md:relative md:top-0 md:rounded-lg"
       opts={{
         width: "100%",
         height: "100%",
         playerVars: {
-          showinfo: 1,
+          showinfo: 0,
+          modestbranding: 1,
           iv_load_policy: 3,
-          autoplay: 1,
+          autoplay: 0,
+          rel: 0,
           start: videoData.watchHistory?.isRewatching
             ? 0
             : videoData.watchHistory?.watchedDuration || 0,

@@ -27,8 +27,6 @@ export function asyncHandler<T, A extends any[] = []>(
 
       return result;
     } catch (error) {
-      console.log({ error });
-
       // Handle ApiError instances
       if (error instanceof ApiError) {
         return ApiResponse.Error({

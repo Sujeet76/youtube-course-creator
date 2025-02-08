@@ -76,7 +76,6 @@ export const getPlaylistVideoList = asyncHandler(
 export const getWatchHistoryById = asyncHandler(async (id: string) => {
   // check if user is logged in
   const session = await getSession();
-  console.log("called");
   if (!session?.user) {
     throw new ApiError(
       "UNAUTHORIZED",

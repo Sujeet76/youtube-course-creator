@@ -40,9 +40,11 @@ const PlayListItems = ({ video }: Props) => {
     <li
       ref={ref}
       className={cn(
-        "group relative rounded-lg border shadow-sm",
+        "group relative rounded-lg border p-2 shadow-md focus-within:ring-1 focus-within:ring-border focus-within:ring-offset-1 focus-within:ring-offset-background",
         searchParams.get("v") === video.id &&
-          "border-2 border-border bg-primary-20"
+          "group border-2 border-border bg-primary-20",
+        watchHistoryQuery.data?.isCompleted &&
+          "border-2 border-dashed border-[#0e793c] bg-[#e8faf0] text-[#0e793c] dark:border-[#095028] dark:bg-[#02140a] dark:text-[#17c964]"
       )}
       id={video.id}
     >
@@ -53,7 +55,7 @@ const PlayListItems = ({ video }: Props) => {
           },
         }}
         className={cn(
-          "flex cursor-pointer items-center space-x-2 p-2 transition-shadow focus-within:outline-none focus-within:ring-1 focus-within:ring-primary focus-within:ring-offset-1 focus-within:ring-offset-background hover:shadow-none"
+          "flex cursor-pointer items-center space-x-2 focus-visible:outline-none"
         )}
       >
         <div className="relative aspect-video w-28 shrink-0 shadow-lg">
@@ -95,11 +97,6 @@ const PlayListItems = ({ video }: Props) => {
           </time>
         </div>
       </Link>
-      {watchHistoryQuery.isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        watchHistoryQuery.data && <div>History</div>
-      )}
     </li>
   );
 };

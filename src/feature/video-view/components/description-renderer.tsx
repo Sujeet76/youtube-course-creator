@@ -42,30 +42,35 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
     if (!url) return <ExternalLinkIcon className="size-4" />;
 
     if (url.includes("youtube.com") || url.includes("youtu.be"))
-      return <YouTubeIcon className="size-4" />;
+      return <YouTubeIcon className="size-4 shrink-0" />;
     if (url.includes("twitter.com"))
-      return <XIcon className="size-4 text-foreground" />;
+      return <XIcon className="size-4 shrink-0 text-foreground" />;
     if (url.includes("instagram.com"))
-      return <InstagramIcon className="size-4 text-foreground" />;
+      return <InstagramIcon className="size-4 shrink-0 text-foreground" />;
     if (url.includes("github.com"))
-      return <GithubIcon className="size-4 fill-black dark:fill-white" />;
+      return (
+        <GithubIcon className="size-4 shrink-0 fill-black dark:fill-white" />
+      );
     if (url.includes("discord.gg")) return <DiscordIcon className="size-4" />;
     if (
       url.includes("web.telegram.org") ||
       url.includes("telegram.org") ||
       url.includes("telegram.me")
     )
-      return <TelegramIcon className="size-4" />;
+      return <TelegramIcon className="size-4 shrink-0" />;
     if (url.includes("medium.com"))
-      return <MediumIcon className="size-4 fill-black dark:fill-white" />;
+      return (
+        <MediumIcon className="size-4 shrink-0 fill-black dark:fill-white" />
+      );
     if (url.includes("drive.google.com"))
-      return <GoogleDriveIcon className="size-4" />;
-    if (url.includes("google.com")) return <GoogleIcon className="size-4" />;
+      return <GoogleDriveIcon className="size-4 shrink-0" />;
+    if (url.includes("google.com"))
+      return <GoogleIcon className="size-4 shrink-0" />;
     if (url.includes("linkedin.com"))
-      return <LinkedInIcon className="size-4" />;
+      return <LinkedInIcon className="size-4 shrink-0" />;
     if (url.includes("hashnode.com"))
-      return <HashnodeIcon className="size-4" />;
-    return <ExternalLinkIcon className="size-4" />;
+      return <HashnodeIcon className="size-4 shrink-0" />;
+    return <ExternalLinkIcon className="size-4 shrink-0" />;
   }, []);
 
   const findTimestamps = useCallback(
@@ -165,7 +170,7 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
               href={segment.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 pt-0.5 text-blue-600 hover:underline"
+              className="inline-flex items-baseline gap-1 pt-0.5 text-blue-600 hover:underline"
             >
               {getLinkIcon(segment.url)}
               <span className="break-all">{segment.displayText}</span>
@@ -201,7 +206,7 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
         return (
           <p
             key={`line-${lineIndex}`}
-            className="font-normal text-secondary-foreground/90"
+            className="text-sm font-normal text-secondary-foreground/90 md:text-base"
           >
             {parseLineSegments(line).map((segment, segmentIndex) =>
               renderSegment(segment, segmentIndex)
@@ -214,7 +219,7 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
     });
   }, [description, parseLineSegments, renderSegment]);
 
-  return <div className="whitespace-pre-wrap">{formattedContent}</div>;
+  return <div className="min-h-48 whitespace-pre-wrap">{formattedContent}</div>;
 };
 
 const TimeStampComponent: React.FC<{ timestamp: string; seconds: number }> = ({
