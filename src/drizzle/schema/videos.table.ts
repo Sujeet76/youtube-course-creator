@@ -44,3 +44,4 @@ export const videosRelations = relations(videos, ({ one, many }) => ({
 }));
 
 export type VideoInsertType = typeof videos.$inferInsert;
+export type VideoType = typeof videos.$inferSelect;

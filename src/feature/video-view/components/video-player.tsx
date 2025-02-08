@@ -9,6 +9,7 @@ import { toast } from "sonner";
 
 import { updatedLastWatchVideo } from "../action";
 import { useVideoDetailsById } from "../api/use-video-details-by-id";
+import { useVideoPlayer } from "../provider/video-player.provider";
 
 interface Props {
   videoId: string;
@@ -16,6 +17,7 @@ interface Props {
 
 const VideoPlayer: React.FC<Props> = ({ videoId }) => {
   const playerRef = useRef<YouTubePlayer | undefined>(undefined);
+  const setPlayer = useVideoPlayer((state) => state.setPlayer);
   const router = useRouter();
   const pathname = usePathname();
   const [isComponentMounting, setIsComponentMounting] = useState(true);
@@ -58,9 +60,13 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
     };
   }, [videoId]);
 
-  const onReady = useCallback((event: { target: YouTubeProps["onReady"] }) => {
-    playerRef.current = event.target;
-  }, []);
+  const onReady = useCallback(
+    (event: { target: YouTubeProps["onReady"] }) => {
+      playerRef.current = event.target;
+      setPlayer(event.target);
+    },
+    [setPlayer]
+  );
 
   const updateHistory = useCallback(() => {
     if (playerRef.current) {
@@ -94,19 +100,20 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
   return (
     <YouTube
       videoId={videoData.videoExist.youtube_video_id}
+      id="video-player"
       onReady={onReady}
       loading="lazy"
       onPlay={updateHistory}
       onPause={updateHistory}
       onEnd={handleOnEnd}
-      className="h-[450px] w-full"
+      className="h-[450px] w-full overflow-hidden rounded-lg"
       opts={{
         width: "100%",
         height: "100%",
         playerVars: {
           showinfo: 1,
           iv_load_policy: 3,
-          autoplay: 1,
+          autoplay: 0,
           start: videoData.watchHistory?.isRewatching
             ? 0
             : videoData.watchHistory?.watchedDuration || 0,
