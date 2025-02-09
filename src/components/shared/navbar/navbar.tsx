@@ -7,7 +7,7 @@ const Header = () => {
       <nav className="flex w-full items-center justify-between px-6">
         <span
           aria-label="logo"
-          className="font-rubik-gemstone text-2xl font-thin tracking-widest"
+          className="font-rubik-gemstone text-sm font-thin tracking-widest md:text-2xl"
         >
           Playlists<span className="text-primary">Genius</span>
         </span>
