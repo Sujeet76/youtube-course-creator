@@ -14,7 +14,7 @@ export default async function Page() {
         <h1>Enrolled Courses</h1>
       </div>
 
-      <ul className="grid grid-cols-3 gap-4">
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {res.data.map((item) => (
           <li key={item.id}>
             <EnrolledCourseCard
