@@ -4,7 +4,7 @@ import { queryKeys } from "@/lib/query-keys";
 
 import { getWatchHistoryById } from "../action";
 
-export const useUpdateWatchHistory = ({
+export const useWatchHistoryQuery = ({
   videoId,
   enabled,
 }: {

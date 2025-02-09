@@ -3,14 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 
 import { formatDistanceToNow } from "date-fns";
 import { useInView } from "react-intersection-observer";
 
 import { cn } from "@/lib/utils";
 
-import { useUpdateWatchHistory } from "../api/use-update-watch-history";
+import { useWatchHistoryQuery } from "../api/use-watch-history-query";
+import { useVideoPlayer } from "../provider/video-player.provider";
 
 type Props = {
   video: {
@@ -30,11 +31,20 @@ const PlayListItems = ({ video }: Props) => {
     threshold: 0.5,
   });
   const searchParams = useSearchParams();
+  const setActiveVideoTitle = useVideoPlayer(
+    (state) => state.setActiveVideoTitle
+  );
 
-  const watchHistoryQuery = useUpdateWatchHistory({
+  const watchHistoryQuery = useWatchHistoryQuery({
     videoId: video.id,
     enabled: inView,
   });
+
+  useEffect(() => {
+    if (searchParams.get("v") === video.id) {
+      setActiveVideoTitle(video.title);
+    }
+  }, []);
 
   return (
     <li
@@ -57,6 +67,7 @@ const PlayListItems = ({ video }: Props) => {
         className={cn(
           "flex cursor-pointer items-center space-x-2 focus-visible:outline-none"
         )}
+        onClick={() => setActiveVideoTitle(video.title)}
       >
         <div className="relative aspect-video w-28 shrink-0 shadow-lg">
           <Image

@@ -36,6 +36,27 @@
       "when": 1738959425064,
       "tag": "0004_slow_shaman",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1739073925617,
+      "tag": "0005_workable_masked_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1739073978599,
+      "tag": "0006_open_dragon_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1739074131400,
+      "tag": "0007_mysterious_skreet",
+      "breakpoints": true
     }
   ]
 }

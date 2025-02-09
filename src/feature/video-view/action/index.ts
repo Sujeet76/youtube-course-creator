@@ -100,10 +100,12 @@ export const updatedLastWatchVideo = asyncHandler(
     videoId,
     videoProgress,
     shouldMarkAsComplete = false,
+    totalDuration,
   }: {
     videoId: string;
     videoProgress: number;
     shouldMarkAsComplete?: boolean;
+    totalDuration: number;
   }) => {
     // check if user is logged in
     const session = await getSession();
@@ -151,6 +153,7 @@ export const updatedLastWatchVideo = asyncHandler(
       videoId,
       videoProgress,
       shouldMarkAsComplete,
+      totalDuration,
       videoExist.sequenceNumber + 1,
       videoExist.courseId
     );

@@ -1,4 +1,4 @@
-import { useUpdateWatchHistory } from "./api/use-update-watch-history";
+import { useWatchHistoryQuery } from "./api/use-watch-history-query";
 import { getVideoByIdPrivate } from "./db";
 
 export type GetVideoByIdSuccessResponse = NonNullable<
@@ -6,7 +6,7 @@ export type GetVideoByIdSuccessResponse = NonNullable<
 >;
 
 export type GetVideoHistoryById = NonNullable<
-  Awaited<ReturnType<typeof useUpdateWatchHistory>>["data"]
+  Awaited<ReturnType<typeof useWatchHistoryQuery>>["data"]
 >;
 export interface TimestampMatch {
   timestamp: string;

@@ -1,18 +1,20 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import React, { memo, useCallback, useEffect, useRef } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useRef } from "react";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import YouTube, { YouTubePlayer, YouTubeProps } from "react-youtube";
-import { toast } from "sonner";
+import { PictureInPicture2Icon } from "lucide-react";
+import { useInView } from "react-intersection-observer";
+import type { YouTubePlayer, YouTubeProps } from "react-youtube";
+import YouTube from "react-youtube";
 
-import { queryKeys } from "@/lib/query-keys";
+import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
+import { useMeasure } from "@/hooks/use-measure";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
-import { updatedLastWatchVideo } from "../action";
+import { useUpdateWatchHistoryMutation } from "../api/use-update-watch-history-mutation";
 import { useVideoDetailsById } from "../api/use-video-details-by-id";
 import { useVideoPlayer } from "../provider/video-player.provider";
-import { GetVideoHistoryById } from "../types";
 
 interface Props {
   videoId: string;
@@ -21,121 +23,137 @@ interface Props {
 const VideoPlayer: React.FC<Props> = ({ videoId }) => {
   const playerRef = useRef<YouTubePlayer | undefined>(undefined);
   const setPlayer = useVideoPlayer((state) => state.setPlayer);
-  const queryClient = useQueryClient();
-  const router = useRouter();
-  const pathname = usePathname();
-  const isComponentMounting = useRef<boolean>(true);
-  const isVideoCompleted = useRef<boolean>(false);
+  const setVideoPlayerHeight = useVideoPlayer(
+    (state) => state.setVideoPlayerHeight
+  );
+  const isMounted = useRef(true);
+  const isVideoCompleted = useRef(false);
+  const isMobile = useIsMobile();
+  const { ref: videoPlayerContainerRef, inView } = useInView({
+    threshold: 0.5,
+  });
+  const [ref, { height }] = useMeasure();
 
-  // get the video details
+  useEffect(() => {
+    if (height) {
+      setVideoPlayerHeight(height);
+    }
+  }, [height]);
+
+  // get the video details suspended
   const { data: videoData } = useVideoDetailsById(videoId);
-
-  // mutation to update the last watch video and progress
-  const { mutate: updateWatchHistory } = useMutation({
-    mutationFn: updatedLastWatchVideo,
-
-    onSuccess: (res) => {
-      if (!res.success) {
-        toast.error(res.message);
-        return;
-      }
-
-      if (res.data.updatedHistory.isCompleted && res.data.nextVideo) {
-        if (res.data.nextVideo === "last-video") {
-          toast.info("You have reached the last video in the course");
-          return;
-        }
-        if (res.data.nextVideo === "rewatching") {
-          toast.info("Please proceed to the next video");
-          return;
-        }
-
-        toast.success("Video completed, redirecting to next video");
-        // update the watch history in cache
-        queryClient.setQueryData(
-          [queryKeys.getWatchHistoryById, videoId],
-          (oldData: GetVideoHistoryById) => ({
-            ...oldData,
-            isCompleted: true,
-            watchedDuration:
-              playerRef.current?.getCurrentTime() ?? oldData.watchedDuration,
-          })
-        );
-        router.push(`${pathname}?v=${res.data.nextVideo}`);
-      }
-    },
+  // update watch history mutation
+  const { mutate: updateWatchHistory } = useUpdateWatchHistoryMutation({
+    videoId,
   });
 
-  // Track component mounting state
+  // Player configuration memoized to prevent unnecessary re-renders
+  const playerOpts = useMemo<YouTubeProps["opts"]>(
+    () => ({
+      width: "100%",
+      height: "100%",
+      playerVars: {
+        showinfo: 0,
+        modestbranding: 1,
+        iv_load_policy: 3,
+        autoplay: 0,
+        rel: 0,
+        start: videoData?.watchHistory?.isRewatching
+          ? 0
+          : videoData?.watchHistory?.watchedDuration || 0,
+      },
+    }),
+    [
+      videoData?.watchHistory?.isRewatching,
+      videoData?.watchHistory?.watchedDuration,
+    ]
+  );
+
+  // Handle component mount/unmount tracking
   useEffect(() => {
-    isComponentMounting.current = false;
+    isMounted.current = true;
     return () => {
-      isComponentMounting.current = true;
+      isMounted.current = false;
     };
-  }, [videoId]);
+  }, []);
 
-  const onReady = useCallback(
-    (event: { target: YouTubeProps["onReady"] }) => {
+  // Player ready handler
+  const handleReady = useCallback(
+    (event: { target: YouTubePlayer }) => {
       playerRef.current = event.target;
-
       setPlayer(event.target);
     },
     [setPlayer]
   );
 
-  const updateHistory = useCallback(() => {
-    if (playerRef.current) {
-      updateWatchHistory({
-        videoId,
-        videoProgress: Math.floor(playerRef.current?.getCurrentTime() || 0),
-      });
-    }
-  }, [videoId]);
+  // Optimized history update with progress check and debouncing
+  const updateHistory = useDebouncedCallback(() => {
+    if (!isMounted.current || !playerRef.current) return;
 
-  // Update history on unmount, but only if not mounting and watched for min duration
-  useEffect(() => {
-    return () => {
-      if (!isComponentMounting.current && !isVideoCompleted.current) {
-        updateHistory();
+    const currentTime = Math.floor(playerRef.current.getCurrentTime());
+    updateWatchHistory({
+      videoId,
+      videoProgress: currentTime,
+      totalDuration: Math.floor(playerRef.current.playerInfo.duration),
+    });
+  }, 1000);
+
+  // Save progress on unmount if video wasn't completed
+  useEffect(
+    () => () => {
+      if (!isMounted.current && !isVideoCompleted.current) {
+        updateWatchHistory({
+          videoId,
+          videoProgress: Math.floor(playerRef.current?.getCurrentTime() || 0),
+          totalDuration: Math.floor(
+            playerRef.current?.playerInfo?.duration || 0
+          ),
+        });
       }
-    };
-  }, [isComponentMounting, updateHistory]);
+    },
+    [updateWatchHistory, videoId]
+  );
 
-  const handleOnEnd = useCallback(() => {
-    if (playerRef.current) {
-      isVideoCompleted.current = true;
-      updateWatchHistory({
-        videoId,
-        videoProgress: Math.floor(playerRef.current?.getCurrentTime() || 0),
-        shouldMarkAsComplete: true,
-      });
-    }
-  }, [videoId]);
+  // Video end handler
+  const handleVideoEnd = useCallback(() => {
+    if (!playerRef.current) return;
+
+    isVideoCompleted.current = true;
+    updateWatchHistory({
+      videoId,
+      videoProgress: Math.floor(playerRef.current.getCurrentTime()),
+      shouldMarkAsComplete: true,
+      totalDuration: Math.floor(playerRef.current.playerInfo.duration),
+    });
+  }, [videoId, updateWatchHistory]);
 
   return (
-    <YouTube
-      videoId={videoData.videoExist.youtube_video_id}
-      id="video-player"
-      onReady={onReady}
-      loading="lazy"
-      onPause={updateHistory}
-      onEnd={handleOnEnd}
-      className="sticky top-[var(--header)] z-40 aspect-video size-full overflow-hidden md:relative md:top-0 md:rounded-lg"
-      opts={{
-        width: "100%",
-        height: "100%",
-        playerVars: {
-          showinfo: 0,
-          modestbranding: 1,
-          iv_load_policy: 3,
-          autoplay: 0,
-          rel: 0,
-          start: videoData.watchHistory?.isRewatching
-            ? 0
-            : videoData.watchHistory?.watchedDuration || 0,
-        },
-      }}
-    />
+    <div
+      ref={videoPlayerContainerRef}
+      className="sticky top-[var(--header)] z-40 aspect-video rounded-lg bg-primary-90 md:relative md:top-0"
+    >
+      <div className="relative aspect-video w-full" ref={ref}>
+        <div className="absolute inset-0 hidden flex-col items-center justify-center text-sm md:flex">
+          <PictureInPicture2Icon />
+          <p>Playing in picture in picture mode</p>
+        </div>
+        <YouTube
+          videoId={videoData?.videoExist?.youtube_video_id || ""}
+          id="video-player"
+          opts={playerOpts}
+          loading="eager"
+          onReady={handleReady}
+          onPause={updateHistory}
+          onEnd={handleVideoEnd}
+          className={cn(
+            "z-40 aspect-video overflow-hidden md:rounded-lg",
+            inView && !isMobile
+              ? "md:relative md:top-0 md:animate-videoInline"
+              : "md:fixed md:bottom-6 md:right-6 md:w-80 md:animate-videoSticky md:border-2 md:border-border md:shadow-lg"
+          )}
+        />
+      </div>
+    </div>
   );
 };
 

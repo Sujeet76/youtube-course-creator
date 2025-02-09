@@ -149,11 +149,10 @@ export const updatedWatchHistory = async (
   videoId: string,
   watchDuration: number,
   shouldMarkAsComplete: boolean = false,
+  totalDuration: number,
   nextVideoIdx?: number,
   courseId?: string
 ) => {
-  console.table([shouldMarkAsComplete, watchDuration, nextVideoIdx, courseId]);
-
   const [updatedHistory] = await db
     .update(videoProgress)
     .set({
@@ -161,6 +160,7 @@ export const updatedWatchHistory = async (
       watchedDuration: watchDuration,
       isCompleted: shouldMarkAsComplete,
       isRewatching: shouldMarkAsComplete,
+      totalDuration,
     })
     .where(eq(videoProgress.videoId, videoId))
     .returning();

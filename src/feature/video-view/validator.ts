@@ -1,7 +1,8 @@
-import { createSearchParamsCache, parseAsString } from "nuqs/server";
+import { createLoader, parseAsString } from "nuqs/server";
 
-export const videoIdSearchParams = createSearchParamsCache({
+export const videoIdSearchParams = {
   v: parseAsString,
-});
-// export const loadVideoIdSearchParams = createLoader(videoIdSearchParams);
-export type VideoIdSearchParamsT = ReturnType<typeof videoIdSearchParams.parse>;
+};
+export const loadVideoIdSearchParams = createLoader(videoIdSearchParams);
+
+export type VideoIdSearchParamsT = ReturnType<typeof loadVideoIdSearchParams>;

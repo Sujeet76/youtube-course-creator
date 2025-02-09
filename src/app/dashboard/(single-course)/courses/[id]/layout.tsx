@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import React, { Suspense } from "react";
 
 import AppSidebar from "@/components/layout/sidebar/app-sidebar";
@@ -10,7 +11,15 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import RightSidebar from "@/feature/video-view/components/right-sidebar";
+import { RightSidebarSkeleton } from "@/feature/video-view/components/loader";
+import { VideoPlayerStoreProvider } from "@/feature/video-view/provider/video-player.provider";
+
+const RightSidebar = dynamic(
+  () => import("@/feature/video-view/components/right-sidebar"),
+  {
+    loading: () => <RightSidebarSkeleton />,
+  }
+);
 
 interface Props {
   children: React.ReactNode;
@@ -28,20 +37,20 @@ const DashboardLayout: React.FC<Props> = ({ children, params }) => {
         } as React.CSSProperties
       }
     >
-      <AppSidebar />
-      <SidebarInset>
-        <header className="sticky top-0 z-50 flex h-[var(--header)] shrink-0 items-center gap-2 rounded-t-lg bg-background px-4 md:sticky">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 h-4" />
-          <Suspense fallback={<BreadCrumbHeaderLoader />}>
-            <BreadCrumbHeader />
-          </Suspense>
-        </header>
-        {children}
-      </SidebarInset>
-      <Suspense fallback={<>loading</>}>
+      <VideoPlayerStoreProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="sticky top-0 z-50 flex h-[var(--header)] shrink-0 items-center gap-2 rounded-t-lg bg-background px-4 md:sticky">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Suspense fallback={<BreadCrumbHeaderLoader />}>
+              <BreadCrumbHeader />
+            </Suspense>
+          </header>
+          {children}
+        </SidebarInset>
         <RightSidebar paramsPromise={params} />
-      </Suspense>
+      </VideoPlayerStoreProvider>
     </SidebarProvider>
   );
 };

@@ -1,5 +1,11 @@
-const loading = () => {
-  return <div>Loading</div>;
+import { EnrolledCourseSkeleton } from "@/feature/video-view/components/loader";
+
+const Loading = () => {
+  return (
+    <div>
+      <EnrolledCourseSkeleton />
+    </div>
+  );
 };
 
-export default loading;
+export default Loading;

@@ -107,6 +107,8 @@ export default {
         spotlight: "spotlight 2s ease .75s 1 forwards",
         "loading-wave":
           "loading-wave var(--wave-speed, 1s) infinite ease-in-out",
+        videoInline: "videoInline 300ms ease-in-out forwards",
+        videoSticky: "videoSticky 300ms ease-in-out forwards",
       },
       keyframes: {
         rainbow: {
@@ -136,6 +138,20 @@ export default {
           },
           "100%": {
             transform: "80%",
+          },
+        },
+        videoInline: {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        videoSticky: {
+          from: {
+            transform: "translateX(50px)",
+            opacity: "0",
+          },
+          to: {
+            transform: "translateX(0)",
+            opacity: "1",
           },
         },
       },
