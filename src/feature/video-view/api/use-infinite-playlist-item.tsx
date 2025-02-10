@@ -1,11 +1,11 @@
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { queryKeys } from "@/lib/query-keys";
 
 import { getPlaylistVideoList } from "../action";
 
 export const useInfinitePlaylistItem = (courseId: string) => {
-  return useSuspenseInfiniteQuery({
+  return useInfiniteQuery({
     queryKey: [queryKeys.getPlaylistVideoList, courseId],
     queryFn: async ({ pageParam = 1 }) => {
       const res = await getPlaylistVideoList({

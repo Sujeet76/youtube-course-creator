@@ -10,12 +10,15 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 import { NavGroup, NavItem } from "./data";
 
 const NavItems: React.FC<NavGroup> = ({ items, title }) => {
   const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{title}</SidebarGroupLabel>
@@ -27,6 +30,7 @@ const NavItems: React.FC<NavGroup> = ({ items, title }) => {
                 asChild
                 isActive={checkIsActive(pathname, item)}
                 tooltip={item.title}
+                onClick={() => setOpenMobile(false)}
               >
                 <Link href={item.url ?? ""}>
                   {item.icon && item.icon}

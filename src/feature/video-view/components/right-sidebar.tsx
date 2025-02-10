@@ -10,7 +10,7 @@ import React, {
 } from "react";
 
 import { ListVideoIcon, Plus, XIcon } from "lucide-react";
-import { motion } from "motion/react";
+import { MotionConfig, motion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +21,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
@@ -44,15 +45,19 @@ const RightSidebar: React.FC<Props> = ({ paramsPromise, ...props }) => {
   const videoPlayerHeight =
     useVideoPlayer((state) => state.videoPlayerHeight) || 0;
   const activeVideoTitle = useVideoPlayer((state) => state.activeVideoTitle);
+  const { setOpen } = useSidebar();
 
   const toggleExpand = useCallback(() => {
     setIsExpanded((prev) => {
       window.document.body.style.overflow = !prev ? "hidden" : "";
+      if (!prev) {
+        setOpen(false);
+      }
       return !prev;
     });
-  }, []);
+  }, [setOpen]);
 
-  const sidbarVariants = useMemo(() => {
+  const sidebarVariants = useMemo(() => {
     return {
       desktop: {
         height: "100svh",
@@ -88,90 +93,98 @@ const RightSidebar: React.FC<Props> = ({ paramsPromise, ...props }) => {
 
   return (
     <Suspense fallback={<RightSidebarSkeleton />}>
-      <SidebarMotion
-        collapsible="none"
-        className={cn("fixed lg:sticky lg:flex lg:!w-[--sidebar-width]")}
-        initial={false}
-        style={
-          {
-            "--sidebar-width": "20rem",
-          } as React.CSSProperties
-        }
-        variants={sidbarVariants}
-        animate={
-          isDesktop
-            ? "desktop"
-            : isExpanded
-              ? "mobileExpended"
-              : "mobileCollapsed"
-        }
-        layoutId="right-sidebar"
-        variant="floating"
-        {...props}
+      <MotionConfig
         transition={{
           type: "spring",
-          bounce: 0.3,
+          bounce: 0,
+          duration: 0.3,
         }}
       >
-        <SidebarHeader
-          className={cn(isDesktop ? "flex" : isExpanded ? "flex" : "hidden")}
+        <SidebarMotion
+          collapsible="none"
+          className={cn("fixed lg:sticky lg:flex lg:!w-[--sidebar-width]")}
+          initial={false}
+          style={
+            {
+              "--sidebar-width": "20rem",
+            } as React.CSSProperties
+          }
+          variants={sidebarVariants}
+          animate={
+            isDesktop
+              ? "desktop"
+              : isExpanded
+                ? "mobileExpended"
+                : "mobileCollapsed"
+          }
+          layoutId="right-sidebar"
+          variant="floating"
+          {...props}
         >
-          <SidebarMenu className="px-3">
-            <div className="mx-auto h-2 w-1/2 rounded-full bg-muted lg:hidden"></div>
-            <div className="flex items-start gap-0.5">
-              <span className="font-semibold lg:mt-2">
-                {activeVideoTitle || "Video playing"}
-              </span>
-              <Button
-                size={"icon"}
-                className="size-8 shrink-0 rounded-full p-0 lg:hidden"
-                variant={"outline"}
-                onClick={toggleExpand}
-              >
-                <XIcon />
-                <span className="sr-only">close playlist menu</span>
-              </Button>
-            </div>
-          </SidebarMenu>
-        </SidebarHeader>
-        <SidebarContent>
-          <motion.div
-            initial={false}
-            animate={{
-              display: isDesktop ? "flex" : isExpanded ? "block" : "none",
-              opacity: isDesktop ? 1 : isExpanded ? 1 : 0,
-              filter: isDesktop ? "none" : isExpanded ? "blur(0)" : "blur(4px)",
-            }}
-            className={cn("lg:block", isExpanded ? "block" : "hidden")}
+          <SidebarHeader
+            className={cn(isDesktop ? "flex" : isExpanded ? "flex" : "hidden")}
           >
-            <PlayList courseId={id} className="min-w-full" />
-          </motion.div>
-          <motion.button
-            initial={false}
-            layoutId="right-sidebar"
-            className={cn(
-              "line-clamp-2 flex size-full items-start gap-0.5 px-3 py-2 text-start text-sm font-medium lg:!hidden",
-              isExpanded ? "hidden" : "flex"
-            )}
-            onClick={toggleExpand}
+            <SidebarMenu className="px-3">
+              <div className="mx-auto h-2 w-1/2 rounded-full bg-muted lg:hidden"></div>
+              <div className="flex items-start justify-between gap-0.5">
+                <span className="line-clamp-2 font-semibold lg:mt-2">
+                  {activeVideoTitle || "Video playing"}
+                </span>
+                <Button
+                  size={"icon"}
+                  className="size-8 shrink-0 rounded-full p-0 lg:hidden"
+                  variant={"outline"}
+                  onClick={toggleExpand}
+                >
+                  <XIcon />
+                  <span className="sr-only">close playlist menu</span>
+                </Button>
+              </div>
+            </SidebarMenu>
+          </SidebarHeader>
+          <SidebarContent>
+            <motion.div
+              initial={false}
+              animate={{
+                display: isDesktop ? "flex" : isExpanded ? "block" : "none",
+                opacity: isDesktop ? 1 : isExpanded ? 1 : 0,
+                filter: isDesktop
+                  ? "none"
+                  : isExpanded
+                    ? "blur(0)"
+                    : "blur(4px)",
+              }}
+              className={cn("lg:block", isExpanded ? "block" : "hidden")}
+            >
+              <PlayList courseId={id} className="min-w-full" />
+            </motion.div>
+            <motion.button
+              initial={false}
+              layoutId="right-sidebar"
+              className={cn(
+                "line-clamp-2 flex size-full items-start gap-0.5 px-3 py-2 text-start text-sm font-medium lg:!hidden",
+                isExpanded ? "hidden" : "flex"
+              )}
+              onClick={toggleExpand}
+            >
+              <ListVideoIcon className="mt-1 shrink-0" size={16} />
+              {activeVideoTitle || "Video playing"}
+            </motion.button>
+          </SidebarContent>
+          <SidebarFooter
+            className={cn(isExpanded ? "flex" : "hidden", "lg:block")}
           >
-            <ListVideoIcon className="mt-1 shrink-0" size={16} />
-            {activeVideoTitle || "Video playing"}
-          </motion.button>
-        </SidebarContent>
-        <SidebarFooter
-          className={cn(isExpanded ? "flex" : "hidden", "lg:block")}
-        >
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton>
-                <Plus />
-                <span>New Notes</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
-      </SidebarMotion>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton>
+                  <Plus />
+                  <span>New Notes</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarFooter>
+        </SidebarMotion>
+      </MotionConfig>
     </Suspense>
   );
 };

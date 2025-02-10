@@ -6,6 +6,7 @@ import InfiniteLoading from "@/components/shared/infinite-loading";
 import { cn } from "@/lib/utils";
 
 import { useInfinitePlaylistItem } from "../api/use-infinite-playlist-item";
+import { ListLoadingSkeleton } from "./loader";
 import PlayListItems from "./playlist-items";
 
 interface Props {
@@ -16,6 +17,20 @@ interface Props {
 const PlayList = forwardRef<HTMLUListElement, Props>(
   ({ courseId, className }, ref) => {
     const infiniteQuery = useInfinitePlaylistItem(courseId);
+
+    if (!infiniteQuery.data) return null;
+
+    if (infiniteQuery.isLoading) {
+      return <ListLoadingSkeleton />;
+    }
+
+    if (infiniteQuery.isError) {
+      return (
+        <div className="text-center text-sm font-medium text-red-500">
+          {infiniteQuery.error.message ?? "An error occurred"}
+        </div>
+      );
+    }
 
     return (
       <ul
