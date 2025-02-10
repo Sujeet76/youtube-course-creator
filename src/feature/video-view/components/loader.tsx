@@ -6,13 +6,17 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 // import { SIDEBAR_WIDTH } from "./right-sidebar";
 
-export const ListLoadingSkeleton: FC = () => {
+export const ListLoadingSkeleton: FC<{
+  className?: string;
+  listCount?: number;
+}> = ({ className, listCount = 8 }) => {
   return (
-    <ul className="w-[var(--sidebar-width)] space-y-4">
-      {Array.from({ length: 8 }).map((_, index) => (
+    <ul className={cn("w-[var(--sidebar-width)] space-y-4", className)}>
+      {Array.from({ length: listCount }).map((_, index) => (
         <li
           className="hidden items-center space-x-2 rounded-lg border p-2 shadow-md lg:flex"
           key={index}
