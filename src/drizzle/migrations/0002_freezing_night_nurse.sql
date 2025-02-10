@@ -1,3 +1,0 @@
-ALTER TABLE "enrollments" ADD COLUMN "last_accessed_video_id" uuid;--> statement-breakpoint
-ALTER TABLE "enrollments" ADD CONSTRAINT "enrollments_last_accessed_video_id_courses_id_fk" FOREIGN KEY ("last_accessed_video_id") REFERENCES "public"."courses"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-CREATE INDEX "last_accessed_at_index" ON "enrollments" USING btree ("last_accessed_at");

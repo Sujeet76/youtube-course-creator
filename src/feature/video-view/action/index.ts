@@ -47,9 +47,7 @@ export const getPlaylistVideoList = asyncHandler(
     limit: number;
   }) => {
     // check if user is logged in
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
+    const session = await getSession();
 
     if (!session?.user) {
       throw new ApiError(

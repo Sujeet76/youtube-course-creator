@@ -1,1 +1,0 @@
-ALTER TABLE "video_progress" RENAME COLUMN "video_length" TO "total_duration";

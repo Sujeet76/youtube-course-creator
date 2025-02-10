@@ -20,7 +20,7 @@ CREATE TABLE "authors" (
 	"img_url" text NOT NULL,
 	"bio" text NOT NULL,
 	"subscriber_count" integer DEFAULT 0 NOT NULL,
-	"youtube_channel_id" text,
+	"youtube_channel_id" text NOT NULL,
 	"youtube_channel_url" text,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
 	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -70,6 +70,7 @@ CREATE TABLE "enrollments" (
 	"user_id" uuid NOT NULL,
 	"course_id" uuid NOT NULL,
 	"last_accessed_at" timestamp,
+	"last_accessed_video_id" uuid NOT NULL,
 	"progress" integer DEFAULT 0,
 	"completed_at" timestamp,
 	"enrolled_at" timestamp DEFAULT now() NOT NULL,
@@ -124,8 +125,10 @@ CREATE TABLE "video_progress" (
 	"user_id" uuid NOT NULL,
 	"video_id" uuid NOT NULL,
 	"watched_duration" integer DEFAULT 0,
-	"is_completed" boolean DEFAULT false,
+	"total_duration" integer DEFAULT 0,
+	"is_completed" boolean DEFAULT false NOT NULL,
 	"last_watched_at" timestamp DEFAULT now(),
+	"is_rewatching" boolean DEFAULT false NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
 	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );
@@ -137,12 +140,12 @@ CREATE TABLE "videos" (
 	"course_id" uuid NOT NULL,
 	"youtube_video_id" text NOT NULL,
 	"sequence_number" integer NOT NULL,
-	"duration" integer NOT NULL,
+	"duration" integer,
 	"thumbnail" text,
 	"resource" text[],
+	"published_at" text NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
-	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-	CONSTRAINT "videos_youtube_video_id_unique" UNIQUE("youtube_video_id")
+	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -155,6 +158,7 @@ ALTER TABLE "courses" ADD CONSTRAINT "courses_author_id_authors_id_fk" FOREIGN K
 ALTER TABLE "courses" ADD CONSTRAINT "courses_creator_user_id_fk" FOREIGN KEY ("creator") REFERENCES "public"."user"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "enrollments" ADD CONSTRAINT "enrollments_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "enrollments" ADD CONSTRAINT "enrollments_course_id_courses_id_fk" FOREIGN KEY ("course_id") REFERENCES "public"."courses"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "enrollments" ADD CONSTRAINT "enrollments_last_accessed_video_id_videos_id_fk" FOREIGN KEY ("last_accessed_video_id") REFERENCES "public"."videos"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "notes" ADD CONSTRAINT "notes_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "notes" ADD CONSTRAINT "notes_video_id_videos_id_fk" FOREIGN KEY ("video_id") REFERENCES "public"."videos"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -172,6 +176,7 @@ CREATE INDEX "creator_id_idx" ON "courses" USING btree ("creator");--> statement
 CREATE UNIQUE INDEX "youtube_playlist_id_unique" ON "courses" USING btree ("youtube_playlist_id");--> statement-breakpoint
 CREATE INDEX "completed_at_index" ON "enrollments" USING btree ("completed_at");--> statement-breakpoint
 CREATE UNIQUE INDEX "user_course_idx" ON "enrollments" USING btree ("user_id","course_id");--> statement-breakpoint
+CREATE INDEX "last_accessed_at_index" ON "enrollments" USING btree ("last_accessed_at");--> statement-breakpoint
 CREATE INDEX "notes_user_id_idx" ON "notes" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "notes_video_id_idx" ON "notes" USING btree ("video_id");--> statement-breakpoint
 CREATE UNIQUE INDEX "user_video_unique" ON "video_progress" USING btree ("user_id","video_id");--> statement-breakpoint

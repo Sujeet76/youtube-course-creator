@@ -71,9 +71,11 @@ export const insetAuthor = async ({
 };
 
 export const insetVideos = async (videoInfo: Array<VideoInsertType>) => {
-  const hasInserted = await db.insert(videos).values(videoInfo).execute();
+  const hasInserted = await db.insert(videos).values(videoInfo).returning({
+    id: videos.id,
+  });
 
-  if (hasInserted.rowCount !== videoInfo.length) {
+  if (hasInserted.length !== videoInfo.length) {
     throw new ApiError("FATAL", "Could not able to insert all videos");
   }
 
