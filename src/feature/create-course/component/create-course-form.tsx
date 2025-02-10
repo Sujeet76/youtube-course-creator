@@ -160,10 +160,10 @@ const StepOne: FC<StepOneProps> = ({ onNext }) => {
 
   return (
     <div>
-      <div className="space-y-3 md:flex md:items-center md:space-x-4 md:space-y-0">
+      <div className="flex flex-col items-center gap-3 md:flex-row">
         <button
           className={cn(
-            "flex w-full items-center gap-2 rounded-lg border-2 px-3 py-2 shadow-md transition-transform hover:bg-secondary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-95",
+            "flex w-full items-center gap-2 rounded-lg border-2 px-3 py-2 shadow-md transition-transform hover:bg-secondary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-95",
             courseType === "import" && "ring-2 ring-primary"
           )}
           onClick={() => setCourseType("import")}
@@ -177,7 +177,7 @@ const StepOne: FC<StepOneProps> = ({ onNext }) => {
           />
           <div>
             <p className="text-start font-semibold">Import playlist</p>
-            <p className="text-sm font-medium text-secondary-foreground">
+            <p className="-mt-1 text-sm font-medium text-secondary-foreground">
               Import a playlist from YouTube.
             </p>
           </div>
@@ -185,7 +185,7 @@ const StepOne: FC<StepOneProps> = ({ onNext }) => {
 
         <Link
           href={"/dashboard/course/create"}
-          className="flex w-full items-center gap-2 rounded-md border-2 px-3 py-2 shadow-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          className="flex w-full items-center gap-2 rounded-lg border-2 px-3 py-2 shadow-md transition-transform hover:bg-secondary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-95"
         >
           <Image
             src={"/images/import.svg"}
@@ -195,9 +195,9 @@ const StepOne: FC<StepOneProps> = ({ onNext }) => {
             className="size-8 shrink-0 select-none rounded-full border-2 border-primary object-cover"
           />
           <div>
-            <p className="text-start font-semibold">Import playlist</p>
-            <p className="text-sm font-medium text-secondary-foreground">
-              Import a playlist from YouTube.
+            <p className="text-start font-semibold">Create New</p>
+            <p className="-mt-1 text-sm font-medium text-secondary-foreground">
+              Create a new course from scratch.
             </p>
           </div>
         </Link>

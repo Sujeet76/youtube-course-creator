@@ -12,6 +12,7 @@ import {
   ChannelAuthorResponseType,
   PlaylistItemsResponseType,
   PlaylistResponseType,
+  ThumbnailType,
 } from "@/types/youtube.type";
 
 import {
@@ -22,6 +23,26 @@ import {
   insetVideos,
 } from "../db";
 import { ImportPlaylistSchemaType, importPlaylistSchema } from "../schema";
+
+// get the videoImage from the youtube res
+const getVideoThumbnail = (data: ThumbnailType) => {
+  if (data?.maxres) {
+    return data.maxres;
+  }
+  if (data.standard) {
+    return data.standard;
+  }
+  if (data.high) {
+    return data.high;
+  }
+  if (data.medium) {
+    return data.medium;
+  }
+  if (data.default) {
+    return data.default;
+  }
+  return null;
+};
 
 export const createCourseFromPlayList = asyncHandler(
   async (data: ImportPlaylistSchemaType) => {
@@ -71,12 +92,12 @@ export const createCourseFromPlayList = asyncHandler(
 
     if (!authorExist) {
       // get channel info
-      const res = (await fetch(
+      const res: ChannelAuthorResponseType = await fetch(
         `https://www.googleapis.com/youtube/v3/channels?part=statistics,snippet&fields=items(id,snippet(title,publishedAt,description,thumbnails,customUrl),statistics(subscriberCount))&id=${playlist.items[0].snippet.channelId}&key=${env.YOUTUBE_API_KEY}`,
         {
           method: "GET",
         }
-      ).then((res) => res.json())) as ChannelAuthorResponseType;
+      ).then((res) => res.json());
 
       if ("error" in res) {
         throw new ApiError("API_ERROR", res.error.message ?? "Unknown error");
@@ -90,7 +111,7 @@ export const createCourseFromPlayList = asyncHandler(
         (await insetAuthor({
           authorInfo: {
             name: info.title,
-            imgUrl: info.thumbnails.medium.url,
+            imgUrl: getVideoThumbnail(info.thumbnails)?.url ?? "",
             bio: info.description,
             subscriberCount: res.items[0].statistics.subscriberCount,
             youtubeChannelId: res.items[0].id,
@@ -109,7 +130,7 @@ export const createCourseFromPlayList = asyncHandler(
       authorId: authorExist.id,
       title: playlist.items[0].snippet.localized.title,
       description: playlist.items[0].snippet.localized.description,
-      thumbnail: playlist.items[0].snippet.thumbnails.maxres?.url,
+      thumbnail: getVideoThumbnail(playlist.items[0].snippet.thumbnails)?.url,
       youtubePlaylistId: playlistId,
       creator: user.user.id,
     });
@@ -133,7 +154,7 @@ export const createCourseFromPlayList = asyncHandler(
         courseId: newCourse.id,
         youtube_video_id: item.snippet.resourceId.videoId,
         sequenceNumber: Idx++,
-        thumbnail: item.snippet.thumbnails.maxres?.url,
+        thumbnail: getVideoThumbnail(item.snippet.thumbnails)?.url,
         publishedAt: item.snippet.publishedAt,
       }));
 
@@ -161,7 +182,7 @@ export const createCourseFromPlayList = asyncHandler(
         courseId: newCourse.id,
         youtube_video_id: item.snippet.resourceId.videoId,
         sequenceNumber: Idx++,
-        thumbnail: item.snippet.thumbnails.maxres?.url,
+        thumbnail: getVideoThumbnail(item.snippet.thumbnails)?.url,
         publishedAt: item.snippet.publishedAt,
       }));
       formattedPlaylistItems.push(...subList);

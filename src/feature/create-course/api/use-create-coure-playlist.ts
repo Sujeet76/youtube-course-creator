@@ -1,7 +1,7 @@
-import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "nextjs-toploader/app";
 import { toast } from "sonner";
 
 import { createCourseFromPlayList } from "../action";

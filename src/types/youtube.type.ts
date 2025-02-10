@@ -33,7 +33,7 @@ export interface PlaylistSnippetType {
 export interface ChannelAuthorSnippetType {
   title: string;
   description: string;
-  thumbnails: Omit<ThumbnailType, "maxres" | "standard">;
+  thumbnails: ThumbnailType;
   customUrl: string;
   publishedAt: string;
   subscriberCount: number;

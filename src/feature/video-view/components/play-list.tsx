@@ -2,6 +2,7 @@
 
 import { forwardRef } from "react";
 
+import InfiniteLoading from "@/components/shared/infinite-loading";
 import { cn } from "@/lib/utils";
 
 import { useInfinitePlaylistItem } from "../api/use-infinite-playlist-item";
@@ -19,13 +20,22 @@ const PlayList = forwardRef<HTMLUListElement, Props>(
     return (
       <ul
         ref={ref}
-        className={cn("hover-animation w-full space-y-2 px-1", className)}
+        className={cn(
+          "hover-animation w-full space-y-2 overflow-x-auto px-1",
+          className
+        )}
       >
         {infiniteQuery.data.pages.map((page) =>
           page.playlist.map((video) => (
             <PlayListItems key={video.id} video={video} />
           ))
         )}
+
+        <InfiniteLoading
+          isFetchingNextPage={infiniteQuery.isFetchingNextPage}
+          hasNextPage={infiniteQuery.hasNextPage}
+          fetchNextPage={infiniteQuery.fetchNextPage}
+        />
       </ul>
     );
   }

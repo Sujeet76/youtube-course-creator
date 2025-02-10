@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Pacifico, Rubik_Gemstones } from "next/font/google";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import NextTopLoader from "nextjs-toploader";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { Toaster } from "@/components/ui/sonner";
@@ -132,6 +133,7 @@ export default function MainLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${rubikGemStone.variable} ${sourGummy.variable} antialiased`}
       >
+        <NextTopLoader />
         <QueryClientProvider>
           <NuqsAdapter>
             <ThemeProvider

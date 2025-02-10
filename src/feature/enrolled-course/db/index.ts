@@ -6,6 +6,9 @@ import { enrollments } from "@/drizzle/schema";
 export const getEnrolledCourses = async (userId: string) => {
   const res = await db.query.enrollments.findMany({
     where: eq(enrollments.userId, userId),
+    orderBy(fields, operators) {
+      return [operators.desc(fields.lastAccessedAt)];
+    },
     with: {
       course: {
         with: {

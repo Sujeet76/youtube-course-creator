@@ -50,7 +50,7 @@ const PlayListItems = ({ video }: Props) => {
     <li
       ref={ref}
       className={cn(
-        "group relative rounded-lg border p-2 shadow-md focus-within:ring-1 focus-within:ring-border focus-within:ring-offset-1 focus-within:ring-offset-background",
+        "group relative max-w-full rounded-lg border p-2 shadow-md focus-within:ring-1 focus-within:ring-border focus-within:ring-offset-1 focus-within:ring-offset-background",
         searchParams.get("v") === video.id &&
           "group border-2 border-border bg-primary-20",
         watchHistoryQuery.data?.isCompleted &&
@@ -100,7 +100,7 @@ const PlayListItems = ({ video }: Props) => {
           </p>
           <time
             dateTime={video.publishedAt}
-            className="mr-auto block text-end text-xs font-medium text-muted-foreground"
+            className="text-xs font-medium text-muted-foreground"
           >
             {formatDistanceToNow(video.publishedAt, {
               addSuffix: true,
