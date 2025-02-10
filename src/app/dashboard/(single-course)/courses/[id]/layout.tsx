@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import React, { Suspense } from "react";
 
 import AppSidebar from "@/components/layout/sidebar/app-sidebar";
@@ -11,15 +10,9 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { RightSidebarSkeleton } from "@/feature/video-view/components/loader";
+import RightSidebar from "@/feature/video-view/components/right-sidebar";
 import { VideoPlayerStoreProvider } from "@/feature/video-view/provider/video-player.provider";
-
-const RightSidebar = dynamic(
-  () => import("@/feature/video-view/components/right-sidebar"),
-  {
-    loading: () => <RightSidebarSkeleton />,
-  }
-);
+import { HydrateClient, api } from "@/trpc/server";
 
 interface Props {
   children: React.ReactNode;
@@ -28,7 +21,22 @@ interface Props {
   }>;
 }
 
-const DashboardLayout: React.FC<Props> = ({ children, params }) => {
+const DashboardLayout: React.FC<Props> = async ({ children, params }) => {
+  const resolvedPromise = await params;
+
+  void api.courseView.getVideoList.prefetchInfinite(
+    {
+      courseId: resolvedPromise.id,
+      limit: 20,
+    },
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage.totalPages > lastPage.currentPage
+          ? lastPage.currentPage + 1
+          : undefined,
+    }
+  );
+
   return (
     <SidebarProvider
       style={
@@ -49,7 +57,9 @@ const DashboardLayout: React.FC<Props> = ({ children, params }) => {
           </header>
           {children}
         </SidebarInset>
-        <RightSidebar paramsPromise={params} />
+        <HydrateClient>
+          <RightSidebar params={resolvedPromise} />
+        </HydrateClient>
       </VideoPlayerStoreProvider>
     </SidebarProvider>
   );

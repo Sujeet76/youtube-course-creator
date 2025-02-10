@@ -46,18 +46,18 @@ export const EnrolledCourseSkeleton: React.FC = () => {
           <Skeleton className="h-10 w-24" />
           <Skeleton className="h-10 w-24" />
         </div>
-
-        <div className="mt-2 rounded-lg bg-primary-80 p-5">
-          <Skeleton className="mb-4 h-8 w-3/4" />
-
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-5/6" />
-            <Skeleton className="h-4 w-4/6" />
-            <Skeleton className="h-4 w-3/4" />
-          </div>
-        </div>
       </div>
+    </div>
+  );
+};
+
+export const DescriptionSkeleton: React.FC = () => {
+  return (
+    <div className="space-y-2">
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-5/6" />
+      <Skeleton className="h-4 w-4/6" />
+      <Skeleton className="h-4 w-3/4" />
     </div>
   );
 };

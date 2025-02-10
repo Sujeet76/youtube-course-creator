@@ -1,14 +1,17 @@
+import { TRPCError } from "@trpc/server";
 import { and, asc, eq } from "drizzle-orm";
 
 import { db } from "@/drizzle/db";
 import { enrollments, videoProgress, videos } from "@/drizzle/schema";
-import { ApiError } from "@/lib/api-response";
 
 export const getVideoByIdPrivate = async (id: string, userId: string) => {
   const [videoExist] = await db.select().from(videos).where(eq(videos.id, id));
 
   if (!videoExist) {
-    throw new ApiError("NOT_FOUND", "Video not found");
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Video not found",
+    });
   }
   // check if user is enrolled in the course of not
   const [isEnrolled] = await db
@@ -22,7 +25,10 @@ export const getVideoByIdPrivate = async (id: string, userId: string) => {
     );
 
   if (!isEnrolled) {
-    throw new ApiError("UNAUTHORIZED", "User is not enrolled in the course");
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "User is not enrolled in the course",
+    });
   }
 
   const watchHistory = await db.query.videoProgress.findFirst({
@@ -55,7 +61,10 @@ export const getPlaylistPrivate = async ({
     );
 
   if (!isEnrolled) {
-    throw new ApiError("UNAUTHORIZED", "User is not enrolled in the course");
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "User is not enrolled in the course",
+    });
   }
 
   const [playlist, totalVideos] = await Promise.all([

@@ -39,3 +39,5 @@ export const getSession = cache(async () => {
 
   return session;
 });
+
+export const cachedAuthSession = cache(auth.api.getSession);

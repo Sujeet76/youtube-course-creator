@@ -1,8 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { queryKeys } from "@/lib/query-keys";
-
-import { getWatchHistoryById } from "../action";
+import { api } from "@/trpc/client";
 
 export const useWatchHistoryQuery = ({
   videoId,
@@ -11,16 +7,12 @@ export const useWatchHistoryQuery = ({
   videoId: string;
   enabled: boolean;
 }) => {
-  return useQuery({
-    queryKey: [queryKeys.getWatchHistoryById, videoId],
-    queryFn: async () => {
-      const res = await getWatchHistoryById(videoId);
-
-      if (!res.success) {
-        throw new Error(res.message);
-      }
-      return res.data;
+  return api.courseView.getWatchHistoryById.useQuery(
+    {
+      videoId,
     },
-    enabled: enabled,
-  });
+    {
+      enabled,
+    }
+  );
 };

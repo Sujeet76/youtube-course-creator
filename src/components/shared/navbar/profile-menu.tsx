@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import Link from "next/link";
 import React from "react";
 
@@ -23,15 +22,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { profileMenuLinks } from "@/constants";
-import { auth } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 
 import LoginButton from "../login-button";
 import LogoutButton from "./logout-button";
 
 const ProfileMenu: React.FC = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getSession();
 
   if (!session?.user) {
     return <LoginButton />;

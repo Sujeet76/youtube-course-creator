@@ -1,7 +1,5 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-
-import { getVideoByIdQueryFn } from "./query-function";
+import { api } from "@/trpc/client";
 
 export const useVideoDetailsById = (id: string) => {
-  return useSuspenseQuery(getVideoByIdQueryFn(id));
+  return api.courseView.getVideoById.useSuspenseQuery(id);
 };

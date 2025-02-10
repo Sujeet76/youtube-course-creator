@@ -1,29 +1,16 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-
-import { queryKeys } from "@/lib/query-keys";
-
-import { getPlaylistVideoList } from "../action";
+import { api } from "@/trpc/client";
 
 export const useInfinitePlaylistItem = (courseId: string) => {
-  return useInfiniteQuery({
-    queryKey: [queryKeys.getPlaylistVideoList, courseId],
-    queryFn: async ({ pageParam = 1 }) => {
-      const res = await getPlaylistVideoList({
-        courseId,
-        page: pageParam as number,
-        limit: 20,
-      });
-
-      if (!res.success) {
-        throw new Error(res.message);
-      }
-
-      return res.data;
+  return api.courseView.getVideoList.useSuspenseInfiniteQuery(
+    {
+      courseId,
+      limit: 20,
     },
-    getNextPageParam: (lastPage) =>
-      lastPage.currentPage < lastPage.totalPages
-        ? lastPage.currentPage + 1
-        : undefined,
-    initialPageParam: 1,
-  });
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage.totalPages > lastPage.currentPage
+          ? lastPage.currentPage + 1
+          : undefined,
+    }
+  );
 };

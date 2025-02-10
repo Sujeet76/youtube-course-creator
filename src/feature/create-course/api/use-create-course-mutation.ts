@@ -1,26 +1,16 @@
 import { useRef } from "react";
 
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "nextjs-toploader/app";
 import { toast } from "sonner";
 
-import { createCourseFromPlayList } from "../action";
-import { ImportPlaylistSchemaType } from "../schema";
+import { api } from "@/trpc/client";
 
-export default function useCreateCoursePlaylist() {
+export default function useCreateCourseMutation() {
   const toastId = useRef<string | number | undefined>(undefined);
   const router = useRouter();
 
-  return useMutation({
-    mutationFn: async (data: ImportPlaylistSchemaType) => {
-      const res = await createCourseFromPlayList(data);
-      if (res.success) {
-        return res.data;
-      }
-
-      throw new Error(res.message);
-    },
-    onError: (error: Error) => {
+  return api.playlistToCourse.createCourseFromPlayList.useMutation({
+    onError: (error) => {
       toast.error(error.message, {
         id: toastId.current,
       });

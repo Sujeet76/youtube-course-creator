@@ -41,7 +41,7 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
   }, [height]);
 
   // get the video details suspended
-  const { data: videoData } = useVideoDetailsById(videoId);
+  const [videoData] = useVideoDetailsById(videoId);
   // update watch history mutation
   const { mutate: updateWatchHistory } = useUpdateWatchHistoryMutation({
     videoId,
@@ -122,7 +122,7 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
     updateWatchHistory({
       videoId,
       videoProgress: Math.floor(playerRef.current.getCurrentTime()),
-      shouldMarkAsComplete: true,
+      shouldMarkAsCompleted: true,
       totalDuration: Math.floor(playerRef.current.playerInfo.duration),
     });
   }, [videoId, updateWatchHistory]);

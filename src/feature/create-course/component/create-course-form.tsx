@@ -32,7 +32,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-import useCreateCoursePlaylist from "../api/use-create-coure-playlist";
+import useCreateCourseMutation from "../api/use-create-course-mutation";
 import { ImportPlaylistSchemaType, importPlaylistSchema } from "../schema";
 
 const CreateCourseForm: React.FC = () => {
@@ -54,11 +54,14 @@ const CreateCourseForm: React.FC = () => {
     mode: "onChange",
   });
 
-  const courseMutation = useCreateCoursePlaylist();
+  console.log("Rerendering");
+
+  const courseMutation = useCreateCourseMutation();
 
   const handelSubmit = useCallback((data: ImportPlaylistSchemaType) => {
     if (courseMutation.isPending) return;
     courseMutation.mutate(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

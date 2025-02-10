@@ -7,9 +7,9 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { Toaster } from "@/components/ui/sonner";
 import { clientEnv } from "@/env/client";
-import QueryClientProvider from "@/providers/query-client-provider";
 import { ThemeProvider } from "@/providers/theme.provider";
 import "@/styles/globals.css";
+import { TRPCReactProvider } from "@/trpc/client";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -134,7 +134,7 @@ export default function MainLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${rubikGemStone.variable} ${sourGummy.variable} antialiased`}
       >
         <NextTopLoader />
-        <QueryClientProvider>
+        <TRPCReactProvider>
           <NuqsAdapter>
             <ThemeProvider
               attribute="class"
@@ -146,7 +146,7 @@ export default function MainLayout({
             </ThemeProvider>
           </NuqsAdapter>
           <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+        </TRPCReactProvider>
         <Toaster
           richColors
           closeButton

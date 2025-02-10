@@ -3,7 +3,6 @@
 import React, {
   ComponentProps,
   Suspense,
-  use,
   useCallback,
   useMemo,
   useState,
@@ -33,13 +32,12 @@ import PlayList from "./play-list";
 const SidebarMotion = motion.create(Sidebar);
 
 interface Props extends ComponentProps<typeof SidebarMotion> {
-  paramsPromise: Promise<{
+  params: {
     id: string;
-  }>;
+  };
 }
 
-const RightSidebar: React.FC<Props> = ({ paramsPromise, ...props }) => {
-  const { id } = use(paramsPromise);
+const RightSidebar: React.FC<Props> = ({ params, ...props }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 1024px)") || false;
   const videoPlayerHeight =
@@ -156,7 +154,7 @@ const RightSidebar: React.FC<Props> = ({ paramsPromise, ...props }) => {
               }}
               className={cn("lg:block", isExpanded ? "block" : "hidden")}
             >
-              <PlayList courseId={id} className="min-w-full" />
+              <PlayList courseId={params.id} className="min-w-full" />
             </motion.div>
             <motion.button
               initial={false}
