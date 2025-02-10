@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 import { parseAsBoolean, useQueryState } from "nuqs";
 
@@ -26,23 +26,28 @@ const SignInDialog = ({ showTrigger }: SignInDialogProps) => {
     "login-dialog",
     parseAsBoolean.withDefault(false)
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   const handelOpenChange = useCallback(() => {
     setIsLoginDialogOpen((prev) => !prev);
   }, [setIsLoginDialogOpen]);
 
   const handleLogin = useCallback(async (provider: "google" | "github") => {
+    setIsLoading(true);
     await signIn.social({
       provider,
       callbackURL: "/",
     });
+    setIsLoading(false);
   }, []);
 
   return (
     <Dialog open={isLoginDialogOpen} onOpenChange={handelOpenChange}>
       {showTrigger && (
         <DialogTrigger asChild>
-          <Button variant="outline">Sign in</Button>
+          <Button variant="outline" disabled={isLoading}>
+            Sign in
+          </Button>
         </DialogTrigger>
       )}
       <DialogContent>
@@ -55,13 +60,21 @@ const SignInDialog = ({ showTrigger }: SignInDialogProps) => {
           </DialogHeader>
         </div>
 
-        <Button onClick={() => handleLogin("google")} variant="outline">
+        <Button
+          onClick={() => handleLogin("google")}
+          variant="outline"
+          disabled={isLoading}
+        >
           <GoogleIcon />
-          Login with Google
+          {isLoading ? "Signing in..." : "Login with Google"}
         </Button>
-        <Button variant="outline" onClick={() => handleLogin("github")}>
+        <Button
+          variant="outline"
+          onClick={() => handleLogin("github")}
+          disabled={isLoading}
+        >
           <GithubIcon />
-          Login with Github
+          {isLoading ? "Signing in..." : "Login with Github"}
         </Button>
       </DialogContent>
     </Dialog>
