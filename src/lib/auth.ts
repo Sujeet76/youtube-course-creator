@@ -40,4 +40,10 @@ export const getSession = cache(async () => {
   return session;
 });
 
-export const cachedAuthSession = cache(auth.api.getSession);
+export const cachedAuthSession = cache(async (headers: Headers) => {
+  const session = await auth.api.getSession({
+    headers,
+  });
+
+  return session;
+});

@@ -23,11 +23,15 @@ export function useMeasure(): [(node: Element | null) => void, Dimensions] {
 
     if (node) {
       const observer = new ResizeObserver(([entry]) => {
-        if (entry?.borderBoxSize && entry.borderBoxSize.length > 0) {
+        if (
+          entry?.borderBoxSize &&
+          entry.borderBoxSize[0] &&
+          entry.borderBoxSize.length > 0
+        ) {
           const { inlineSize: width, blockSize: height } =
             entry.borderBoxSize[0];
           setDimensions({ width, height });
-        } else if (entry.contentRect) {
+        } else if (entry && entry.contentRect) {
           const { width, height } = entry.contentRect;
           setDimensions({ width, height });
         }

@@ -24,18 +24,10 @@ interface Props {
 const DashboardLayout: React.FC<Props> = async ({ children, params }) => {
   const resolvedPromise = await params;
 
-  void api.courseView.getVideoList.prefetchInfinite(
-    {
-      courseId: resolvedPromise.id,
-      limit: 20,
-    },
-    {
-      getNextPageParam: (lastPage) =>
-        lastPage.totalPages > lastPage.currentPage
-          ? lastPage.currentPage + 1
-          : undefined,
-    }
-  );
+  void api.courseView.getVideoList.prefetchInfinite({
+    courseId: resolvedPromise.id,
+    limit: 20,
+  });
 
   return (
     <SidebarProvider

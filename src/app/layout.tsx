@@ -133,8 +133,8 @@ export default function MainLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${rubikGemStone.variable} ${sourGummy.variable} antialiased`}
       >
-        <NextTopLoader />
         <TRPCReactProvider>
+          <NextTopLoader />
           <NuqsAdapter>
             <ThemeProvider
               attribute="class"
@@ -146,13 +146,13 @@ export default function MainLayout({
             </ThemeProvider>
           </NuqsAdapter>
           <ReactQueryDevtools initialIsOpen={false} />
+          <Toaster
+            richColors
+            closeButton
+            className="pointer-events-auto isolate z-[1000]"
+            position="top-center"
+          />
         </TRPCReactProvider>
-        <Toaster
-          richColors
-          closeButton
-          className="pointer-events-auto isolate z-[1000]"
-          position="top-center"
-        />
       </body>
     </html>
   );

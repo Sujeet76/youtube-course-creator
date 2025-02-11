@@ -26,10 +26,7 @@ import { cachedAuthSession } from "@/lib/auth";
  * @see https://trpc.io/docs/server/context
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
-  const sessionRes = await cachedAuthSession({
-    headers: opts.headers,
-  });
-  console.log({ sessionRes });
+  const sessionRes = await cachedAuthSession(opts.headers);
 
   return {
     db,
@@ -124,8 +121,9 @@ export const protectedProcedure = t.procedure
   .use(timingMiddleware)
   .use(({ ctx, next }) => {
     if (!ctx.sessionRes?.session || !ctx.sessionRes.user) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
+      throw new TRPCError({ code: "UNAUTHORIZED", message: "Not logged in" });
     }
+
     return next({
       ctx: {
         // infers the `session` as non-nullable
