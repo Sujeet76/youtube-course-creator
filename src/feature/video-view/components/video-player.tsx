@@ -109,6 +109,7 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
             playerRef.current?.playerInfo?.duration || 0
           ),
         });
+        window.document.body.style.overflow = "";
       }
     },
     [updateWatchHistory, videoId]
