@@ -1,9 +1,6 @@
-import { usePathname, useRouter } from "next/navigation";
-
-// import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "nextjs-toploader/app";
 import { toast } from "sonner";
 
-// import { GetVideoHistoryById } from "../types";
 import { api } from "@/trpc/client";
 
 export const useUpdateWatchHistoryMutation = ({
@@ -12,8 +9,10 @@ export const useUpdateWatchHistoryMutation = ({
   videoId: string;
   currentTimeStamp?: number;
 }) => {
-  const pathname = usePathname();
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "";
   const router = useRouter();
+  const utils = api.useUtils();
 
   return api.courseView.updateLastWatchedVideo.useMutation({
     onSuccess: (res) => {
@@ -27,15 +26,34 @@ export const useUpdateWatchHistoryMutation = ({
           return;
         }
 
-        toast.success("Video completed, redirecting to next video");
-        // update the watch history in cache
-        api
-          .useUtils()
-          .courseView.getWatchHistoryById.setData({ videoId }, () => ({
-            ...res.updatedHistory,
-          }));
-
         router.push(`${pathname}?v=${res.nextVideo}`);
+        toast.success("Video completed, redirecting to next video");
+
+        utils.courseView.getVideoList.setInfiniteData(
+          { courseId: pathname.split("/").pop() ?? "", limit: 20 },
+          (oldData) => {
+            if (!oldData) return oldData;
+
+            return {
+              ...oldData,
+              pages: oldData.pages.map((page) => ({
+                ...page,
+                playlist: page.playlist.map((video) => {
+                  if (video.id === videoId && video.watchHistory) {
+                    return {
+                      ...video,
+                      watchHistory: {
+                        ...video.watchHistory,
+                        isCompleted: true,
+                      },
+                    };
+                  }
+                  return video;
+                }),
+              })),
+            };
+          }
+        );
       }
     },
   });

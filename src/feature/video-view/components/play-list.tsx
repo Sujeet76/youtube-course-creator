@@ -6,7 +6,7 @@ import InfiniteLoading from "@/components/shared/infinite-loading";
 import { cn } from "@/lib/utils";
 
 import { useInfinitePlaylistItem } from "../api/use-infinite-playlist-item";
-import PlayListItems from "./playlist-items";
+import PlaylistItem from "./playlist-item";
 
 interface Props {
   courseId: string;
@@ -27,7 +27,8 @@ const PlayList = forwardRef<HTMLUListElement, Props>(
       >
         {pages.map((page) =>
           page.playlist.map((video) => (
-            <PlayListItems key={video.id} video={video} />
+            <PlaylistItem key={video.id} video={video} />
+            // <div key={idx}>{JSON.stringify(video)}</div>
           ))
         )}
 

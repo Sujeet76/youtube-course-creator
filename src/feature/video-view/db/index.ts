@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, getTableColumns } from "drizzle-orm";
 
 import { db } from "@/drizzle/db";
 import { enrollments, videoProgress, videos } from "@/drizzle/schema";
@@ -68,23 +68,27 @@ export const getPlaylistPrivate = async ({
   }
 
   const [playlist, totalVideos] = await Promise.all([
-    db.query.videos.findMany({
-      where: eq(videos.courseId, isEnrolled.courseId),
-      offset: Math.max(0, (page - 1) * limit),
-      limit,
-      orderBy: asc(videos.sequenceNumber),
-      columns: {
-        title: true,
-        publishedAt: true,
-        sequenceNumber: true,
-        thumbnail: true,
-        youtube_video_id: true,
-        id: true,
-      },
-    }),
+    db
+      .select({
+        title: videos.title,
+        publishedAt: videos.publishedAt,
+        sequenceNumber: videos.sequenceNumber,
+        thumbnail: videos.thumbnail,
+        youtube_video_id: videos.youtube_video_id,
+        id: videos.id,
+        watchHistory: {
+          ...getTableColumns(videoProgress),
+        },
+      })
+      .from(videos)
+      .where(eq(videos.courseId, isEnrolled.courseId))
+      .orderBy(asc(videos.sequenceNumber))
+      .limit(limit)
+      .offset(Math.max(0, (page - 1) * limit))
+      .leftJoin(videoProgress, eq(videoProgress.videoId, videos.id)),
+
     db.$count(videos, eq(videos.courseId, isEnrolled.courseId)),
   ]);
-
   return {
     playlist,
     currentPage: page,

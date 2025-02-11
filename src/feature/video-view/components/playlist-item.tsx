@@ -6,39 +6,21 @@ import { useSearchParams } from "next/navigation";
 import { memo, useEffect } from "react";
 
 import { formatDistanceToNow } from "date-fns";
-import { useInView } from "react-intersection-observer";
 
 import { cn } from "@/lib/utils";
+import { RouterOutputs } from "@/trpc/client";
 
-import { useWatchHistoryQuery } from "../api/use-watch-history-query";
 import { useVideoPlayer } from "../provider/video-player.provider";
 
 type Props = {
-  video: {
-    title: string;
-    id: string;
-    thumbnail: string | null;
-    youtube_video_id: string;
-    sequenceNumber: number;
-    publishedAt: string;
-  };
+  video: RouterOutputs["courseView"]["getVideoList"]["playlist"][number];
 };
 
-const PlayListItems = ({ video }: Props) => {
-  const { inView, ref } = useInView({
-    delay: 500,
-    triggerOnce: true,
-    threshold: 0.5,
-  });
+const PlayListItem = ({ video }: Props) => {
   const searchParams = useSearchParams();
   const setActiveVideoTitle = useVideoPlayer(
     (state) => state.setActiveVideoTitle
   );
-
-  const watchHistoryQuery = useWatchHistoryQuery({
-    videoId: video.id,
-    enabled: inView,
-  });
 
   useEffect(() => {
     if (searchParams.get("v") === video.id) {
@@ -48,12 +30,11 @@ const PlayListItems = ({ video }: Props) => {
 
   return (
     <li
-      ref={ref}
       className={cn(
         "group relative max-w-full rounded-lg border p-2 shadow-md focus-within:ring-1 focus-within:ring-border focus-within:ring-offset-1 focus-within:ring-offset-background",
         searchParams.get("v") === video.id &&
           "group border-2 border-border bg-primary-20",
-        watchHistoryQuery.data?.isCompleted &&
+        video?.watchHistory?.isCompleted &&
           "border-2 border-dashed border-[#0e793c] bg-[#e8faf0] text-[#0e793c] dark:border-[#095028] dark:bg-[#02140a] dark:text-[#17c964]"
       )}
       id={video.id}
@@ -112,4 +93,4 @@ const PlayListItems = ({ video }: Props) => {
   );
 };
 
-export default memo(PlayListItems);
+export default memo(PlayListItem);
