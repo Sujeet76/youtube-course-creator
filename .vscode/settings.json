@@ -17,5 +17,8 @@
     "Rewatching",
     "sonner",
     "toploader"
-  ]
+  ],
+  "[sql]": {
+    "editor.defaultFormatter": "adpyke.vscode-sql-formatter"
+  }
 }

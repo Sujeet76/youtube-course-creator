@@ -29,6 +29,7 @@ const Page = async () => {
             key={item.id}
             lastAccessedVideo={item.lastAccessedVideoId ?? ""}
             course={item.course}
+            author={item.author}
           />
         ))}
       </ul>

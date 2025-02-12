@@ -3,6 +3,7 @@ import { cache } from "react";
 
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { nextCookies } from "better-auth/next-js";
 
 import { db } from "@/drizzle/db";
 import * as schema from "@/drizzle/schema";
@@ -30,6 +31,7 @@ export const auth = betterAuth({
   advanced: {
     generateId: false,
   },
+  plugins: [nextCookies()],
 });
 
 export const getSession = cache(async () => {

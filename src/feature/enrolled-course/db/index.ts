@@ -1,7 +1,7 @@
-import { eq } from "drizzle-orm";
+import { desc, eq, getTableColumns } from "drizzle-orm";
 
 import { db } from "@/drizzle/db";
-import { enrollments } from "@/drizzle/schema";
+import { author, courses, enrollments, videos } from "@/drizzle/schema";
 
 export const getEnrolledCourses = async ({
   userId,
@@ -12,33 +12,24 @@ export const getEnrolledCourses = async ({
   page: number;
   limit: number;
 }) => {
-  const res = await db.query.enrollments.findMany({
-    where: eq(enrollments.userId, userId),
-    orderBy(fields, operators) {
-      return [operators.desc(fields.lastAccessedAt)];
-    },
-    limit: limit,
-    offset: Math.max(0, (page - 1) * limit),
-    with: {
+  const res = await db
+    .select({
+      ...getTableColumns(enrollments),
       course: {
-        with: {
-          author: true,
-          videos: {
-            columns: {
-              id: true,
-            },
-          },
-        },
+        ...getTableColumns(courses),
+        video_count: db.$count(videos, eq(videos.courseId, courses.id)),
       },
-    },
-  });
+      author: {
+        ...getTableColumns(author),
+      },
+    })
+    .from(enrollments)
+    .where(eq(enrollments.userId, userId))
+    .orderBy(desc(enrollments.lastAccessedAt))
+    .offset(Math.max(0, (page - 1) * limit))
+    .limit(limit)
+    .innerJoin(courses, eq(enrollments.courseId, courses.id))
+    .innerJoin(author, eq(courses.authorId, author.id));
 
-  return res.map((item) => ({
-    ...item,
-    course: {
-      ...item.course,
-      video_count: item.course.videos.length,
-      videos: undefined,
-    },
-  }));
+  return res;
 };

@@ -8,17 +8,21 @@ import UserAvatar from "@/components/shared/use-avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CardDescription, CardTitle } from "@/components/ui/card";
-
-import { getEnrolledCourses } from "../db";
+import { RouterOutputs } from "@/trpc/client";
 
 interface Props {
-  course: Awaited<ReturnType<typeof getEnrolledCourses>>[0]["course"];
+  course: RouterOutputs["enrolledCourse"]["get"][number]["course"];
+  author: RouterOutputs["enrolledCourse"]["get"][number]["author"];
   lastAccessedVideo: string;
 }
 
-const EnrolledCourseCard: React.FC<Props> = ({ course, lastAccessedVideo }) => {
+const EnrolledCourseCard: React.FC<Props> = ({
+  course,
+  author,
+  lastAccessedVideo,
+}) => {
   return (
-    <li className="grid grid-rows-subgrid overflow-hidden rounded-xl border bg-card p-3 px-4 text-card-foreground shadow [grid-row:span_5]">
+    <li className="grid grid-rows-subgrid overflow-hidden rounded-xl border bg-card p-4 text-card-foreground shadow [grid-row:span_5]">
       <div className="relative aspect-video overflow-hidden rounded-md">
         <Image
           src={course.thumbnail ?? ""}
@@ -45,10 +49,10 @@ const EnrolledCourseCard: React.FC<Props> = ({ course, lastAccessedVideo }) => {
 
       <div className="">
         <UserAvatar
-          customUrl={course.author.customUrl ?? ""}
-          title={course.author.name}
-          avatar={course.author.imgUrl}
-          count={course.author.subscriberCount}
+          customUrl={author.customUrl ?? ""}
+          title={author.name}
+          avatar={author.imgUrl}
+          count={author.subscriberCount}
           className="size-8"
         />
       </div>
