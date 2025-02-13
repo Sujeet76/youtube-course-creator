@@ -137,7 +137,9 @@ export const enrolledCourseRouter = createTRPCRouter({
       const hasInserted = await ctx.db
         .insert(videos)
         .values(newVideos)
-        .returning();
+        .returning({
+          id: videos.id,
+        });
 
       if (newVideos.length !== hasInserted.length) {
         throw new TRPCError({

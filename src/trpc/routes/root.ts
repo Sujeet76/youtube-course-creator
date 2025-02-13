@@ -1,5 +1,6 @@
 import { userRoute } from "@/feature/auth/server/user-route";
 import { courseRoute } from "@/feature/create-course/server/course-route";
+import { watchHistory } from "@/feature/dashboard/server/watch-history";
 import { enrolledCourseRouter } from "@/feature/enrolled-course/server";
 import { courseViewRouter } from "@/feature/video-view/server";
 
@@ -15,6 +16,7 @@ export const appRouter = createTRPCRouter({
   playlistToCourse: courseRoute,
   enrolledCourse: enrolledCourseRouter,
   courseView: courseViewRouter,
+  watchHistory: watchHistory,
 });
 
 // export type definition of API

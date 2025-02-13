@@ -21,7 +21,7 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className="text-center font-rubik-gemstone text-xl">
-            <Link href={"/"}>PlaylistGenius</Link>
+            <Link href={"/"}>Simplify</Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -29,7 +29,6 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
         <SidebarGroup>
           <SidebarMenu className="gap-2">
             {sidebarData.map((item, index) => (
-              // <div key={index}>{item.title}</div>
               <NavItems key={index} {...item} />
             ))}
           </SidebarMenu>

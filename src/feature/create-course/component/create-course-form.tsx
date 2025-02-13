@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { FC, useCallback } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ListVideoIcon } from "lucide-react";
 import { parseAsInteger, parseAsStringEnum, useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 
@@ -30,12 +30,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 import { cn } from "@/lib/utils";
 
 import useCreateCourseMutation from "../api/use-create-course-mutation";
 import { ImportPlaylistSchemaType, importPlaylistSchema } from "../schema";
 
-const CreateCourseForm: React.FC = () => {
+interface Props {
+  showTrigger?: boolean;
+  className?: string;
+}
+
+const CreateCourseForm: React.FC<Props> = ({
+  showTrigger = true,
+  className,
+}) => {
   const [step, setStep] = useQueryState(
     "course-step",
     parseAsInteger
@@ -54,8 +63,6 @@ const CreateCourseForm: React.FC = () => {
     mode: "onChange",
   });
 
-  console.log("Rerendering");
-
   const courseMutation = useCreateCourseMutation();
 
   const handelSubmit = useCallback((data: ImportPlaylistSchemaType) => {
@@ -65,86 +72,89 @@ const CreateCourseForm: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <Dialog>
+    <Dialog>
+      {showTrigger && (
         <DialogTrigger asChild>
-          <Button variant="outline">Checkout</Button>
+          <RainbowButton className={className}>
+            <ListVideoIcon />
+            Import playlist
+          </RainbowButton>
         </DialogTrigger>
-        <DialogContent className="-mt-7 md:max-w-screen-md">
-          <DialogHeader>
-            {step === 2 && (
-              <Button
-                variant="link"
-                className="mr-auto px-0 text-foreground"
-                onClick={() => setStep(1)}
-                disabled={courseMutation.isPending}
-              >
-                <ChevronLeft
-                  className="me-1 opacity-60"
-                  size={16}
-                  strokeWidth={2}
-                  aria-hidden="true"
-                />
-                Go back
-              </Button>
-            )}
-            <DialogTitle>Create a new course</DialogTitle>
-            <DialogDescription>
-              Fill out the form below to create a new course
-            </DialogDescription>
-          </DialogHeader>
-          {step === 1 ? (
-            <StepOne onNext={setStep} />
-          ) : (
-            <div>
-              <Form {...form}>
-                <form
-                  className="space-y-3"
-                  onSubmit={form.handleSubmit(handelSubmit)}
-                >
-                  <FormField
-                    control={form.control}
-                    name="url"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Youtube playlist link</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            disabled={courseMutation.isPending}
-                            autoFocus
-                            placeholder="Enter youtube playlist url"
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Make sure the playlist is public
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <AlertMessage message={courseMutation.error?.message} />
-                  <div className="mt-4 flex gap-4">
-                    <DialogClose asChild>
-                      <Button
-                        variant={"secondary"}
-                        className="w-full"
-                        type="button"
-                        disabled={courseMutation.isPending}
-                        onClick={() => setStep(1)}
-                      >
-                        Cancel
-                      </Button>
-                    </DialogClose>
-                    <Button className="w-full">Confirm and create</Button>
-                  </div>
-                </form>
-              </Form>
-            </div>
+      )}
+      <DialogContent className="-mt-7 md:max-w-screen-md">
+        <DialogHeader>
+          {step === 2 && (
+            <Button
+              variant="link"
+              className="mr-auto px-0 text-foreground"
+              onClick={() => setStep(1)}
+              disabled={courseMutation.isPending}
+            >
+              <ChevronLeft
+                className="me-1 opacity-60"
+                size={16}
+                strokeWidth={2}
+                aria-hidden="true"
+              />
+              Go back
+            </Button>
           )}
-        </DialogContent>
-      </Dialog>
-    </div>
+          <DialogTitle>Create a new course</DialogTitle>
+          <DialogDescription>
+            Fill out the form below to create a new course
+          </DialogDescription>
+        </DialogHeader>
+        {step === 1 ? (
+          <StepOne onNext={setStep} />
+        ) : (
+          <div>
+            <Form {...form}>
+              <form
+                className="space-y-3"
+                onSubmit={form.handleSubmit(handelSubmit)}
+              >
+                <FormField
+                  control={form.control}
+                  name="url"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Youtube playlist link</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          disabled={courseMutation.isPending}
+                          autoFocus
+                          placeholder="Enter youtube playlist url"
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Make sure the playlist is public
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <AlertMessage message={courseMutation.error?.message} />
+                <div className="mt-4 flex gap-4">
+                  <DialogClose asChild>
+                    <Button
+                      variant={"secondary"}
+                      className="w-full"
+                      type="button"
+                      disabled={courseMutation.isPending}
+                      onClick={() => setStep(1)}
+                    >
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                  <Button className="w-full">Confirm and create</Button>
+                </div>
+              </form>
+            </Form>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 };
 

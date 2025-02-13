@@ -40,6 +40,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.39.2",
+    "embla-carousel-react": "^8.5.2",
     "he": "^1.2.0",
     "linkify-react": "^4.2.0",
     "lucide-react": "^0.475.0",
