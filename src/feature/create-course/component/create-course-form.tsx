@@ -1,12 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import React, { FC, useCallback } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, ListVideoIcon } from "lucide-react";
-import { parseAsInteger, parseAsStringEnum, useQueryState } from "nuqs";
+import {
+  parseAsBoolean,
+  parseAsInteger,
+  parseAsStringEnum,
+  useQueryState,
+} from "nuqs";
 import { useForm } from "react-hook-form";
 
 import AlertMessage from "@/components/shared/alter";
@@ -54,6 +58,16 @@ const CreateCourseForm: React.FC<Props> = ({
       })
       .withDefault(1)
   );
+  const [isOpen, setIsOpen] = useQueryState(
+    "create-dialog",
+    parseAsBoolean
+      .withOptions({
+        history: "replace",
+        scroll: false,
+        clearOnDefault: true,
+      })
+      .withDefault(false)
+  );
 
   const form = useForm<ImportPlaylistSchemaType>({
     resolver: zodResolver(importPlaylistSchema),
@@ -72,7 +86,7 @@ const CreateCourseForm: React.FC<Props> = ({
   }, []);
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={setIsOpen} open={isOpen}>
       {showTrigger && (
         <DialogTrigger asChild>
           <RainbowButton className={className}>
@@ -196,7 +210,7 @@ const StepOne: FC<StepOneProps> = ({ onNext }) => {
           </div>
         </button>
 
-        <Link
+        {/* <Link
           href={"/dashboard/course/create"}
           className="flex w-full items-center gap-2 rounded-lg border-2 px-3 py-2 shadow-md transition-transform hover:bg-secondary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-95"
         >
@@ -213,7 +227,7 @@ const StepOne: FC<StepOneProps> = ({ onNext }) => {
               Create a new course from scratch.
             </p>
           </div>
-        </Link>
+        </Link> */}
       </div>
 
       {courseType === "import" && (

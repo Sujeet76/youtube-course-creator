@@ -1,10 +1,12 @@
 "use client";
 
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useCallback } from "react";
 
 import { LogInIcon } from "lucide-react";
+import { useRouter } from "nextjs-toploader/app";
 import { parseAsBoolean, useQueryState } from "nuqs";
 
+import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 import { Button, ButtonVariants } from "../ui/button";
@@ -18,15 +20,25 @@ const LoginButton: React.FC<LoginButtonProps> = ({
   className,
   ...props
 }) => {
+  const session = useSession();
+  const router = useRouter();
   const [_, setIsLoginDialogOpen] = useQueryState(
     "login-dialog",
     parseAsBoolean.withDefault(false)
   );
 
+  const handleLogin = useCallback(() => {
+    if (session.data?.session) {
+      router.push("/dashboard");
+    } else {
+      setIsLoginDialogOpen((prev) => !prev);
+    }
+  }, [router, session.data?.session, setIsLoginDialogOpen]);
+
   return (
     <Button
       className={cn("justify-start gap-1.5", className)}
-      onClick={() => setIsLoginDialogOpen((prev) => !prev)}
+      onClick={handleLogin}
       size={"sm"}
       {...props}
     >
