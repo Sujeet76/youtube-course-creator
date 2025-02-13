@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import { RouterOutputs } from "@/trpc/client";
 
+import SyncWithYouTube from "./sync-with-youtube-button";
+
 interface Props {
   course: RouterOutputs["enrolledCourse"]["get"][number]["course"];
   author: RouterOutputs["enrolledCourse"]["get"][number]["author"];
@@ -57,7 +59,12 @@ const EnrolledCourseCard: React.FC<Props> = ({
         />
       </div>
 
-      <div className="w-full">
+      <div className="flex w-full items-center gap-2">
+        <SyncWithYouTube
+          variants={"secondary"}
+          className="w-full"
+          courseId={course.id}
+        />
         <Button className="w-full" asChild>
           <Link
             href={{
