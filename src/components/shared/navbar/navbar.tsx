@@ -9,7 +9,7 @@ const Header = () => {
           aria-label="logo"
           className="font-rubik-gemstone text-sm font-thin tracking-widest md:text-2xl"
         >
-          Playlists<span className="text-primary">Genius</span>
+          Simplify
         </span>
 
         <ul>

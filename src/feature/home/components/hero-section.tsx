@@ -2,10 +2,10 @@
 // import React from "react";
 import Image from "next/image";
 
-import { FilmIcon } from "lucide-react";
+import { FilmIcon, UserPlus2Icon } from "lucide-react";
 
 import ArrowIcon from "@/assets/icons/arrow-icon";
-import { DotPattern } from "@/components/magicui/dot-pattern";
+import YouTubeIcon from "@/assets/icons/youtube";
 import TrueFocus from "@/components/shared/focus-text";
 import LoginButton from "@/components/shared/login-button";
 import { Button } from "@/components/ui/button";
@@ -283,10 +283,12 @@ const HeroSection = () => {
   return (
     <div className="relative mt-[var(--header)] flex min-h-[calc(100dvh-var(--header))] w-full items-center justify-center overflow-hidden">
       <Spotlight />
-      <DotPattern />
 
       {/* youtube */}
-      <div className="absolute left-[2%] top-[10%] z-20 hidden w-[17%] rounded-2xl border-2 border-border bg-background p-2 shadow-lg sm:block">
+      <div className="absolute left-0 top-[2%] z-20 max-w-60 scale-75 rounded-2xl border-2 border-border bg-background p-2 shadow-lg md:left-[5%] md:top-[5%] md:scale-100 md:animate-move">
+        <div className="flex items-center gap-1 px-2 pb-1 text-sm font-semibold text-[#ff0000]">
+          <YouTubeIcon /> Youtube
+        </div>
         <div
           className="flex aspect-video max-h-[4.5rem] w-full items-center justify-center rounded-lg bg-muted"
           aria-label="video playing"
@@ -332,8 +334,11 @@ const HeroSection = () => {
       </div>
 
       {/* simplify */}
-      <div className="absolute bottom-[5%] right-[35%] z-20 flex w-[27%] max-w-60 -rotate-3 sm:justify-center md:bottom-[10%] md:right-[10%] lg:justify-end">
+      <div className="absolute bottom-[5%] right-[5%] z-20 flex max-w-60 -rotate-3 scale-75 sm:justify-center md:bottom-[10%] md:right-[10%] md:scale-100 md:animate-move lg:justify-end">
         <div className="relative flex w-fit flex-col rounded-md border border-border bg-background/90 p-2 font-mono text-[clamp(8px,0.77vw,13px)] shadow backdrop-blur-sm lg:rounded-lg">
+          <div className="gap-1 px-2 pb-1 font-rubik-gemstone text-sm font-medium">
+            Simplify
+          </div>
           <div
             className="aspect-video max-h-[4.5rem] w-full overflow-hidden rounded-md"
             aria-label="watching educational video with any interruption on playlistGenius"
@@ -389,12 +394,31 @@ const HeroSection = () => {
 
       <ArrowIcon
         aria-hidden
-        className="absolute left-[-2%] top-[5%] size-full rotate-[65deg] opacity-20"
+        className="absolute left-[-2%] top-2 size-full rotate-[110deg] opacity-20 md:top-[5%] md:rotate-[65deg]"
       />
+
+      <div className="absolute right-[20%] top-[10%] z-10 animate-move">
+        <span className="block size-10 rounded-xl border bg-background px-1.5 shadow-lg">
+          <YouTubeIcon className="size-full" />
+        </span>
+        <span className="absolute -bottom-3 left-4 block text-nowrap rounded-md bg-background-20 px-1 text-sm font-medium shadow-md">
+          😔 Confused and distracted
+        </span>
+      </div>
+      <div className="absolute bottom-[20%] left-[20%] z-20 animate-move">
+        <span className="flex flex-col items-center justify-center rounded-xl border bg-background px-1.5 py-1 font-rubik-gemstone text-sm font-medium shadow-lg">
+          {/* <YouTubeIcon className="size-full" /> */}
+          <UserPlus2Icon className="size-4" />
+          Simplify
+        </span>
+        <span className="absolute -bottom-4 left-4 block text-nowrap rounded-md bg-background-20 px-1 text-sm font-medium shadow-md">
+          😀🎉 Happily learning for simplify without distraction
+        </span>
+      </div>
 
       <div className="container relative z-50 overflow-x-clip">
         <TrueFocus sentence="From Chaos to Clarity" />
-        <h2 className="relative mx-auto -mt-1 max-w-screen-lg text-center text-[min(5vw,1rem)] text-secondary-foreground/80 sm:text-[min(1.65vw,1.25rem)]">
+        <h2 className="relative mx-auto mt-1 max-w-screen-lg text-center text-[min(5vw,1rem)] text-secondary-foreground/80 sm:text-[min(1.65vw,1.25rem)] md:-mt-1">
           Simplify converts your youtube playlist into a well-structured course.
           Where you keep track of your learning progress , take notes, connect
           with your classmate and share your progress

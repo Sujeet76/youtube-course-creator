@@ -109,8 +109,20 @@ export default {
           "loading-wave var(--wave-speed, 1s) infinite ease-in-out",
         videoInline: "videoInline 300ms ease-in-out forwards",
         videoSticky: "videoSticky 300ms ease-in-out forwards",
+        move: "move 3s ease-in-out infinite",
       },
       keyframes: {
+        move: {
+          "0%": {
+            transform: "translateY(0)",
+          },
+          "50%": {
+            transform: "translateY(10px)",
+          },
+          "100%": {
+            transform: "translateY(0)",
+          },
+        },
         rainbow: {
           "0%": {
             "background-position": "0%",
