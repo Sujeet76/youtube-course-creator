@@ -14,7 +14,7 @@ type Props = {
 
 const VideoCard = async ({ videoDetail }: Props) => {
   return (
-    <li className="flex flex-col gap-3 overflow-hidden rounded-xl border bg-card p-4 text-card-foreground shadow md:w-full">
+    <li className="grid grid-rows-subgrid overflow-hidden rounded-xl border bg-card p-4 text-card-foreground shadow [grid-row:span_5]">
       <div className="relative aspect-video overflow-hidden rounded-md border-2 bg-background-70">
         <Image
           src={videoDetail.thumbnail ?? "/images/no-thumbnail.svg"}

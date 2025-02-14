@@ -1,11 +1,6 @@
 import { ReactNode } from "react";
 
-import {
-  BookMarkedIcon,
-  LayoutDashboardIcon,
-  SettingsIcon,
-  UserRoundIcon,
-} from "lucide-react";
+import { BookMarkedIcon, LayoutDashboardIcon } from "lucide-react";
 
 interface BaseNavItem {
   title: string;
@@ -41,11 +36,11 @@ export const sidebarData: Array<NavGroup> = [
         title: "Dashboard",
         url: "/dashboard",
       },
-      {
-        icon: <UserRoundIcon size={16} />,
-        title: "Profile",
-        url: "/profile",
-      },
+      // {
+      //   icon: <UserRoundIcon size={16} />,
+      //   title: "Profile",
+      //   url: "/profile",
+      // },
     ],
   },
   {
@@ -58,14 +53,14 @@ export const sidebarData: Array<NavGroup> = [
       },
     ],
   },
-  {
-    title: "Settings",
-    items: [
-      {
-        title: "Account",
-        url: "/dashboard/account",
-        icon: <SettingsIcon />,
-      },
-    ],
-  },
+  // {
+  //   title: "Settings",
+  //   items: [
+  //     {
+  //       title: "Account",
+  //       url: "/dashboard/account",
+  //       icon: <SettingsIcon />,
+  //     },
+  //   ],
+  // },
 ];

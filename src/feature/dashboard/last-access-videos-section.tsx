@@ -1,10 +1,3 @@
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { api } from "@/trpc/server";
 
 import VideoCard from "./component/video-card";
@@ -36,25 +29,11 @@ const LastAccessedVideoSection = async () => {
         </h3>
       </div>
 
-      <Carousel
-        opts={{
-          align: "start",
-        }}
-        className="mt-3 w-full max-w-screen-xl"
-      >
-        <CarouselContent>
-          {videos.map((videoDetail) => (
-            <CarouselItem
-              key={videoDetail.id}
-              className="md:basis-1/2 lg:basis-1/3"
-            >
-              <VideoCard videoDetail={videoDetail} />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="-left-4" />
-        <CarouselNext className="-right-4" />
-      </Carousel>
+      <ul className="mt-4 grid grid-cols-1 gap-x-4 gap-y-2.5 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[repeat(5_,_auto)]">
+        {videos.map((videoDetail) => (
+          <VideoCard key={videoDetail.id} videoDetail={videoDetail} />
+        ))}
+      </ul>
     </div>
   );
 };

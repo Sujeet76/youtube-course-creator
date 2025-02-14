@@ -9,7 +9,6 @@ import {
   HomeIcon,
   LogOutIcon,
   MoonIcon,
-  SettingsIcon,
   SunIcon,
   SunMoonIcon,
 } from "lucide-react";
@@ -45,11 +44,11 @@ const navUserLink = [
     href: "/",
     icon: HomeIcon,
   },
-  {
-    label: "Settings",
-    href: "/settings",
-    icon: SettingsIcon,
-  },
+  // {
+  //   label: "Settings",
+  //   href: "/settings",
+  //   icon: SettingsIcon,
+  // },
   {
     label: "Notifications",
     href: "/notifications",
@@ -181,7 +180,7 @@ export function NavUser() {
                         <DropdownMenuShortcut className="ml-auto">
                           <MoonIcon className="size-4" />
                         </DropdownMenuShortcut>
-                        Light mode
+                        Dark mode
                       </Button>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>

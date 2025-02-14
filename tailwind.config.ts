@@ -23,13 +23,13 @@ export default {
         "creative-ai-gradient":
           "var(--Project-Color-Styles-CreativeAI-Gradient, #F55C7A)",
         background: {
+          "20": "hsl(var(--background-20))",
+          "25": "hsla(var(--background-25))",
+          "70": "hsl(var(--background-70))",
+          "80": "hsl(var(--background-80))",
+          "90": "hsl(var(--background-90))",
           DEFAULT: "hsl(var(--background))",
           primary: "hsl(var(--background-primary))",
-          90: "hsl(var(--background-90))",
-          80: "hsl(var(--background-80))",
-          70: "hsl(var(--background-70))",
-          25: "hsla(var(--background-25))",
-          20: "hsl(var(--background-20))",
         },
         foreground: "hsl(var(--foreground))",
         card: {
@@ -42,17 +42,17 @@ export default {
           foreground: "hsl(var(--popover-foreground))",
         },
         primary: {
+          "10": "hsl(var(--primary-10))",
+          "20": "hsl(var(--primary-20))",
+          "80": "hsl(var(--primary-80))",
+          "90": "hsl(var(--primary-90))",
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          10: "hsl(var(--primary-10))",
-          20: "hsl(var(--primary-20))",
-          80: "hsl(var(--primary-80))",
-          90: "hsl(var(--primary-90))",
         },
         secondary: {
+          "90": "hsl(var(--secondary-90))",
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
-          90: "hsl(var(--secondary-90))",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -66,7 +66,6 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -110,6 +109,8 @@ export default {
         videoInline: "videoInline 300ms ease-in-out forwards",
         videoSticky: "videoSticky 300ms ease-in-out forwards",
         move: "move 3s ease-in-out infinite",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
       keyframes: {
         move: {
@@ -153,8 +154,12 @@ export default {
           },
         },
         videoInline: {
-          from: { opacity: "0" },
-          to: { opacity: "1" },
+          from: {
+            opacity: "0",
+          },
+          to: {
+            opacity: "1",
+          },
         },
         videoSticky: {
           from: {
@@ -164,6 +169,22 @@ export default {
           to: {
             transform: "translateX(0)",
             opacity: "1",
+          },
+        },
+        "accordion-down": {
+          from: {
+            height: "0",
+          },
+          to: {
+            height: "var(--radix-accordion-content-height)",
+          },
+        },
+        "accordion-up": {
+          from: {
+            height: "var(--radix-accordion-content-height)",
+          },
+          to: {
+            height: "0",
           },
         },
       },
