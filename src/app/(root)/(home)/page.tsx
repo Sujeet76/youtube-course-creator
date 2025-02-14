@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 
-import SplashCursor from "@/components/shared/splash-cursor";
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { clientEnv } from "@/env/client";
 import CreateCourseForm from "@/feature/create-course/component/create-course-form";
+import CursorAnimation from "@/feature/home/components/cursor-animation";
 import FAQSection from "@/feature/home/components/faq";
 import HeroSection from "@/feature/home/components/hero-section";
 import WhyToChooseUs from "@/feature/home/components/why-to-choose-us";
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     description:
       "Transform your YouTube videos into professional online courses. Create structured learning paths and monetize your content.",
     type: "website",
-    images: ["/public/images/hero-thumbnail.png"],
+    images: ["/images/hero-thumbnail.png"],
     locale: "en_US",
     siteName: "Simplify",
   },
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "Simplify - Create and Share Online Courses",
     description:
       "Transform your YouTube videos into professional online courses. Create structured learning paths and monetize your content.",
-    images: ["/public/images/hero-thumbnail.png"],
+    images: ["/images/hero-thumbnail.png"],
     creator: "@simplify",
     site: "@simplify",
   },
@@ -63,7 +63,7 @@ const Page = () => {
       <HeroSection />
       <WhyToChooseUs />
       <FAQSection />
-      <SplashCursor />
+      <CursorAnimation />
       <CreateCourseForm showTrigger={false} />
     </div>
   );

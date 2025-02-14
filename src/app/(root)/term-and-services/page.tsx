@@ -31,14 +31,14 @@ export const metadata: Metadata = {
       "Understand the rules and policies for creating and sharing YouTube-based courses on Simplify",
     type: "website",
     siteName: "Simplify",
-    images: ["/public/images/hero-thumbnail.png"],
+    images: ["/images/hero-thumbnail.png"],
   },
   twitter: {
     card: "summary",
     title: "Terms of Service - Simplify",
     description:
       "Understand the rules and policies for creating and sharing YouTube-based courses on Simplify",
-    images: ["/public/images/hero-thumbnail.png"],
+    images: ["/images/hero-thumbnail.png"],
   },
 };
 

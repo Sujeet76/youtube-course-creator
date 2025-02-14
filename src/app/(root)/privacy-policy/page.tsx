@@ -31,14 +31,14 @@ export const metadata: Metadata = {
       "Learn about how Simplify handles and protects your personal information",
     type: "website",
     siteName: "Simplify",
-    images: ["/public/images/hero-thumbnail.png"],
+    images: ["/images/hero-thumbnail.png"],
   },
   twitter: {
     card: "summary",
     title: "Privacy Policy - Simplify",
     description:
       "Learn about how Simplify handles and protects your personal information",
-    images: ["/public/images/hero-thumbnail.png"],
+    images: ["/images/hero-thumbnail.png"],
   },
 };
 
