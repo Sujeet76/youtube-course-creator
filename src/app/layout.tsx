@@ -118,6 +118,9 @@ export const metadata: Metadata = {
   },
   category: "Education Technology",
   applicationName: "Simplify",
+  verification: {
+    google: "3Qv8plv5NZHg4iu447D5BQ3_9viF6WJZWSuiO3nQ8VQ",
+  },
 };
 
 export default function MainLayout({
