@@ -61,8 +61,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = "force-static";
-
 const Page = () => {
   return (
     <div className="relative size-full">

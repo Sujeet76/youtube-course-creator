@@ -1,7 +1,16 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import Link from "next/link";
 
-import DynamicThemeToggler from "./dynamic-theme-toggler";
+import { Skeleton } from "@/components/ui/skeleton";
+
 import ProfileMenu from "./profile-menu";
+
+const ThemeToggler = dynamic(() => import("../theme-toggler"), {
+  ssr: false,
+  loading: () => <Skeleton className="size-8 rounded-full" />,
+});
 
 const Header = () => {
   return (
@@ -10,13 +19,13 @@ const Header = () => {
         <Link
           href={"/"}
           aria-label="logo"
-          className="font-rubik-gemstone text-sm font-thin tracking-widest md:text-2xl"
+          className="font-rubik-gemstone font-thin tracking-widest md:text-2xl"
         >
           Simplify
         </Link>
 
         <div className="flex items-center space-x-2">
-          <DynamicThemeToggler />
+          <ThemeToggler />
           <ProfileMenu />
         </div>
       </nav>

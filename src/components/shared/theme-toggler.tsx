@@ -12,7 +12,7 @@ export default function ThemeToggler() {
     <div>
       <Toggle
         variant="outline"
-        className="group size-9 rounded-full data-[state=on]:bg-transparent data-[state=on]:hover:bg-muted"
+        className="group size-9 rounded-full bg-background"
         pressed={theme === "dark"}
         onPressedChange={() =>
           setTheme((prev) => (prev === "dark" ? "light" : "dark"))

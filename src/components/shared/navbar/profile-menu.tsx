@@ -1,7 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 
-import { LucideIcon } from "lucide-react";
+import { LogOutIcon, LucideIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -15,6 +17,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -22,17 +25,32 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { profileMenuLinks } from "@/constants";
-import { getSession } from "@/lib/auth";
+import { signOut, useSession } from "@/lib/auth-client";
 
 import LoginButton from "../login-button";
-import LogoutButton from "./logout-button";
 
-const ProfileMenu: React.FC = async () => {
-  const session = await getSession();
+const ProfileMenu: React.FC = () => {
+  const session = useSession();
 
-  if (!session?.user) {
+  const handleLogout = async () => {
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.href = "/";
+        },
+      },
+    });
+  };
+
+  if (session.isPending) {
+    return <Skeleton className="size-10 rounded-full" />;
+  }
+
+  if (!session?.data?.user) {
     return <LoginButton />;
   }
+
+  const user = session.data.user;
 
   return (
     <DropdownMenu modal={false}>
@@ -40,7 +58,7 @@ const ProfileMenu: React.FC = async () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <DropdownMenuTrigger
-              aria-label={session.user.image ?? "profile menu"}
+              aria-label={user.image ?? "profile menu"}
               asChild
             >
               <Button
@@ -50,12 +68,12 @@ const ProfileMenu: React.FC = async () => {
               >
                 <Avatar className="m-2 rounded-full">
                   <AvatarImage
-                    src={session.user.image ?? ""}
-                    alt={session.user.name}
+                    src={user.image ?? ""}
+                    alt={user.name}
                     className="rounded-full"
                   />
                   <AvatarFallback className="uppercase">
-                    {session.user.name.slice(0, 2)}
+                    {user.name.slice(0, 2)}
                   </AvatarFallback>
                 </Avatar>
                 <span className="sr-only">click to open profile menu</span>
@@ -72,11 +90,9 @@ const ProfileMenu: React.FC = async () => {
         <DropdownMenuGroup>
           <DropdownMenuLabel>
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">
-                {session.user.name}
-              </p>
+              <p className="text-sm font-medium leading-none">{user.name}</p>
               <p className="text-xs leading-none text-muted-foreground">
-                {session.user.email}
+                {user.email}
               </p>
             </div>
           </DropdownMenuLabel>
@@ -93,7 +109,16 @@ const ProfileMenu: React.FC = async () => {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <LogoutButton />
+          <Button
+            onClick={handleLogout}
+            className="h-9 w-full justify-start gap-1.5 px-3"
+            variant={"ghost"}
+          >
+            <DropdownMenuShortcut className="ml-0">
+              <LogOutIcon size={16} strokeWidth={2} />
+            </DropdownMenuShortcut>
+            <span>Logout</span>
+          </Button>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
