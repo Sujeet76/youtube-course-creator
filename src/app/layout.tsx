@@ -47,9 +47,8 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(clientEnv.NEXT_PUBLIC_BETTER_AUTH_URL),
   title: {
-    default:
-      "PlaylistsGenius - Transform YouTube Content into Structured Courses",
-    template: "%s | PlaylistsGenius",
+    default: "Simplify - Transform YouTube Content into Structured Courses",
+    template: "%s | Simplify",
   },
   description:
     "Transform YouTube playlists into structured online courses. Create, organize, and share educational content from YouTube videos. The ultimate platform for YouTube content creators and educators.",
@@ -62,14 +61,12 @@ export const metadata: Metadata = {
     "video courses",
     "YouTube content transformation",
     "educational playlists",
-    "PlaylistsGenius",
+    "Simplify",
     "YouTube teaching platform",
   ],
-  authors: [
-    { name: "PlaylistsGenius", url: clientEnv.NEXT_PUBLIC_BETTER_AUTH_URL },
-  ],
-  creator: "PlaylistsGenius",
-  publisher: "PlaylistsGenius",
+  authors: [{ name: "Simplify", url: clientEnv.NEXT_PUBLIC_BETTER_AUTH_URL }],
+  creator: "Simplify",
+  publisher: "Simplify",
   robots: {
     index: true,
     follow: true,
@@ -94,33 +91,33 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: clientEnv.NEXT_PUBLIC_BETTER_AUTH_URL,
-    title: "PlaylistsGenius - YouTube Content to Structured Courses",
+    title: "Simplify - YouTube Content to Structured Courses",
     description:
       "Transform YouTube content into engaging structured courses. The smart way to create and share educational content from YouTube videos.",
-    siteName: "PlaylistsGenius",
+    siteName: "Simplify",
     images: [
       {
         url: "/images/thumbnail.png",
         width: 1200,
         height: 630,
-        alt: "PlaylistsGenius - YouTube Course Creation Platform",
+        alt: "Simplify - YouTube Course Creation Platform",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "PlaylistsGenius - YouTube Content to Structured Courses",
+    title: "Simplify - YouTube Content to Structured Courses",
     description:
       "Transform YouTube content into engaging structured courses. The smart way to create and share educational content.",
     images: ["/images/thumbnail.png"],
-    creator: "@PlaylistsGenius",
-    site: "@PlaylistsGenius",
+    creator: "@Simplify",
+    site: "@Simplify",
   },
   alternates: {
     canonical: clientEnv.NEXT_PUBLIC_BETTER_AUTH_URL,
   },
   category: "Education Technology",
-  applicationName: "PlaylistsGenius",
+  applicationName: "Simplify",
 };
 
 export default function MainLayout({

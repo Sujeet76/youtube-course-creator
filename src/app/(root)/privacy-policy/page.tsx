@@ -1,8 +1,46 @@
+import { Metadata } from "next";
 import Link from "next/link";
 
 import ListView from "@/components/shared/list-view";
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { privacyPolicy } from "@/constants";
+import { clientEnv } from "@/env/client";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy - Simplify",
+  description:
+    "Learn about how Simplify handles and protects your personal information. Our privacy policy outlines our data collection, usage, and protection practices.",
+  keywords:
+    "privacy policy, data protection, user privacy, personal information, data security",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+    },
+  },
+  metadataBase: new URL(clientEnv.NEXT_PUBLIC_BETTER_AUTH_URL),
+  alternates: {
+    canonical: "/privacy-policy",
+  },
+  openGraph: {
+    title: "Privacy Policy - Simplify",
+    description:
+      "Learn about how Simplify handles and protects your personal information",
+    type: "website",
+    siteName: "Simplify",
+    images: ["/public/images/hero-thumbnail.png"],
+  },
+  twitter: {
+    card: "summary",
+    title: "Privacy Policy - Simplify",
+    description:
+      "Learn about how Simplify handles and protects your personal information",
+    images: ["/public/images/hero-thumbnail.png"],
+  },
+};
 
 const PrivacyPolicy = () => {
   return (

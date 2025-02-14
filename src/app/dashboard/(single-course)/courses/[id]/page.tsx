@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import React, { Suspense } from "react";
 
 import { type SearchParams } from "nuqs";
@@ -16,6 +17,12 @@ import { HydrateClient, api } from "@/trpc/server";
 interface Props {
   searchParams: Promise<SearchParams>;
 }
+
+export const metadata: Metadata = {
+  title: "Courses View | Dashboard",
+  description:
+    "View and manage your enrolled courses. Continue learning from where you left off.",
+};
 
 const EnrolledCourse: React.FC<Props> = async ({ searchParams }) => {
   const { v } = await loadVideoIdSearchParams(searchParams);

@@ -1,5 +1,13 @@
+import { Metadata } from "next";
+
 import EnrolledCourseCard from "@/feature/enrolled-course/components/enrolled-course-card";
 import { api } from "@/trpc/server";
+
+export const metadata: Metadata = {
+  title: "Enrolled Courses | Dashboard",
+  description:
+    "View and manage your enrolled courses. Continue learning from where you left off.",
+};
 
 export const dynamic = "force-dynamic";
 

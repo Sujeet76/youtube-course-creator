@@ -1,10 +1,48 @@
+import { Metadata } from "next";
 import Link from "next/link";
 
 import ListView from "@/components/shared/list-view";
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { termsOfServices } from "@/constants";
+import { clientEnv } from "@/env/client";
 
-const TermOfServices = () => {
+export const metadata: Metadata = {
+  title: "Terms of Service - Simplify",
+  description:
+    "Read our terms of service to understand the rules, guidelines, and policies governing your use of Simplify's YouTube course creation platform.",
+  keywords:
+    "terms of service, user agreement, platform rules, youtube course creation, content guidelines, online education policy, video course terms, content creator agreement, course transformation platform, educational content policy, youtube content monetization, course creation guidelines",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+    },
+  },
+  metadataBase: new URL(clientEnv.NEXT_PUBLIC_BETTER_AUTH_URL),
+  alternates: {
+    canonical: "/term-and-services",
+  },
+  openGraph: {
+    title: "Terms of Service - Simplify",
+    description:
+      "Understand the rules and policies for creating and sharing YouTube-based courses on Simplify",
+    type: "website",
+    siteName: "Simplify",
+    images: ["/public/images/hero-thumbnail.png"],
+  },
+  twitter: {
+    card: "summary",
+    title: "Terms of Service - Simplify",
+    description:
+      "Understand the rules and policies for creating and sharing YouTube-based courses on Simplify",
+    images: ["/public/images/hero-thumbnail.png"],
+  },
+};
+
+const TermsAndService = () => {
   return (
     <div className="relative py-10">
       <DotPattern />
@@ -54,4 +92,4 @@ const TermOfServices = () => {
   );
 };
 
-export default TermOfServices;
+export default TermsAndService;
