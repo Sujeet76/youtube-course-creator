@@ -6,6 +6,8 @@ import { DotPattern } from "@/components/ui/dot-pattern";
 import { privacyPolicy } from "@/constants";
 import { clientEnv } from "@/env/client";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "Privacy Policy - Simplify",
   description:

@@ -1,12 +1,17 @@
 import { Metadata } from "next";
+import nextDynamic from "next/dynamic";
 
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { clientEnv } from "@/env/client";
 import CreateCourseForm from "@/feature/create-course/component/create-course-form";
 import CursorAnimation from "@/feature/home/components/cursor-animation";
-import FAQSection from "@/feature/home/components/faq";
+import { FAQSectionSkeleton } from "@/feature/home/components/faq";
 import HeroSection from "@/feature/home/components/hero-section";
 import WhyToChooseUs from "@/feature/home/components/why-to-choose-us";
+
+const FAQSection = nextDynamic(() => import("@/feature/home/components/faq"), {
+  loading: () => <FAQSectionSkeleton />,
+});
 
 export const metadata: Metadata = {
   title: "Simplify - Transform YouTube Content into Structured Online Courses",
@@ -55,6 +60,8 @@ export const metadata: Metadata = {
     site: "@simplify",
   },
 };
+
+export const dynamic = "force-static";
 
 const Page = () => {
   return (

@@ -1,5 +1,3 @@
-import "@radix-ui/react-accordion";
-
 import {
   Accordion,
   AccordionContent,
@@ -34,6 +32,34 @@ const FAQSection = () => {
           </AccordionItem>
         ))}
       </Accordion>
+    </section>
+  );
+};
+
+export const FAQSectionSkeleton = () => {
+  return (
+    <section className={"container pb-20 pt-10"}>
+      {/* Title skeleton */}
+      <div className="mx-auto h-8 w-64 animate-pulse rounded-md bg-gray-300/20 md:h-10 md:w-96" />
+
+      {/* Subtitle skeleton */}
+      <div className="mx-auto mt-5 h-16 w-full max-w-lg animate-pulse rounded-md bg-gray-300/20" />
+
+      {/* FAQ items skeleton */}
+      <div className="mt-10 space-y-3">
+        {[1, 2, 3, 4].map((item) => (
+          <div
+            key={item}
+            className="mx-auto w-full max-w-screen-lg rounded-sm bg-secondary p-5"
+          >
+            {/* Question skeleton */}
+            <div className="flex items-center justify-between">
+              <div className="h-6 w-3/4 animate-pulse rounded-md bg-gray-300/20" />
+              <div className="size-4 animate-pulse rounded-full bg-gray-300/20" />
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 };

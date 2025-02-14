@@ -42,6 +42,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-static";
+
 const TermsAndService = () => {
   return (
     <div className="relative py-10">

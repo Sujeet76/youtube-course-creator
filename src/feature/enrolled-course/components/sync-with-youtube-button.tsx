@@ -45,7 +45,7 @@ const SyncWithYouTube = ({
 
   const handleSync = useCallback(() => {
     sync.mutate({ courseId });
-  }, [courseId]);
+  }, [courseId, sync]);
 
   return (
     <Button

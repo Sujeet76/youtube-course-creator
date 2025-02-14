@@ -38,7 +38,7 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
     if (height) {
       setVideoPlayerHeight(height);
     }
-  }, [height]);
+  }, [height, setVideoPlayerHeight]);
 
   // get the video details suspended
   const [videoData] = useVideoDetailsById(videoId);

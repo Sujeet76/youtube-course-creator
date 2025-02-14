@@ -49,7 +49,7 @@ const HeroVideoDialog = ({
     return () => {
       abortController.abort();
     };
-  }, [handleVideoOpen]);
+  }, [handleVideoOpen, isVideoOpen]);
 
   return (
     <div className={cn("relative size-full", className)}>

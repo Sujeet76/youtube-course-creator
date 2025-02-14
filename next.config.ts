@@ -4,7 +4,6 @@ import withPWA from "@ducanh2912/next-pwa";
 
 const withPWAConfig = withPWA({
   disable: process.env.NODE_ENV === "development",
-  aggressiveFrontEndNavCaching: true,
   reloadOnOnline: true,
   dest: "public",
   workboxOptions: {

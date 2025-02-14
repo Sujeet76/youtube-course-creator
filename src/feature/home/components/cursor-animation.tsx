@@ -1,7 +1,15 @@
 "use client";
 
-import SplashCursor from "@/components/shared/splash-cursor";
+import dynamic from "next/dynamic";
+
 import { useIsMobile } from "@/hooks/use-mobile";
+
+const SplashCursor = dynamic(
+  () => import("@/components/shared/splash-cursor"),
+  {
+    ssr: false,
+  }
+);
 
 const CursorAnimation = () => {
   const isMobile = useIsMobile();

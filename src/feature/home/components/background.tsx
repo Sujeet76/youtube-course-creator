@@ -1,11 +1,15 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
 import { useTheme } from "next-themes";
 
-import Aurora from "@/components/shared/aura-background";
 import { useIsMobile } from "@/hooks/use-mobile";
+
+const Aurora = dynamic(() => import("@/components/shared/aura-background"), {
+  ssr: false,
+});
 
 export const Background = () => {
   const [colorStops, setColorStops] = useState<[string, string, string]>([

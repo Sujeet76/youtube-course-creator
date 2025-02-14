@@ -26,7 +26,7 @@ const PlayListItem = ({ video }: Props) => {
     if (searchParams.get("v") === video.id) {
       setActiveVideoTitle(video.title);
     }
-  }, []);
+  }, [searchParams, setActiveVideoTitle, video.id, video.title]);
 
   return (
     <li
