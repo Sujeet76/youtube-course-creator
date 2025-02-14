@@ -54,8 +54,8 @@ const HeroSection = () => {
               <div className="max-h-20 w-full overflow-hidden rounded-lg">
                 <Image
                   src={"/images/thumbnail.webp"}
-                  width={1024}
-                  height={1080}
+                  width={2400}
+                  height={400}
                   priority
                   alt="thumbnail"
                   className="size-full select-none overflow-hidden rounded-lg"
@@ -80,8 +80,8 @@ const HeroSection = () => {
               <Image
                 src={"/images/bacteria.jpg"}
                 alt="thumbnail"
-                width={1024}
-                height={1080}
+                width={400}
+                height={400}
                 priority
                 className="size-full select-none overflow-hidden"
               />
