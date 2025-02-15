@@ -26,7 +26,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
 import { useVideoPlayer } from "../provider/video-player.provider";
-import { RightSidebarSkeleton } from "./loader";
+import { ListLoadingSkeleton, RightSidebarSkeleton } from "./loader";
 import PlayList from "./play-list";
 
 const SidebarMotion = motion.create(Sidebar);
@@ -74,6 +74,7 @@ const RightSidebar: React.FC<Props> = ({ params, ...props }) => {
         borderRadius: "2rem 2rem 0 0",
         backdropFilter: "none",
         boxShadow: "none",
+        border: "2px solid hsl(var(--border))",
         backgroundColor: "hsl(var(--sidebar-background) / 1)",
       },
       mobileCollapsed: {
@@ -82,8 +83,9 @@ const RightSidebar: React.FC<Props> = ({ params, ...props }) => {
         left: "16px",
         width: "calc(100% - 2rem)",
         borderRadius: "1rem",
+        border: "2px solid hsl(var(--border))",
         backdropFilter: "blur(20px)",
-        boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+        boxShadow: "0 4px 6px rgba(0,0,0,0.5)",
         backgroundColor: "hsl(var(--sidebar-background) / 0.85)",
       },
     };
@@ -154,7 +156,9 @@ const RightSidebar: React.FC<Props> = ({ params, ...props }) => {
               }}
               className={cn("lg:block", isExpanded ? "block" : "hidden")}
             >
-              <PlayList courseId={params.id} className="min-w-full" />
+              <Suspense fallback={<ListLoadingSkeleton />}>
+                <PlayList courseId={params.id} className="min-w-full" />
+              </Suspense>
             </motion.div>
             <motion.button
               initial={false}

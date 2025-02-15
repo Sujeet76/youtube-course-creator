@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { index, integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { decimal, index, pgTable, text, uuid } from "drizzle-orm/pg-core";
 
 import { createdAt, id, updatedAt } from "../schema.helper";
 import { users } from "./user.table";
@@ -20,7 +20,7 @@ export const notes = pgTable(
         onDelete: "cascade",
       }),
     content: text("content").notNull(),
-    timestamp: integer("timestamp"), // timestamp in video where note was taken
+    timestamp: decimal("timestamp"), // timestamp in video where note was taken
     createdAt,
     updatedAt,
   },

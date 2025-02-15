@@ -56,7 +56,7 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
         showinfo: 0,
         modestbranding: 1,
         iv_load_policy: 3,
-        autoplay: 1,
+        autoplay: 0,
         rel: 0,
         start: videoData?.watchHistory?.isRewatching
           ? 0

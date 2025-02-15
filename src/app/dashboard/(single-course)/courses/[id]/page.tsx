@@ -4,6 +4,7 @@ import React, { Suspense } from "react";
 import { type SearchParams } from "nuqs";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import VideoNotes from "@/feature/notes/components/video-notes";
 import {
   DescriptionSkeleton,
   EnrolledCourseSkeleton,
@@ -31,6 +32,7 @@ const EnrolledCourse: React.FC<Props> = async ({ searchParams }) => {
   }
 
   void api.courseView.getVideoById.prefetch(v);
+  void api.notes.getNotesByVideoId.prefetch(v);
 
   return (
     <div className="pb-6 md:container">
@@ -56,7 +58,11 @@ const EnrolledCourse: React.FC<Props> = async ({ searchParams }) => {
                 </Suspense>
               </TabsContent>
               <TabsContent value="notes">
-                Change your password here.
+                <Suspense key={v} fallback={<EnrolledCourseSkeleton />}>
+                  <QueryClientErrorBoundary>
+                    <VideoNotes videoId={v} />
+                  </QueryClientErrorBoundary>
+                </Suspense>
               </TabsContent>
             </Tabs>
           </div>

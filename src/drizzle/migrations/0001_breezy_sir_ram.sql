@@ -1,0 +1,1 @@
+ALTER TABLE "notes" ALTER COLUMN "timestamp" SET DATA TYPE numeric;

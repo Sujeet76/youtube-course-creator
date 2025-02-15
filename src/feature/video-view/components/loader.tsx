@@ -29,8 +29,12 @@ export const ListLoadingSkeleton: FC<{
           </div>
         </li>
       ))}
-      <li className="block h-16 lg:hidden">
-        <Skeleton />
+      <li className="flex gap-1 px-4 lg:hidden">
+        <Skeleton className="size-5 shrink-0" />
+        <div className="w-full flex-1 space-y-1">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-4/5" />
+        </div>
       </li>
     </ul>
   );

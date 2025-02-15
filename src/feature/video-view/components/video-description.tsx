@@ -19,7 +19,7 @@ const VideoDescription: React.FC<VideoDescriptionProps> = ({ videoId }) => {
         {videoDetails.videoExist.title}
       </h2>
       <Separator className="my-2 bg-foreground/10" />
-      <div className="mt-2">
+      <div className="mt-2 pb-14">
         <YouTubeDescription
           description={videoDetails?.videoExist?.description ?? ""}
         />

@@ -28,7 +28,6 @@ const PlayList = forwardRef<HTMLUListElement, Props>(
         {pages.map((page) =>
           page.playlist.map((video) => (
             <PlaylistItem key={video.id} video={video} />
-            // <div key={idx}>{JSON.stringify(video)}</div>
           ))
         )}
 
