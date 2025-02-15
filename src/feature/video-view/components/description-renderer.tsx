@@ -14,6 +14,7 @@ import MediumIcon from "@/assets/icons/medium.icon";
 import TelegramIcon from "@/assets/icons/telegram.icon";
 import XIcon from "@/assets/icons/x.icon";
 import YouTubeIcon from "@/assets/icons/youtube";
+import { convertTimestampToSeconds } from "@/lib/utils";
 
 import { useVideoPlayer } from "../provider/video-player.provider";
 import { LineSegment, TimestampMatch } from "../types";
@@ -25,23 +26,10 @@ export interface YouTubeDescriptionProps {
 const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
   description = "",
 }) => {
-  const convertTimestampToSeconds = useCallback((timestamp: string): number => {
-    try {
-      const cleanTimestamp = timestamp.replace(/[\[\]\s]/g, "");
-      const parts = cleanTimestamp.split(":").reverse();
-      return parts.reduce((acc, part, index) => {
-        return acc + parseInt(part) * Math.pow(60, index);
-      }, 0);
-    } catch (error) {
-      console.error("Error converting timestamp:", error);
-      return 0;
-    }
-  }, []);
-
   const getLinkIcon = useCallback((url: string): ReactNode => {
     if (!url) return <ExternalLinkIcon className="size-4" />;
 
-    if (url.includes("youtube.com") || url.includes("youtu.be"))
+    if (url.includes("youtube.com"))
       return <YouTubeIcon className="size-4 shrink-0" />;
     if (url.includes("twitter.com"))
       return <XIcon className="size-4 shrink-0 text-foreground" />;
@@ -73,25 +61,22 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
     return <ExternalLinkIcon className="size-4 shrink-0" />;
   }, []);
 
-  const findTimestamps = useCallback(
-    (text: string): TimestampMatch[] => {
-      const timestampRegex = /\b(\d{1,2}:)?(\d{1,2}):(\d{2})\b/g;
-      const matches: TimestampMatch[] = [];
-      let match: RegExpExecArray | null;
+  const findTimestamps = useCallback((text: string): TimestampMatch[] => {
+    const timestampRegex = /\b(\d{1,2}:)?(\d{1,2}):(\d{2})\b/g;
+    const matches: TimestampMatch[] = [];
+    let match: RegExpExecArray | null;
 
-      while ((match = timestampRegex.exec(text)) !== null) {
-        matches.push({
-          timestamp: match[0],
-          index: match.index,
-          length: match[0].length,
-          seconds: convertTimestampToSeconds(match[0]),
-        });
-      }
+    while ((match = timestampRegex.exec(text)) !== null) {
+      matches.push({
+        timestamp: match[0],
+        index: match.index,
+        length: match[0].length,
+        seconds: convertTimestampToSeconds(match[0]),
+      });
+    }
 
-      return matches;
-    },
-    [convertTimestampToSeconds]
-  );
+    return matches;
+  }, []);
 
   const parseTextSegment = useCallback((text: string): LineSegment[] => {
     const segments: LineSegment[] = [];

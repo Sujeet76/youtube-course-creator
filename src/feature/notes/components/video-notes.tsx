@@ -93,7 +93,7 @@ const VideoNotes = (props: Props) => {
   return (
     <div>
       <AddNewNote videoId={props.videoId} />
-      <ul className="mt-5 space-y-5">
+      <ul className="mt-2 space-y-5">
         {data.map((note) => (
           <li key={note.id}>
             <EditAndViewNotes

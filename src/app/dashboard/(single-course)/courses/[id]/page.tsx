@@ -52,7 +52,7 @@ const EnrolledCourse: React.FC<Props> = async ({ searchParams }) => {
                 <TabsTrigger value="notes">Notes</TabsTrigger>
               </TabsList>
               <TabsContent
-                className="h-full rounded-lg bg-primary-80 p-3 md:p-5"
+                className="h-full rounded-lg bg-primary-80 p-3 pb-14 md:p-5 md:pb-14"
                 value="description"
               >
                 <Suspense fallback={<DescriptionSkeleton />}>

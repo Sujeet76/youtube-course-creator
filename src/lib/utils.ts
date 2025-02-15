@@ -19,3 +19,28 @@ export function formatCount(count: number): string {
     return count.toString();
   }
 }
+
+export function secondsToTimestamp(seconds: number): string {
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  const formattedHrs = hrs.toString().padStart(2, "0");
+  const formattedMins = mins.toString().padStart(2, "0");
+  const formattedSecs = secs.toString().padStart(2, "0");
+
+  return `${formattedHrs}:${formattedMins}:${formattedSecs}`;
+}
+
+export const convertTimestampToSeconds = (timestamp: string): number => {
+  try {
+    const cleanTimestamp = timestamp.replace(/[\[\]\s]/g, "");
+    const parts = cleanTimestamp.split(":").reverse();
+    return parts.reduce((acc, part, index) => {
+      return acc + parseInt(part) * Math.pow(60, index);
+    }, 0);
+  } catch (error) {
+    console.error("Error converting timestamp:", error);
+    return 0;
+  }
+};
