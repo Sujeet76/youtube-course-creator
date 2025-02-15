@@ -1,13 +1,14 @@
 import { useCallback, useRef, useState } from "react";
 
 import { Loader, PencilIcon, TrashIcon } from "lucide-react";
+import { toast } from "sonner";
 
 import AutosizeTextarea, {
   AutosizeTextAreaRef,
 } from "@/components/shared/auto-resize-text-area";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { RouterOutputs } from "@/trpc/client";
+import { RouterOutputs, api } from "@/trpc/client";
 
 type Props = {
   videoId: string;
@@ -15,19 +16,47 @@ type Props = {
   handleDelete: (id: string) => void;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const EditAndViewNotes = ({ videoId, note, handleDelete }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const ref = useRef<AutosizeTextAreaRef>(null);
   const [hasEdited, setHasEdited] = useState(false);
   const [content, setContent] = useState(note.content);
+  const utils = api.useUtils();
+
+  const updateMutation = api.notes.editNote.useMutation({
+    onSuccess: (res) => {
+      setHasEdited(false);
+      setIsEditing(false);
+      utils.notes.getNotesByVideoId.setData(videoId, (prev) => {
+        if (!prev) return [];
+        return prev.map((n) => {
+          if (n.id === note.id) {
+            return res;
+          }
+          return n;
+        });
+      });
+      if (!ref?.current) return;
+
+      ref.current.textArea.style.minHeight = "auto";
+      ref.current.textArea.style.height = "auto"; // reset height
+      toast.success("Note updated successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const toggleEditing = useCallback(() => {
+    if (!ref.current) return;
     if (isEditing) {
       setIsEditing(false);
+      ref.current.textArea.style.minHeight = "auto";
+      ref.current.textArea.style.height = "auto";
     } else {
       setIsEditing(true);
       ref.current?.textArea.focus();
+      ref.current.textArea.style.minHeight = "208px";
     }
   }, [isEditing]);
 
@@ -38,6 +67,13 @@ const EditAndViewNotes = ({ videoId, note, handleDelete }: Props) => {
     },
     []
   );
+
+  const onUpdateNote = useCallback(() => {
+    updateMutation.mutate({
+      noteId: note.id,
+      content,
+    });
+  }, [content, note.id, updateMutation]);
 
   return (
     <div className="relative">
@@ -70,14 +106,14 @@ const EditAndViewNotes = ({ videoId, note, handleDelete }: Props) => {
       <AutosizeTextarea
         ref={ref}
         className={cn(
-          "read-only:bg-muted",
+          "read-only:cursor-auto read-only:bg-muted read-only:focus-visible:ring-0",
           isEditing ? "resize-y" : "resize-none"
         )}
-        value={content}
+        defaultValue={content}
         onChange={handleContentChange}
         readOnly={!isEditing}
         placeholder="Add your note here"
-        minHeight={isEditing ? 208 : 0}
+        minHeight={0}
         maxHeight={500}
       />
       {isEditing && (
@@ -87,20 +123,19 @@ const EditAndViewNotes = ({ videoId, note, handleDelete }: Props) => {
             variant={"secondary"}
             className="h-8"
             size="sm"
-
-            // disabled={createMutation.isPending}
+            disabled={updateMutation.isPending}
           >
             Cancel
           </Button>
           <Button
-            // onClick={onSaveNote}
-            // disabled={createMutation.isPending}
+            onClick={onUpdateNote}
+            disabled={updateMutation.isPending}
             className="h-8"
             size="sm"
           >
-            {false ? (
+            {updateMutation.isPending ? (
               <>
-                <Loader className="animate-spin text-muted" /> saving...
+                <Loader className="animate-spin text-muted" /> updating...
               </>
             ) : hasEdited ? (
               "unsaved"

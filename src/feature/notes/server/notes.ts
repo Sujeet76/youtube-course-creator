@@ -114,7 +114,8 @@ export const notesRouter = createTRPCRouter({
       const [updatedNote] = await ctx.db
         .update(notes)
         .set({ content })
-        .where(and(eq(notes.id, noteId), eq(notes.userId, id)));
+        .where(and(eq(notes.id, noteId), eq(notes.userId, id)))
+        .returning();
 
       if (!updatedNote) {
         throw new TRPCError({
