@@ -18,8 +18,8 @@ export const author = pgTable(
     updatedAt,
   },
   (table) => [
-    index("name_index").on(table.name),
     index("subscriber_count_idx").on(table.subscriberCount),
+    index("youtube_channel_id_idx").on(table.youtubeChannelId),
   ]
 );
 

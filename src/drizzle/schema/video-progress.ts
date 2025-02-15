@@ -34,7 +34,12 @@ export const videoProgress = pgTable(
     createdAt,
     updatedAt,
   },
-  (table) => [uniqueIndex("user_video_unique").on(table.userId, table.videoId)]
+  (table) => [
+    uniqueIndex("video_progress_user_video_unique").on(
+      table.userId,
+      table.videoId
+    ),
+  ]
 );
 
 export const videoProgressRelations = relations(videoProgress, ({ one }) => ({

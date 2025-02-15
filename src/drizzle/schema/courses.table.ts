@@ -43,7 +43,7 @@ export const courses = pgTable(
     updatedAt,
   },
   (table) => [
-    index("author_id_idx").on(table.authorId),
+    index("course_author_id_idx").on(table.authorId),
     index("creator_id_idx").on(table.creator),
     uniqueIndex("youtube_playlist_id_unique").on(table.youtubePlaylistId),
   ]

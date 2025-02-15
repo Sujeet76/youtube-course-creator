@@ -1,6 +1,6 @@
 {
-  "id": "c9dafc6b-6a8f-4688-ae06-bc829ac06c8f",
-  "prevId": "19ac9378-b85f-4b3b-a6a3-46d8a0944027",
+  "id": "7f2e718c-917a-40fe-9b74-44312642cf31",
+  "prevId": "c9dafc6b-6a8f-4688-ae06-bc829ac06c8f",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -90,7 +90,38 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "account_user_id_idx": {
+          "name": "account_user_id_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "account_id_idx": {
+          "name": "account_id_idx",
+          "columns": [
+            {
+              "expression": "account_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "account_user_id_user_id_fk": {
           "name": "account_user_id_user_id_fk",
@@ -176,11 +207,11 @@
         }
       },
       "indexes": {
-        "name_index": {
-          "name": "name_index",
+        "subscriber_count_idx": {
+          "name": "subscriber_count_idx",
           "columns": [
             {
-              "expression": "name",
+              "expression": "subscriber_count",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -191,11 +222,11 @@
           "method": "btree",
           "with": {}
         },
-        "subscriber_count_idx": {
-          "name": "subscriber_count_idx",
+        "youtube_channel_id_idx": {
+          "name": "youtube_channel_id_idx",
           "columns": [
             {
-              "expression": "subscriber_count",
+              "expression": "youtube_channel_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -570,8 +601,8 @@
         }
       },
       "indexes": {
-        "author_id_idx": {
-          "name": "author_id_idx",
+        "course_author_id_idx": {
+          "name": "course_author_id_idx",
           "columns": [
             {
               "expression": "author_id",
@@ -744,8 +775,8 @@
           "method": "btree",
           "with": {}
         },
-        "user_course_idx": {
-          "name": "user_course_idx",
+        "enrollment_course_idx": {
+          "name": "enrollment_course_idx",
           "columns": [
             {
               "expression": "user_id",
@@ -770,6 +801,21 @@
           "columns": [
             {
               "expression": "last_accessed_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "enrollment_user_id_idx": {
+          "name": "enrollment_user_id_idx",
+          "columns": [
+            {
+              "expression": "user_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1000,7 +1046,23 @@
           "notNull": true
         }
       },
-      "indexes": {},
+      "indexes": {
+        "session_userId_idx": {
+          "name": "session_userId_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "session_user_id_user_id_fk": {
           "name": "session_user_id_user_id_fk",
@@ -1222,8 +1284,8 @@
         }
       },
       "indexes": {
-        "user_video_unique": {
-          "name": "user_video_unique",
+        "video_progress_user_video_unique": {
+          "name": "video_progress_user_video_unique",
           "columns": [
             {
               "expression": "user_id",
@@ -1359,8 +1421,8 @@
         }
       },
       "indexes": {
-        "course_id_index": {
-          "name": "course_id_index",
+        "video_course_id_index": {
+          "name": "video_course_id_index",
           "columns": [
             {
               "expression": "course_id",
@@ -1379,6 +1441,21 @@
           "columns": [
             {
               "expression": "sequence_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "youtube_video_id_index": {
+          "name": "youtube_video_id_index",
+          "columns": [
+            {
+              "expression": "youtube_video_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"

@@ -28,8 +28,9 @@ export const videos = pgTable(
     updatedAt,
   },
   (table) => [
-    index("course_id_index").on(table.courseId),
+    index("video_course_id_index").on(table.courseId),
     index("sequence_number_index").on(table.sequenceNumber),
+    index("youtube_video_id_index").on(table.youtube_video_id),
   ]
 );
 

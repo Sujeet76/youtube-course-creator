@@ -83,7 +83,6 @@ CREATE TABLE "notes" (
 	"user_id" uuid NOT NULL,
 	"video_id" uuid NOT NULL,
 	"content" text NOT NULL,
-	"timestamp" integer,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
 	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );

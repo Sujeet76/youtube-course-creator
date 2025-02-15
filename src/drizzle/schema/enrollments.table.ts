@@ -39,8 +39,9 @@ export const enrollments = pgTable(
   },
   (table) => [
     index("completed_at_index").on(table.completedAt),
-    uniqueIndex("user_course_idx").on(table.userId, table.courseId),
+    uniqueIndex("enrollment_course_idx").on(table.userId, table.courseId),
     index("last_accessed_at_index").on(table.lastAccessedAt),
+    index("enrollment_user_id_idx").on(table.userId),
   ]
 );
 
