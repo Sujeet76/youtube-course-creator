@@ -4,7 +4,9 @@ import React, { Suspense } from "react";
 import { type SearchParams } from "nuqs";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import VideoNotes from "@/feature/notes/components/video-notes";
+import VideoNotes, {
+  VideoNotesLoadingSkeleton,
+} from "@/feature/notes/components/video-notes";
 import {
   DescriptionSkeleton,
   EnrolledCourseSkeleton,
@@ -58,7 +60,7 @@ const EnrolledCourse: React.FC<Props> = async ({ searchParams }) => {
                 </Suspense>
               </TabsContent>
               <TabsContent value="notes">
-                <Suspense key={v} fallback={<EnrolledCourseSkeleton />}>
+                <Suspense key={v} fallback={<VideoNotesLoadingSkeleton />}>
                   <QueryClientErrorBoundary>
                     <VideoNotes videoId={v} />
                   </QueryClientErrorBoundary>

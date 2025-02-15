@@ -17,6 +17,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/trpc/client";
 
 import AddNewNote from "./add-new-note";
@@ -92,7 +93,7 @@ const VideoNotes = (props: Props) => {
   return (
     <div>
       <AddNewNote videoId={props.videoId} />
-      <ul className="space-y-5">
+      <ul className="mt-5 space-y-5">
         {data.map((note) => (
           <li key={note.id}>
             <EditAndViewNotes
@@ -164,6 +165,34 @@ const VideoNotes = (props: Props) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+    </div>
+  );
+};
+
+export const VideoNotesLoadingSkeleton = () => {
+  return (
+    <div>
+      {/* Add Note Button Skeleton */}
+      <div className="mb-4">
+        <Skeleton className="ml-auto h-10 w-full max-w-[150px] rounded-md" />
+      </div>
+
+      {/* Notes List Skeleton */}
+      <ul className="mt-5 space-y-5">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <li key={index}>
+            <div className="relative">
+              {/* Action Buttons Skeleton */}
+              <div className="absolute -top-4 right-2 flex space-x-1">
+                <Skeleton className="size-8 rounded-full" />
+                <Skeleton className="size-8 rounded-full" />
+              </div>
+              {/* Note Content Skeleton */}
+              <Skeleton className="h-[120px] w-full rounded-md" />
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
