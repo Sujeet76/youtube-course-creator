@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { Fragment, ReactNode, useCallback, useMemo } from "react";
+import React, { ReactNode, useCallback, useMemo } from "react";
 
 import { ExternalLinkIcon } from "lucide-react";
 
@@ -155,7 +155,7 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
               href={segment.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-baseline gap-1 pt-0.5 text-blue-600 hover:underline"
+              className="inline-flex items-baseline gap-1 break-all pt-0.5 text-blue-600 hover:underline"
             >
               {getLinkIcon(segment.url)}
               <span className="break-all">{segment.displayText}</span>
@@ -168,14 +168,18 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
               key={`hashtag-${index}`}
               href={`/hashtag/${segment.tag}`}
               target="_blank"
-              className="mr-1 text-blue-600 hover:text-blue-800"
+              className="mr-1 break-all text-blue-600 hover:text-blue-800"
             >
               #{segment.tag}
             </Link>
           );
 
         case "text":
-          return <Fragment key={`text-${index}`}>{segment.content}</Fragment>;
+          return (
+            <span key={`text-${index}`} className="break-all">
+              {segment.content}
+            </span>
+          );
       }
     },
     [getLinkIcon]
@@ -183,7 +187,9 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
 
   const formattedContent = useMemo(() => {
     if (!description) {
-      return <p className="text-secondary-90">No description available</p>;
+      return (
+        <p className="break-all text-secondary-90">No description available</p>
+      );
     }
 
     return description.split("\n").map((line, lineIndex) => {
@@ -191,7 +197,7 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
         return (
           <p
             key={`line-${lineIndex}`}
-            className="text-sm font-normal text-secondary-foreground/90 md:text-base"
+            className="flex flex-wrap gap-1 break-all text-sm font-normal text-secondary-foreground/90 md:text-base"
           >
             {parseLineSegments(line).map((segment, segmentIndex) =>
               renderSegment(segment, segmentIndex)
@@ -205,7 +211,7 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
   }, [description, parseLineSegments, renderSegment]);
 
   return (
-    <div className="mx-auto min-h-48 max-w-[900px] whitespace-pre-wrap pb-9 md:pb-0">
+    <div className="mx-auto min-h-48 whitespace-pre-wrap break-all pb-9 md:pb-0">
       {formattedContent}
     </div>
   );
@@ -226,7 +232,7 @@ const TimeStampComponent: React.FC<{ timestamp: string; seconds: number }> = ({
   return (
     <button
       onClick={handleClickTimeStamp}
-      className="mr-1 font-geist-mono text-blue-600"
+      className="mr-1 break-all font-geist-mono text-blue-600"
     >
       {timestamp}
     </button>

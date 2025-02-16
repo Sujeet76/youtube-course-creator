@@ -20,7 +20,7 @@ const VideoDescription: React.FC<VideoDescriptionProps> = ({ videoId }) => {
   const [isExpended, setIsExpended] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <h2 className="text-lg font-semibold md:text-2xl">
         {videoDetails.videoExist.title}
       </h2>
@@ -32,7 +32,7 @@ const VideoDescription: React.FC<VideoDescriptionProps> = ({ videoId }) => {
         initial={false}
         className="overflow-hidden"
       >
-        <div className="mt-2" ref={containerRef}>
+        <div className="mt-2 w-full" ref={containerRef}>
           <YouTubeDescription
             description={videoDetails?.videoExist?.description ?? ""}
           />
