@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { ReactNode, useCallback, useMemo } from "react";
+import React, { Fragment, ReactNode, useCallback, useMemo } from "react";
 
 import { ExternalLinkIcon } from "lucide-react";
 
@@ -175,11 +175,7 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
           );
 
         case "text":
-          return (
-            <span key={`text-${index}`} className="break-all">
-              {segment.content}
-            </span>
-          );
+          return <Fragment key={`text-${index}`}>{segment.content}</Fragment>;
       }
     },
     [getLinkIcon]
@@ -197,7 +193,7 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
         return (
           <p
             key={`line-${lineIndex}`}
-            className="flex flex-wrap gap-1 break-all text-sm font-normal text-secondary-foreground/90 md:text-base"
+            className="break-all text-sm font-normal text-secondary-foreground/90 md:text-base"
           >
             {parseLineSegments(line).map((segment, segmentIndex) =>
               renderSegment(segment, segmentIndex)
