@@ -205,7 +205,7 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
   }, [description, parseLineSegments, renderSegment]);
 
   return (
-    <div className="min-h-48 whitespace-pre-wrap pb-9 md:pb-0">
+    <div className="mx-auto min-h-48 max-w-[900px] whitespace-pre-wrap pb-9 md:pb-0">
       {formattedContent}
     </div>
   );

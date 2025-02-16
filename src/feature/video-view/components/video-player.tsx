@@ -133,8 +133,8 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
       ref={videoPlayerContainerRef}
       className="sticky top-[var(--header)] z-40 aspect-video rounded-lg bg-primary-90 md:relative md:top-0"
     >
-      <div className="relative aspect-video w-full" ref={ref}>
-        <div className="absolute inset-0 hidden flex-col items-center justify-center text-sm md:flex">
+      <div className="relative aspect-video" ref={ref}>
+        <div className="absolute inset-0 hidden aspect-video flex-col items-center justify-center text-sm md:flex">
           <PictureInPicture2Icon />
           <p>Playing in picture in picture mode</p>
         </div>
