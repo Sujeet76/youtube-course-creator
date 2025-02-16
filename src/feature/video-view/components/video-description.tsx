@@ -43,7 +43,7 @@ const VideoDescription: React.FC<VideoDescriptionProps> = ({ videoId }) => {
         {measuredHeight !== 150 && (
           <Button
             onClick={() => setIsExpended((prev) => !prev)}
-            className="absolute -bottom-10 left-1/2 -translate-x-1/3 rounded-full"
+            className="absolute bottom-0 left-1/2 -translate-x-1/3 rounded-full md:-bottom-10"
             size={"sm"}
           >
             {isExpended ? "Collapse" : "View Details"}

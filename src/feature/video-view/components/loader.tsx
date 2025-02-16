@@ -40,17 +40,21 @@ export const ListLoadingSkeleton: FC<{
   );
 };
 
-export const EnrolledCourseSkeleton: React.FC = () => {
+export const EnrolledCourseSkeleton: React.FC<{ showTab?: boolean }> = ({
+  showTab = true,
+}) => {
   return (
     <div>
       <Skeleton className="aspect-video w-full md:rounded-lg" />
 
-      <div className="mt-2">
-        <div className="flex gap-2 border-b pb-2">
-          <Skeleton className="h-10 w-24" />
-          <Skeleton className="h-10 w-24" />
+      {showTab && (
+        <div className="mt-2">
+          <div className="flex gap-2 border-b pb-2">
+            <Skeleton className="h-10 w-24" />
+            <Skeleton className="h-10 w-24" />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

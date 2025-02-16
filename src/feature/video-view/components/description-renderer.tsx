@@ -204,7 +204,11 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
     });
   }, [description, parseLineSegments, renderSegment]);
 
-  return <div className="min-h-48 whitespace-pre-wrap">{formattedContent}</div>;
+  return (
+    <div className="min-h-48 whitespace-pre-wrap pb-9 md:pb-0">
+      {formattedContent}
+    </div>
+  );
 };
 
 const TimeStampComponent: React.FC<{ timestamp: string; seconds: number }> = ({

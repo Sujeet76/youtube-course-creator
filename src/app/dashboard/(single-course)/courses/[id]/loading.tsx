@@ -25,7 +25,7 @@ const DashboardLayoutSkeleton = () => {
         <div className="my-3.5">
           <BreadCrumbHeaderLoader />
         </div>
-        <EnrolledCourseSkeleton />
+        <EnrolledCourseSkeleton showTab={false} />
       </div>
 
       {/* right side bar */}
