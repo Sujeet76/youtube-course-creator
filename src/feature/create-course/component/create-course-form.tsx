@@ -5,7 +5,6 @@ import React, { FC, useCallback } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, ListVideoIcon } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
 import {
   parseAsBoolean,
   parseAsInteger,
@@ -119,57 +118,55 @@ const CreateCourseForm: React.FC<Props> = ({
             Fill out the form below to create a new course
           </DialogDescription>
         </DialogHeader>
-        <AnimatePresence>
-          {step === 1 ? (
-            <StepOne onNext={setStep} />
-          ) : (
-            <div>
-              <Form {...form}>
-                <form
-                  className="space-y-3"
-                  onSubmit={form.handleSubmit(handelSubmit)}
-                >
-                  <FormField
-                    control={form.control}
-                    name="url"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Youtube playlist link</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            disabled={courseMutation.isPending}
-                            autoFocus
-                            placeholder="Enter youtube playlist url"
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Make sure the playlist is public
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <AlertMessage message={courseMutation.error?.message} />
-                  <div className="mt-4 flex gap-4">
-                    <DialogClose asChild>
-                      <Button
-                        variant={"secondary"}
-                        className="w-full"
-                        type="button"
-                        disabled={courseMutation.isPending}
-                        onClick={() => setStep(1)}
-                      >
-                        Cancel
-                      </Button>
-                    </DialogClose>
-                    <Button className="w-full">Confirm and create</Button>
-                  </div>
-                </form>
-              </Form>
-            </div>
-          )}
-        </AnimatePresence>
+        {step === 1 ? (
+          <StepOne onNext={setStep} />
+        ) : (
+          <div>
+            <Form {...form}>
+              <form
+                className="space-y-3"
+                onSubmit={form.handleSubmit(handelSubmit)}
+              >
+                <FormField
+                  control={form.control}
+                  name="url"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Youtube playlist link</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          disabled={courseMutation.isPending}
+                          autoFocus
+                          placeholder="Enter youtube playlist url"
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Make sure the playlist is public
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <AlertMessage message={courseMutation.error?.message} />
+                <div className="mt-4 flex gap-4">
+                  <DialogClose asChild>
+                    <Button
+                      variant={"secondary"}
+                      className="w-full"
+                      type="button"
+                      disabled={courseMutation.isPending}
+                      onClick={() => setStep(1)}
+                    >
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                  <Button className="w-full">Confirm and create</Button>
+                </div>
+              </form>
+            </Form>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
@@ -189,12 +186,7 @@ const StepOne: FC<StepOneProps> = ({ onNext }) => {
   );
 
   return (
-    <motion.div
-      initial={false}
-      animate={{
-        x: courseType === "import" ? 0 : 100,
-      }}
-    >
+    <div>
       <div className="flex flex-col items-center gap-3 md:flex-row">
         <button
           className={cn(
@@ -245,7 +237,7 @@ const StepOne: FC<StepOneProps> = ({ onNext }) => {
           </Button>
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 
