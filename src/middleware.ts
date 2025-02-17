@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-import { env } from "process";
+import { env } from "./env/server";
 
 export async function middleware(request: NextRequest) {
   const cookie = await cookies();
