@@ -147,10 +147,10 @@ export default {
             height: "10%",
           },
           "50%": {
-            height: "40",
+            height: "100%",
           },
-          "100%": {
-            transform: "80%",
+          "80%": {
+            height: "40%",
           },
         },
         videoInline: {

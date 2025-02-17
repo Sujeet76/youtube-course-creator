@@ -26,39 +26,26 @@ export interface YouTubeDescriptionProps {
 const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
   description = "",
 }) => {
-  const getLinkIcon = useCallback((url: string): ReactNode => {
-    if (!url) return <ExternalLinkIcon className="size-4" />;
+  const getLinkIcon = useCallback((url: string) => {
+    if (!url) return ExternalLinkIcon;
 
-    if (url.includes("youtube.com"))
-      return <YouTubeIcon className="size-4 shrink-0" />;
-    if (url.includes("twitter.com"))
-      return <XIcon className="size-4 shrink-0 text-foreground" />;
-    if (url.includes("instagram.com"))
-      return <InstagramIcon className="size-4 shrink-0 text-foreground" />;
-    if (url.includes("github.com"))
-      return (
-        <GithubIcon className="size-4 shrink-0 fill-black dark:fill-white" />
-      );
-    if (url.includes("discord.gg")) return <DiscordIcon className="size-4" />;
+    if (url.includes("youtube.com")) return YouTubeIcon;
+    if (url.includes("twitter.com")) return XIcon;
+    if (url.includes("instagram.com")) return InstagramIcon;
+    if (url.includes("github.com")) return GithubIcon;
+    if (url.includes("discord.gg")) return DiscordIcon;
     if (
       url.includes("web.telegram.org") ||
       url.includes("telegram.org") ||
       url.includes("telegram.me")
     )
-      return <TelegramIcon className="size-4 shrink-0" />;
-    if (url.includes("medium.com"))
-      return (
-        <MediumIcon className="size-4 shrink-0 fill-black dark:fill-white" />
-      );
-    if (url.includes("drive.google.com"))
-      return <GoogleDriveIcon className="size-4 shrink-0" />;
-    if (url.includes("google.com"))
-      return <GoogleIcon className="size-4 shrink-0" />;
-    if (url.includes("linkedin.com"))
-      return <LinkedInIcon className="size-4 shrink-0" />;
-    if (url.includes("hashnode.com"))
-      return <HashnodeIcon className="size-4 shrink-0" />;
-    return <ExternalLinkIcon className="size-4 shrink-0" />;
+      return TelegramIcon;
+    if (url.includes("medium.com")) return MediumIcon;
+    if (url.includes("drive.google.com")) return GoogleDriveIcon;
+    if (url.includes("google.com")) return GoogleIcon;
+    if (url.includes("linkedin.com")) return LinkedInIcon;
+    if (url.includes("hashnode.com")) return HashnodeIcon;
+    return ExternalLinkIcon;
   }, []);
 
   const findTimestamps = useCallback((text: string): TimestampMatch[] => {
@@ -148,20 +135,21 @@ const YouTubeDescription: React.FC<YouTubeDescriptionProps> = ({
             />
           );
 
-        case "link":
+        case "link": {
+          const Icon = getLinkIcon(segment.url);
           return (
             <a
               key={`link-${index}`}
               href={segment.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-baseline gap-1 break-all pt-0.5 text-blue-600 hover:underline"
+              className="inline-flex items-baseline gap-1.5 break-all text-blue-600 hover:underline"
             >
-              {getLinkIcon(segment.url)}
+              <Icon className="size-[1em] shrink-0 text-xs" />
               <span className="break-all">{segment.displayText}</span>
             </a>
           );
-
+        }
         case "hashtag":
           return (
             <Link
