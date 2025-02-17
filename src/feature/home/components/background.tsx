@@ -21,7 +21,6 @@ export const Background = () => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    console.log({ resolvedTheme });
     if (resolvedTheme === "dark")
       setColorStops(["#2cd8d55c", "#6b8dd65c", "#8f37d75c"]);
     else setColorStops(["#5D9FFF", "#B8DCFF", "#6BBBFF"]);

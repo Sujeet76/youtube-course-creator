@@ -31,9 +31,9 @@ const PlayListItem = ({ video }: Props) => {
   return (
     <li
       className={cn(
-        "group relative max-w-full rounded-lg border p-2 shadow-md focus-within:ring-1 focus-within:ring-border focus-within:ring-offset-1 focus-within:ring-offset-background",
+        "group relative max-w-full rounded-lg border p-2 focus-within:ring-1 focus-within:ring-border focus-within:ring-offset-1 focus-within:ring-offset-background",
         searchParams.get("v") === video.id &&
-          "group border-2 border-border bg-primary-20",
+          "border-2 border-border bg-background shadow",
         video?.watchHistory?.isCompleted &&
           "border-2 border-dashed border-[#0e793c] bg-[#e8faf0] text-[#0e793c] dark:border-[#095028] dark:bg-[#02140a] dark:text-[#17c964]"
       )}
@@ -61,16 +61,16 @@ const PlayListItem = ({ video }: Props) => {
           {searchParams.get("v") === video.id && (
             <div
               aria-label="playing view current active video"
-              className="absolute inset-0 grid place-content-center rounded-lg bg-primary-10/30 text-white"
+              className="absolute inset-0 grid place-content-center rounded-lg bg-primary-10/25"
             >
               <div
                 aria-hidden
                 className="flex h-6 w-9 items-end justify-center gap-0.5"
               >
-                <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:0s]"></div>
-                <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:0.5s]"></div>
-                <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:.0.75s]"></div>
-                <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:1s]"></div>
+                <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:0s]" />
+                <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:0.5s]" />
+                <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:.0.75s]" />
+                <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:1s]" />
               </div>
             </div>
           )}

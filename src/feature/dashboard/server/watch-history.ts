@@ -1,4 +1,4 @@
-import { asc, eq, getTableColumns } from "drizzle-orm";
+import { desc, eq, getTableColumns } from "drizzle-orm";
 
 import {
   author,
@@ -22,7 +22,7 @@ export const watchHistory = createTRPCRouter({
       })
       .from(enrollments)
       .where(eq(enrollments.userId, ctx.sessionRes.user.id))
-      .orderBy(asc(enrollments.lastAccessedAt))
+      .orderBy(desc(enrollments.updatedAt))
       .innerJoin(videos, eq(videos.id, enrollments.lastAccessedVideoId))
       .innerJoin(courses, eq(courses.id, enrollments.courseId))
       .innerJoin(author, eq(author.id, courses.authorId))

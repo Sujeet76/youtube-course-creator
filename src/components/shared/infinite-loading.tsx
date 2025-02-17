@@ -24,7 +24,6 @@ const InfiniteLoading = ({
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage && !inManual) {
-      console.log("called");
       fetchNextPage();
     }
   }, [fetchNextPage, hasNextPage, inManual, inView, isFetchingNextPage]);

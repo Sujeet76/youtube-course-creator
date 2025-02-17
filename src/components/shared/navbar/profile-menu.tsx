@@ -31,7 +31,6 @@ import LoginButton from "../login-button";
 
 const ProfileMenu: React.FC = () => {
   const session = useSession();
-
   const handleLogout = async () => {
     await signOut({
       fetchOptions: {

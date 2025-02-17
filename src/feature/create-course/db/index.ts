@@ -11,7 +11,6 @@ import {
   enrollments,
   videos,
 } from "@/drizzle/schema";
-import { ApiError } from "@/lib/api-response";
 
 export const insertNewCourse = async (courseInfo: CourseInsertionType) => {
   // check if course already exist
@@ -20,7 +19,11 @@ export const insertNewCourse = async (courseInfo: CourseInsertionType) => {
     .from(courses)
     .where(eq(courses.youtubePlaylistId, courseInfo.youtubePlaylistId));
 
-  if (courseExist) throw new ApiError("VALIDATION", "Course already exists");
+  if (courseExist)
+    throw new TRPCError({
+      code: "CONFLICT",
+      message: "Course already exist",
+    });
 
   const [createdCourse] = await db
     .insert(courses)
@@ -28,7 +31,10 @@ export const insertNewCourse = async (courseInfo: CourseInsertionType) => {
     .returning();
 
   if (!createdCourse) {
-    throw new ApiError("FATAL", "Could not create a course");
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "Could not create course",
+    });
   }
 
   return createdCourse;

@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
 
 import { motion } from "motion/react";
@@ -9,7 +10,9 @@ import { Separator } from "@/components/ui/separator";
 import { useMeasure } from "@/hooks/use-measure";
 import { api } from "@/trpc/client";
 
-import YouTubeDescription from "./description-renderer";
+const YouTubeDescription = dynamic(() => import("./description-renderer"), {
+  ssr: false,
+});
 
 interface VideoDescriptionProps {
   videoId: string;

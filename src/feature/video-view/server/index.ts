@@ -80,7 +80,7 @@ export const courseViewRouter = createTRPCRouter({
       const res = await updatedWatchHistory(
         input.videoId,
         input.videoProgress,
-        input.shouldMarkAsCompleted,
+        watchHistory.isCompleted || input.shouldMarkAsCompleted,
         input.totalDuration,
         videoExist.sequenceNumber + 1,
         videoExist.courseId

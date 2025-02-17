@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import React, { Suspense } from "react";
 
 import AppSidebar from "@/components/layout/sidebar/app-sidebar";
@@ -10,9 +11,16 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import RightSidebar from "@/feature/video-view/components/right-sidebar";
+import { RightSidebarSkeleton } from "@/feature/video-view/components/loader";
 import { VideoPlayerStoreProvider } from "@/feature/video-view/provider/video-player.provider";
 import { HydrateClient, api } from "@/trpc/server";
+
+const RightSidebar = dynamic(
+  () => import("@/feature/video-view/components/right-sidebar"),
+  {
+    loading: () => <RightSidebarSkeleton />,
+  }
+);
 
 interface Props {
   children: React.ReactNode;

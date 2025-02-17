@@ -163,8 +163,8 @@ export const updatedWatchHistory = async (
   watchDuration: number,
   shouldMarkAsComplete: boolean = false,
   totalDuration: number,
-  nextVideoIdx?: number,
-  courseId?: string
+  nextVideoIdx: number,
+  courseId: string
 ) => {
   const [updatedHistory] = await db
     .update(videoProgress)

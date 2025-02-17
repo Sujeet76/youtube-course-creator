@@ -25,7 +25,7 @@ export const getEnrolledCourses = async ({
     })
     .from(enrollments)
     .where(eq(enrollments.userId, userId))
-    .orderBy(desc(enrollments.lastAccessedAt))
+    .orderBy(desc(enrollments.updatedAt))
     .offset(Math.max(0, (page - 1) * limit))
     .limit(limit)
     .innerJoin(courses, eq(enrollments.courseId, courses.id))
