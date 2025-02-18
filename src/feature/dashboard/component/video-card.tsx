@@ -9,7 +9,7 @@ import { CardTitle } from "@/components/ui/card";
 import { RouterOutputs } from "@/trpc/client";
 
 type Props = {
-  videoDetail: RouterOutputs["watchHistory"]["lastAccessVideos"][number];
+  videoDetail: RouterOutputs["dashboard"]["lastAccessVideos"][number];
 };
 
 const VideoCard = async ({ videoDetail }: Props) => {
