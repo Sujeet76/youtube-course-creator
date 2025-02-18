@@ -26,7 +26,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
     >
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-[var(--header)] shrink-0 items-center gap-2 px-4">
+        <header className="sticky top-0 z-50 flex h-[var(--header)] shrink-0 items-center gap-2 bg-background px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
           <Suspense fallback={<BreadCrumbHeaderLoader />}>

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { BookMarkedIcon, LayoutDashboardIcon } from "lucide-react";
+import { ArchiveIcon, BookMarkedIcon, LayoutDashboardIcon } from "lucide-react";
 
 interface BaseNavItem {
   title: string;
@@ -50,6 +50,16 @@ export const sidebarData: Array<NavGroup> = [
         title: "Courses",
         url: "/dashboard/courses",
         icon: <BookMarkedIcon size={16} />,
+      },
+    ],
+  },
+  {
+    title: "Others",
+    items: [
+      {
+        title: "Archived courses",
+        url: "/dashboard/archived",
+        icon: <ArchiveIcon size={16} />,
       },
     ],
   },

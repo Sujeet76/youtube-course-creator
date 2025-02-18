@@ -1,11 +1,13 @@
+import { FC } from "react";
+
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const LastAccessedLoader = () => {
+export const LastAccessedLoader: FC<{ title?: string }> = ({ title }) => {
   return (
     <div className="mt-4 w-full">
       <div>
         <h3 className="text-lg font-medium text-muted-foreground">
-          Last accessed videos
+          {title || "Last accessed videos"}
         </h3>
       </div>
 

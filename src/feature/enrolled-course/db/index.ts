@@ -1,4 +1,4 @@
-import { desc, eq, getTableColumns } from "drizzle-orm";
+import { and, desc, eq, getTableColumns } from "drizzle-orm";
 
 import { db } from "@/drizzle/db";
 import { author, courses, enrollments, videos } from "@/drizzle/schema";
@@ -7,10 +7,12 @@ export const getEnrolledCourses = async ({
   userId,
   page,
   limit,
+  archivedCourse = false,
 }: {
   userId: string;
   page: number;
   limit: number;
+  archivedCourse?: boolean;
 }) => {
   const res = await db
     .select({
@@ -24,7 +26,12 @@ export const getEnrolledCourses = async ({
       },
     })
     .from(enrollments)
-    .where(eq(enrollments.userId, userId))
+    .where(
+      and(
+        eq(enrollments.userId, userId),
+        eq(enrollments.isArchived, archivedCourse)
+      )
+    )
     .orderBy(desc(enrollments.updatedAt))
     .offset(Math.max(0, (page - 1) * limit))
     .limit(limit)

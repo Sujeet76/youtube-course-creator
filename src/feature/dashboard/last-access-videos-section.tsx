@@ -3,7 +3,7 @@ import { api } from "@/trpc/server";
 import VideoCard from "./component/video-card";
 
 const LastAccessedVideoSection = async () => {
-  const videos = await api.watchHistory.lastAccessVideos();
+  const videos = await api.dashboard.lastAccessVideos();
 
   if (videos.length === 0) {
     return (

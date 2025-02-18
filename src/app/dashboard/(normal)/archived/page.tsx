@@ -1,26 +1,43 @@
 import { Metadata } from "next";
+import Image from "next/image";
 
 import EnrolledCourseCard from "@/feature/enrolled-course/components/enrolled-course-card";
 import { api } from "@/trpc/server";
 
 export const metadata: Metadata = {
-  title: "Enrolled Courses | Dashboard",
+  title: "Archived Courses | Dashboard",
   description:
     "View and manage your enrolled courses. Continue learning from where you left off.",
 };
 
 export const dynamic = "force-dynamic";
 
-const Page = async () => {
-  const res = await api.enrolledCourse.get({});
+const ArchivedCourses = async () => {
+  const res = await api.enrolledCourse.get({
+    archivedCourse: true,
+  });
 
   if (!res || res.length === 0) {
     return (
       <div className="container">
         <div className="mb-4 text-2xl font-semibold">
-          <h1>Enrolled Courses</h1>
+          <h1>Archived Courses</h1>
         </div>
-        <p>No enrolled courses found.</p>
+        <div className="flex flex-col items-center justify-center">
+          <div className="w-full max-w-screen-sm">
+            <Image
+              src={"/images/no-archive.svg"}
+              alt="no archive"
+              width={300}
+              height={300}
+              unoptimized
+              className="size-full select-none"
+            />
+          </div>
+          <p className="-mt-8 font-semibold text-muted-foreground">
+            No archived enrolled courses found.
+          </p>
+        </div>
       </div>
     );
   }
@@ -48,4 +65,4 @@ const Page = async () => {
   );
 };
 
-export default Page;
+export default ArchivedCourses;

@@ -10,18 +10,25 @@ import { Button } from "@/components/ui/button";
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import { RouterOutputs } from "@/trpc/client";
 
+import ArchiveAndBookmarkButton from "./archive-and-bookmark-button";
 import SyncWithYouTube from "./sync-with-youtube-button";
 
 interface Props {
   course: RouterOutputs["enrolledCourse"]["get"][number]["course"];
   author: RouterOutputs["enrolledCourse"]["get"][number]["author"];
   lastAccessedVideo: string;
+  enrollmentId: string;
+  isArchived: boolean;
+  isBookmarked: boolean;
 }
 
 const EnrolledCourseCard: React.FC<Props> = ({
   course,
   author,
   lastAccessedVideo,
+  isArchived,
+  isBookmarked,
+  enrollmentId,
 }) => {
   return (
     <li className="grid grid-rows-subgrid overflow-hidden rounded-xl border bg-card p-4 text-card-foreground shadow [grid-row:span_5]">
@@ -33,13 +40,17 @@ const EnrolledCourseCard: React.FC<Props> = ({
           height={720}
           className="size-full select-none object-cover"
         />
-        <Badge
-          // variant={"secondary"}
-          className="absolute right-4 top-4 gap-1 text-sm font-normal"
-        >
-          <VideoIcon className="size-4" /> {course.video_count}{" "}
-          {course.video_count === 1 ? "video" : "videos"}
-        </Badge>
+        <div className="absolute right-2 top-4 mx-auto flex w-[calc(100%-1rem)] flex-wrap justify-between gap-1">
+          <Badge className="space-x-1 text-xs font-normal">
+            <VideoIcon className="size-[1.2em] text-inherit" />{" "}
+            {course.video_count} {course.video_count === 1 ? "video" : "videos"}
+          </Badge>
+          <ArchiveAndBookmarkButton
+            isArchived={isArchived}
+            isBookmarked={isBookmarked}
+            enrolledCourseId={enrollmentId}
+          />
+        </div>
       </div>
 
       <CardTitle className="line-clamp-2">{course.title}</CardTitle>

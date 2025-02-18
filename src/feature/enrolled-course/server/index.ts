@@ -1,8 +1,13 @@
 import { TRPCError } from "@trpc/server";
-import { asc, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import { z } from "zod";
 
-import { VideoInsertType, courses, videos } from "@/drizzle/schema";
+import {
+  VideoInsertType,
+  courses,
+  enrollments,
+  videos,
+} from "@/drizzle/schema";
 import { getVideoThumbnail, playlistItemsFetcher } from "@/lib/helps";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/trpc";
 
@@ -14,6 +19,7 @@ export const enrolledCourseRouter = createTRPCRouter({
       z.object({
         page: z.coerce.number().default(1),
         limit: z.coerce.number().default(10),
+        archivedCourse: z.boolean().default(false),
       })
     )
     .query(async ({ input, ctx }) => {
@@ -21,6 +27,7 @@ export const enrolledCourseRouter = createTRPCRouter({
         userId: ctx.sessionRes.user.id,
         page: input.page,
         limit: input.limit,
+        archivedCourse: input.archivedCourse,
       });
     }),
 
@@ -152,5 +159,87 @@ export const enrolledCourseRouter = createTRPCRouter({
         success: true,
         message: `${newVideos.length} new videos added successfully.`,
       };
+    }),
+
+  archiveToggler: protectedProcedure
+    .input(
+      z.object({
+        enrollmentId: z.string().uuid(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const [enrollment] = await ctx.db
+        .select()
+        .from(enrollments)
+        .where(
+          and(
+            eq(enrollments.id, input.enrollmentId),
+            eq(enrollments.userId, ctx.sessionRes.user.id)
+          )
+        );
+
+      if (!enrollment) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Enrollment not found",
+        });
+      }
+
+      const [updatedEnrollment] = await ctx.db
+        .update(enrollments)
+        .set({
+          isArchived: !enrollment.isArchived,
+        })
+        .where(eq(enrollments.id, input.enrollmentId))
+        .returning();
+
+      if (!updatedEnrollment) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to update enrollment",
+        });
+      }
+
+      return updatedEnrollment;
+    }),
+  bookmarkToggler: protectedProcedure
+    .input(
+      z.object({
+        enrollmentId: z.string().uuid(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const [enrollment] = await ctx.db
+        .select()
+        .from(enrollments)
+        .where(
+          and(
+            eq(enrollments.id, input.enrollmentId),
+            eq(enrollments.userId, ctx.sessionRes.user.id)
+          )
+        );
+
+      if (!enrollment) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Enrollment not found",
+        });
+      }
+
+      const [updatedEnrollment] = await ctx.db
+        .update(enrollments)
+        .set({
+          isBookMarked: !enrollment.isBookMarked,
+        })
+        .where(eq(enrollments.id, input.enrollmentId))
+        .returning();
+      if (!updatedEnrollment) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to update bookmark status",
+        });
+      }
+
+      return updatedEnrollment;
     }),
 });
