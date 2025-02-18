@@ -3,10 +3,10 @@
   "dialect": "postgresql",
   "entries": [
     {
-      "idx": 0,
+      "idx": 1,
       "version": "7",
-      "when": 1739890928522,
-      "tag": "0000_mean_thunderbird",
+      "when": 1739892670328,
+      "tag": "0001_swift_hedge_knight",
       "breakpoints": true
     }
   ]

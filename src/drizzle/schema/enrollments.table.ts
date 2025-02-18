@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
 import {
+  boolean,
   index,
   integer,
   pgTable,
@@ -33,6 +34,8 @@ export const enrollments = pgTable(
       .notNull(),
     progress: integer("progress").default(0), // overall progress in
     completedAt: timestamp("completed_at"),
+    isArchived: boolean("is_archived").default(false),
+    isBookMarked: boolean("is_bookmarked").default(false),
     enrolledAt: timestamp("enrolled_at").notNull().defaultNow(),
     createdAt,
     updatedAt,
