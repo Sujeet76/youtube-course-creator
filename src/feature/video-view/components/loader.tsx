@@ -15,7 +15,7 @@ export const ListLoadingSkeleton: FC<{
   listCount?: number;
 }> = ({ className, listCount = 8 }) => {
   return (
-    <ul className={cn("w-[var(--sidebar-width)] space-y-4", className)}>
+    <ul className={cn("!w-[var(--sidebar-width)] space-y-4", className)}>
       {Array.from({ length: listCount }).map((_, index) => (
         <li
           className="hidden items-center space-x-2 rounded-lg border p-2 shadow-md lg:flex"

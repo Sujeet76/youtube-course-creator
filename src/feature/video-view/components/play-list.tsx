@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 
 import InfiniteLoading from "@/components/shared/infinite-loading";
 import { cn } from "@/lib/utils";
@@ -43,4 +43,4 @@ const PlayList = forwardRef<HTMLUListElement, Props>(
 
 PlayList.displayName = "PlayList";
 
-export default PlayList;
+export default memo(PlayList);

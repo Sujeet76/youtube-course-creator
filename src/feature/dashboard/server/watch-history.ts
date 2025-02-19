@@ -45,7 +45,8 @@ export const dashboard = createTRPCRouter({
       .where(
         and(
           eq(enrollments.userId, ctx.sessionRes.user.id),
-          eq(enrollments.isArchived, false)
+          eq(enrollments.isArchived, false),
+          eq(enrollments.isBookMarked, true)
         )
       )
       .orderBy(desc(enrollments.updatedAt))
