@@ -88,8 +88,7 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
 
   // Optimized history update with progress check and debouncing
   const updateHistory = useDebouncedCallback(() => {
-    if (!isMounted.current || !playerRef.current) return;
-
+    if (!playerRef.current) return;
     const currentTime = Math.floor(playerRef.current.getCurrentTime());
     updateWatchHistory({
       videoId,
@@ -109,7 +108,6 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
             playerRef.current?.playerInfo?.duration || 0
           ),
         });
-        window.document.body.style.overflow = "";
       }
     },
     [updateWatchHistory, videoId]
@@ -117,14 +115,12 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
 
   // Video end handler
   const handleVideoEnd = useCallback(() => {
-    if (!playerRef.current) return;
-
-    isVideoCompleted.current = true;
     updateWatchHistory({
       videoId,
       videoProgress: Math.floor(playerRef.current.getCurrentTime()),
       shouldMarkAsCompleted: true,
       totalDuration: Math.floor(playerRef.current.playerInfo.duration),
+      shouldGoToNextVideo: true,
     });
   }, [videoId, updateWatchHistory]);
 

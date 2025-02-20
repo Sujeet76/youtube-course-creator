@@ -93,6 +93,9 @@ export const courseViewRouter = createTRPCRouter({
         });
       }
 
-      return res;
+      return {
+        ...res,
+        nextVideo: input.shouldGoToNextVideo ? res.nextVideo : null,
+      };
     }),
 });

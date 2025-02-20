@@ -7,7 +7,6 @@ export const useUpdateWatchHistoryMutation = ({
   videoId,
 }: {
   videoId: string;
-  currentTimeStamp?: number;
 }) => {
   const pathname =
     typeof window !== "undefined" ? window.location.pathname : "";
@@ -21,13 +20,11 @@ export const useUpdateWatchHistoryMutation = ({
           toast.info("You have reached the last video in the course");
           return;
         }
-        if (res.nextVideo === "rewatching") {
-          toast.info("Please proceed to the next video");
-          return;
-        }
 
-        router.push(`${pathname}?v=${res.nextVideo}`);
-        toast.success("Video completed, redirecting to next video");
+        if (res.nextVideo) {
+          router.push(`${pathname}?v=${res.nextVideo}`);
+          toast.success("Video completed, redirecting to next video");
+        }
 
         utils.courseView.getVideoList.setInfiniteData(
           { courseId: pathname.split("/").pop() ?? "", limit: 20 },

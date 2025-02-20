@@ -18,4 +18,5 @@ export const lastWatchedVideoSchema = z.object({
   videoProgress: z.number(),
   shouldMarkAsCompleted: z.boolean().default(false),
   totalDuration: z.coerce.number(),
+  shouldGoToNextVideo: z.boolean().default(false),
 });
