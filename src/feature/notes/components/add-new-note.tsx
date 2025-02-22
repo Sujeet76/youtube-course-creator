@@ -45,6 +45,7 @@ const AddNewNote = ({ videoId }: Props) => {
       setContent("");
       setHasEdited(false);
       setIsAddNoteOpen(false);
+      setCapturedTime(undefined);
       toast.success("Note added successfully");
     },
     onError: (error) => {

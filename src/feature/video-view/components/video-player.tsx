@@ -115,6 +115,11 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
 
   // Video end handler
   const handleVideoEnd = useCallback(() => {
+    isVideoCompleted.current = true;
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
+
     updateWatchHistory({
       videoId,
       videoProgress: Math.floor(playerRef.current.getCurrentTime()),
@@ -123,6 +128,8 @@ const VideoPlayer: React.FC<Props> = ({ videoId }) => {
       shouldGoToNextVideo: true,
     });
   }, [videoId, updateWatchHistory]);
+
+  // console.log({ playerRef });
 
   return (
     <div
