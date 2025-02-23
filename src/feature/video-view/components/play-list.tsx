@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, memo } from "react";
+import { forwardRef } from "react";
 
 import InfiniteLoading from "@/components/shared/infinite-loading";
 import { cn } from "@/lib/utils";
@@ -20,10 +20,7 @@ const PlayList = forwardRef<HTMLUListElement, Props>(
     return (
       <ul
         ref={ref}
-        className={cn(
-          "hover-animation w-full space-y-2 overflow-x-auto px-1",
-          className
-        )}
+        className={cn("w-full space-y-2 overflow-x-auto px-1", className)}
       >
         {pages.map((page) =>
           page.playlist.map((video) => (
@@ -43,4 +40,4 @@ const PlayList = forwardRef<HTMLUListElement, Props>(
 
 PlayList.displayName = "PlayList";
 
-export default memo(PlayList);
+export default PlayList;

@@ -24,6 +24,10 @@ const PlayListItem = ({ video }: Props) => {
 
   useEffect(() => {
     if (searchParams.get("v") === video.id) {
+      document.getElementById(video.id)?.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
       setActiveVideoTitle(video.title);
     }
   }, [searchParams, setActiveVideoTitle, video.id, video.title]);
@@ -48,7 +52,6 @@ const PlayListItem = ({ video }: Props) => {
         className={cn(
           "flex cursor-pointer items-center space-x-2 focus-visible:outline-none"
         )}
-        onClick={() => setActiveVideoTitle(video.title)}
       >
         <div className="relative aspect-video w-28 shrink-0 shadow-lg">
           <Image
@@ -69,7 +72,7 @@ const PlayListItem = ({ video }: Props) => {
               >
                 <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:0s]" />
                 <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:0.5s]" />
-                <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:.0.75s]" />
+                <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:0.75s]" />
                 <div className="max-h-full w-full animate-loading-wave rounded-sm bg-blue-600/80 [animation-delay:1s]" />
               </div>
             </div>

@@ -3,7 +3,6 @@ import Link from "next/link";
 
 import { FilmIcon, UserPlus2Icon } from "lucide-react";
 
-import ArrowIcon from "@/assets/icons/arrow-icon";
 import YouTubeIcon from "@/assets/icons/youtube";
 import TrueFocus from "@/components/shared/focus-text";
 import LoginButton from "@/components/shared/login-button";
@@ -20,7 +19,7 @@ const HeroSection = () => {
       <div className="relative mt-[var(--header)] flex min-h-[calc(100dvh-var(--header))] w-full items-center justify-center overflow-hidden">
         <Spotlight />
         {/* youtube */}
-        <div className="absolute left-0 top-0 z-20 max-w-60 scale-[60%] rounded-2xl border-2 border-border bg-background p-2 shadow-lg md:left-[5%] md:top-[5%] md:scale-100 md:animate-move">
+        <div className="absolute left-0 top-0 z-20 max-w-60 scale-[60%] rounded-2xl border-2 border-border bg-background p-2 shadow-lg md:left-[5%] md:top-[5%] md:scale-100">
           <div className="flex items-center gap-1 px-2 pb-1 text-sm font-semibold text-[#ff0000]">
             <YouTubeIcon /> Youtube
           </div>
@@ -68,7 +67,7 @@ const HeroSection = () => {
           </div>
         </div>
         {/* simplify */}
-        <div className="absolute bottom-[5%] right-[5%] z-20 flex max-w-60 -rotate-3 scale-[60%] sm:justify-center md:bottom-[10%] md:right-[10%] md:scale-100 md:animate-move lg:justify-end">
+        <div className="absolute bottom-[5%] right-[5%] z-20 flex max-w-60 -rotate-3 scale-[60%] sm:justify-center md:bottom-[10%] md:right-[10%] md:scale-100 lg:justify-end">
           <div className="relative flex w-fit flex-col rounded-md border border-border bg-background/90 p-2 font-mono text-[clamp(8px,0.77vw,13px)] shadow backdrop-blur-sm lg:rounded-lg">
             <div className="gap-1 px-2 pb-1 font-rubik-gemstone text-sm font-medium">
               Simplify
@@ -126,11 +125,7 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-        <ArrowIcon
-          aria-hidden
-          className="absolute left-[-2%] top-2 size-full rotate-[110deg] opacity-20 md:top-[5%] md:rotate-[65deg]"
-        />
-        <div className="absolute right-[20%] top-[10%] z-10 animate-move">
+        <div className="absolute right-[20%] top-[10%] z-10">
           <span className="block size-10 rounded-xl border bg-background px-1.5 shadow-lg">
             <YouTubeIcon className="size-full" />
           </span>
@@ -138,9 +133,8 @@ const HeroSection = () => {
             😔 Confused and distracted
           </span>
         </div>
-        <div className="absolute bottom-10 left-0 z-20 hidden animate-move md:bottom-[20%] md:left-[20%] md:block">
+        <div className="absolute bottom-10 left-0 z-20 hidden md:bottom-[20%] md:left-[20%] md:block">
           <span className="flex flex-col items-center justify-center rounded-xl border bg-background px-1.5 py-1 font-rubik-gemstone text-sm font-medium shadow-lg">
-            {/* <YouTubeIcon className="size-full" /> */}
             <UserPlus2Icon className="size-4" />
             Simplify
           </span>
