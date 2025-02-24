@@ -2,6 +2,7 @@ export * from "./account.table";
 export * from "./author.table";
 export * from "./comments.table";
 export * from "./course-reviews.table";
+export * from "./course-section.table";
 export * from "./courses.table";
 export * from "./enrollments.table";
 export * from "./notes.table";
