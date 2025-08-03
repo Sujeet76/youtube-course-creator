@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import { decimal, index, pgTable, text, uuid } from "drizzle-orm/pg-core";
 
 import { createdAt, id, updatedAt } from "../schema.helper";
@@ -29,14 +28,3 @@ export const notes = pgTable(
     index("notes_video_id_idx").on(table.videoId),
   ]
 );
-
-export const notesRelations = relations(notes, ({ one }) => ({
-  user: one(users, {
-    fields: [notes.userId],
-    references: [users.id],
-  }),
-  video: one(videos, {
-    fields: [notes.videoId],
-    references: [videos.id],
-  }),
-}));

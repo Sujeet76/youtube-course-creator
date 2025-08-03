@@ -1,4 +1,4 @@
-import { relations, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { index, pgTable, primaryKey, uuid } from "drizzle-orm/pg-core";
 
 import { createdAt, updatedAt } from "../schema.helper";
@@ -24,15 +24,4 @@ export const courseSection = pgTable(
     primaryKey({ columns: [table.courseId, table.videoId] }),
     index("course_section_id").on(table.id),
   ]
-);
-
-export const courseSectionRelations = relations(
-  courseSection,
-  ({ one, many }) => ({
-    course: one(courses, {
-      fields: [courseSection.courseId],
-      references: [courses.id],
-    }),
-    videos: many(videos),
-  })
 );

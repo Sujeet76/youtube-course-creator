@@ -25,6 +25,7 @@ export const useAutosizeTextArea = ({
     const textAreaElement = textAreaRef.current;
     if (textAreaElement) {
       if (init) {
+        // eslint-disable-next-line react-compiler/react-compiler
         textAreaElement.style.minHeight = `${minHeight + offsetBorder}px`;
         if (maxHeight > minHeight) {
           textAreaElement.style.maxHeight = `${maxHeight}px`;

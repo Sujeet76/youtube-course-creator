@@ -4,6 +4,7 @@ import typescriptParser from "@typescript-eslint/parser";
 import checkFile from "eslint-plugin-check-file";
 import drizzle from "eslint-plugin-drizzle";
 import n from "eslint-plugin-n";
+import reactCompiler from "eslint-plugin-react-compiler";
 import tailwind from "eslint-plugin-tailwindcss";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -24,6 +25,7 @@ const eslintConfig = [
   ),
   ...pluginQuery.configs["flat/recommended"],
   ...tailwind.configs["flat/recommended"],
+  reactCompiler.configs.recommended,
   {
     languageOptions: {
       parser: typescriptParser,

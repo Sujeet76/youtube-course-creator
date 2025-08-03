@@ -82,6 +82,7 @@ const CreateCourseForm: React.FC<Props> = ({
   const handelSubmit = useCallback((data: ImportPlaylistSchemaType) => {
     if (courseMutation.isPending) return;
     courseMutation.mutate(data);
+    // eslint-disable-next-line react-compiler/react-compiler
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

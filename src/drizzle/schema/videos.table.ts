@@ -1,11 +1,7 @@
-import { relations } from "drizzle-orm";
 import { index, integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
 
 import { createdAt, id, updatedAt } from "../schema.helper";
-import { comments } from "./comments.table";
 import { courses } from "./courses.table";
-import { notes } from "./notes.table";
-import { videoProgress } from "./video-progress";
 
 export const videos = pgTable(
   "videos",
@@ -33,16 +29,6 @@ export const videos = pgTable(
     index("youtube_video_id_index").on(table.youtube_video_id),
   ]
 );
-
-export const videosRelations = relations(videos, ({ one, many }) => ({
-  course: one(courses, {
-    fields: [videos.courseId],
-    references: [courses.id],
-  }),
-  progress: many(videoProgress),
-  notes: many(notes),
-  comments: many(comments),
-}));
 
 export type VideoInsertType = typeof videos.$inferInsert;
 export type VideoType = typeof videos.$inferSelect;

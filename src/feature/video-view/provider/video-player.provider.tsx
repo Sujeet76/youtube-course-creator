@@ -1,6 +1,12 @@
 "use client";
 
-import { type ReactNode, createContext, useContext, useRef } from "react";
+import {
+  type ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 
 import { useStore } from "zustand";
 
@@ -23,12 +29,16 @@ export const VideoPlayerStoreProvider = ({
   children,
 }: VideoPlayerStoreProviderProps) => {
   const storeRef = useRef<VideoPlayerStoreApi>(null);
-  if (!storeRef.current) {
-    storeRef.current = createVideoPlayerStore();
-  }
+
+  useEffect(() => {
+    if (!storeRef.current) {
+      storeRef.current = createVideoPlayerStore();
+    }
+  }, []);
 
   return (
-    <VideoPlayerStoreContext.Provider value={storeRef.current}>
+    // eslint-disable-next-line react-compiler/react-compiler
+    <VideoPlayerStoreContext.Provider value={storeRef.current!}>
       {children}
     </VideoPlayerStoreContext.Provider>
   );

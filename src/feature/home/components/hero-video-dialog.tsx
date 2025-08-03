@@ -27,6 +27,7 @@ const HeroVideoDialog = ({
     setIsVideoOpen((prev) => {
       return !prev;
     });
+    // eslint-disable-next-line react-compiler/react-compiler
     window.document.body.style.overflow = isVideoOpen ? "auto" : "hidden";
   }, [isVideoOpen]);
 

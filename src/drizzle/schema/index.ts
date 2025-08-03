@@ -6,6 +6,7 @@ export * from "./course-section.table";
 export * from "./courses.table";
 export * from "./enrollments.table";
 export * from "./notes.table";
+export * from "./relationship";
 export * from "./session.table";
 export * from "./user.table";
 export * from "./verification.table";

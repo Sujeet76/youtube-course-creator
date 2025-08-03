@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -47,18 +46,3 @@ export const enrollments = pgTable(
     index("enrollment_user_id_idx").on(table.userId),
   ]
 );
-
-export const enrollmentsRelations = relations(enrollments, ({ one }) => ({
-  user: one(users, {
-    fields: [enrollments.userId],
-    references: [users.id],
-  }),
-  course: one(courses, {
-    fields: [enrollments.courseId],
-    references: [courses.id],
-  }),
-  lastAccessedVideo: one(videos, {
-    fields: [enrollments.lastAccessedVideoId],
-    references: [videos.id],
-  }),
-}));

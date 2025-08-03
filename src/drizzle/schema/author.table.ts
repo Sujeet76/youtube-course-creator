@@ -1,8 +1,7 @@
-import { InferInsertModel, relations } from "drizzle-orm";
+import { InferInsertModel } from "drizzle-orm";
 import { index, integer, pgTable, text } from "drizzle-orm/pg-core";
 
 import { createdAt, id, updatedAt } from "../schema.helper";
-import { courses } from "./courses.table";
 
 export const author = pgTable(
   "authors",
@@ -22,9 +21,5 @@ export const author = pgTable(
     index("youtube_channel_id_idx").on(table.youtubeChannelId),
   ]
 );
-
-export const authorRelations = relations(author, ({ many }) => ({
-  courses: many(courses),
-}));
 
 export type InsertAuthorType = InferInsertModel<typeof author>;

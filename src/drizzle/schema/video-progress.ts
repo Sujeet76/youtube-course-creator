@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
   boolean,
   integer,
@@ -41,14 +40,3 @@ export const videoProgress = pgTable(
     ),
   ]
 );
-
-export const videoProgressRelations = relations(videoProgress, ({ one }) => ({
-  user: one(users, {
-    fields: [videoProgress.userId],
-    references: [users.id],
-  }),
-  video: one(videos, {
-    fields: [videoProgress.videoId],
-    references: [videos.id],
-  }),
-}));

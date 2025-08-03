@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: simplify_postgres
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: simplify
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5431:5432"
+    restart: always
+    networks:
+      - youtube-network
+
+volumes:
+  pgdata:
+
+networks:
+  youtube-network:
+    driver: bridge
+

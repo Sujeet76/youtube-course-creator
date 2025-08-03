@@ -1,4 +1,4 @@
-import { InferInsertModel, relations } from "drizzle-orm";
+import { InferInsertModel } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -11,10 +11,7 @@ import {
 
 import { createdAt, id, updatedAt } from "../schema.helper";
 import { author } from "./author.table";
-import { courseReviews } from "./course-reviews.table";
-import { enrollments } from "./enrollments.table";
 import { users } from "./user.table";
-import { videos } from "./videos.table";
 
 export const courses = pgTable(
   "courses",
@@ -48,19 +45,5 @@ export const courses = pgTable(
     uniqueIndex("youtube_playlist_id_unique").on(table.youtubePlaylistId),
   ]
 );
-
-export const courseRelations = relations(courses, ({ many, one }) => ({
-  author: one(author, {
-    fields: [courses.authorId],
-    references: [author.id],
-  }),
-  creator: one(users, {
-    fields: [courses.creator],
-    references: [users.id],
-  }),
-  videos: many(videos),
-  enrollments: many(enrollments),
-  reviews: many(courseReviews),
-}));
 
 export type CourseInsertionType = InferInsertModel<typeof courses>;

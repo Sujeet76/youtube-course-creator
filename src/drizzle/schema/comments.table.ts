@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
   AnyPgColumn,
   index,
@@ -40,24 +39,3 @@ export const comments = pgTable(
     index("parent_comment_idx").on(table.parentCommentId),
   ]
 );
-
-export const commentsRelations = relations(comments, ({ one, many }) => ({
-  video: one(videos, {
-    fields: [comments.videoId],
-    references: [videos.id],
-  }),
-  userId: one(users, {
-    fields: [comments.userId],
-    references: [users.id],
-  }),
-  parent: one(comments, {
-    // Relation to parent comment
-    fields: [comments.parentCommentId],
-    references: [comments.id],
-    relationName: "commentReplies",
-  }),
-  replies: many(comments, {
-    // Relation to child comments
-    relationName: "commentReplies",
-  }),
-}));
