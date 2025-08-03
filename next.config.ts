@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
   output: "standalone",
   experimental: {
     reactCompiler: true,
+    optimizeCss: true,
   },
   images: {
     remotePatterns: [

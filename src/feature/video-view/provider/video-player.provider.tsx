@@ -28,7 +28,7 @@ export interface VideoPlayerStoreProviderProps {
 export const VideoPlayerStoreProvider = ({
   children,
 }: VideoPlayerStoreProviderProps) => {
-  const storeRef = useRef<VideoPlayerStoreApi>(null);
+  const storeRef = useRef<VideoPlayerStoreApi | null>(null);
 
   useEffect(() => {
     if (!storeRef.current) {
@@ -38,7 +38,7 @@ export const VideoPlayerStoreProvider = ({
 
   return (
     // eslint-disable-next-line react-compiler/react-compiler
-    <VideoPlayerStoreContext.Provider value={storeRef.current!}>
+    <VideoPlayerStoreContext.Provider value={storeRef.current || undefined}>
       {children}
     </VideoPlayerStoreContext.Provider>
   );
